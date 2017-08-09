@@ -62,13 +62,25 @@ namespace HC.Patient.Entity
         [ForeignKey("AppointmentType")]
         public int AppointmentTypeID { get; set; }
 
+        //[Attr("AppointmentRecurrenceID")]
+        //[ForeignKey("MasterRecurrence")]
+        //public int AppointmentRecurrenceID { get; set; }
+
         //Foreign key's tables
+        [HasOne("Patient")]
         public virtual Patients Patient { get; set; }
+        [HasOne("Users")]
         public virtual User Users { get; set; }
+        [HasOne("Users1")]
         public virtual User Users1 { get; set; }
+        [HasOne("Users2")]
         public virtual User Users2 { get; set; }
+        [HasOne("Doctor")]
         public virtual Doctors Doctor { get; set; }
+        [HasOne("AppointmentType")]
         public virtual AppointmentType AppointmentType { get; set; }
+        //[HasOne("MasterRecurrence")]
+        //public virtual MasterType MasterRecurrence { get; set; }
 
         public Dictionary<string, object> GetMeta(IJsonApiContext context)
         {
