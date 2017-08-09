@@ -34,6 +34,14 @@ namespace HC.Patient.Entity
         public bool? IsDeleted { get; set; }
         [ForeignKey("Users")]
         public int? DeletedBy { get; set; }  public DateTime? DeletedDate { get; set; }
+
+        [Required]
+        [Attr("OrganizationID")]
+        [ForeignKey("Organization")]
+        public int OrganizationID { get; set; }
+
+        [HasOne("organization")]
+        public virtual Organization Organization { get; set; }
         public virtual User Users { get; set; }
         public Dictionary<string, object> GetMeta(IJsonApiContext context)
         {

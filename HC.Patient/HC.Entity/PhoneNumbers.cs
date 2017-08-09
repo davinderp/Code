@@ -24,9 +24,9 @@ namespace HC.Patient.Entity
         [ForeignKey("Patient")]
         public int? PatientID { get; set; }
 
-        [Attr("DoctorID")]
-        [ForeignKey("Doctor")]
-        public int? DoctorID { get; set; }
+        [Attr("ClinicianID")]
+        [ForeignKey("Clinician")]
+        public int? ClinicianID { get; set; }
         [StringLength(20)]
         [Attr("PhoneNumber")]
         public string PhoneNumber { get; set; }
@@ -55,8 +55,8 @@ namespace HC.Patient.Entity
         [HasOne("Patient")]
         public Patients Patient { get; set; }
 
-        [HasOne("Doctor")]
-        public Doctors Doctor { get; set; }
+        [HasOne("Clinician")]
+        public Clinicians Clinician { get; set; }
         public virtual User Users { get; set; }
         public virtual User Users1 { get; set; }
         public virtual MasterType MasterType { get; set; }

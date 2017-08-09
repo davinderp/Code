@@ -99,9 +99,9 @@ namespace HC.Patient.Entity
         [Attr("ClientStatus")]
         [ForeignKey("MasterStatus1")]
         public int ClientStatus { get; set; }
-        [Attr("PrimaryDoctor")]
-        [ForeignKey("Doctor")]
-        public int? PrimaryDoctor { get; set; }
+        [Attr("PrimaryClinician")]
+        [ForeignKey("Clinician")]
+        public int? PrimaryClinician { get; set; }
 
         
         [Attr("EmergencyContactFirstName")]
@@ -236,15 +236,15 @@ namespace HC.Patient.Entity
         public int? UpdatedBy { get; set; }
         public bool IsVerified { get; set; }
 
-        [Attr("DoctorName")]
+        [Attr("ClinicianName")]
         [NotMapped]
-        public string DoctorName
+        public string ClinicianName
         {
             get
             {
                 try
                 {
-                    return Doctor.FirstName +" "+ Doctor.LastName;
+                    return Clinician.FirstName +" "+ Clinician.LastName;
                 }
                 catch (Exception)
                 {
@@ -291,6 +291,14 @@ namespace HC.Patient.Entity
             }
 
         }
+
+        [Required]
+        [Attr("OrganizationID")]
+        [ForeignKey("Organization")]
+        public int OrganizationID { get; set; }
+
+        [HasOne("organization")]
+        public virtual Organization Organization { get; set; }
         /// <summary>
         /// following tables are used for relationship
         /// </summary>
@@ -304,8 +312,8 @@ namespace HC.Patient.Entity
         public virtual MasterRace SecondaryRace1 { get; set; }
         public virtual MasterEthnicity MasterEthnicity { get; set; }
         public virtual MasterStatus MasterStatus1 { get; set; }
-        [HasOne("doctor")]
-        public virtual Doctors Doctor { get; set; }
+        [HasOne("Clinician")]
+        public virtual Clinicians Clinician { get; set; }
         public virtual MasterType MasterType1 { get; set; }
         public virtual MasterCountry MasterCountry { get; set; }
         [HasOne("users")]

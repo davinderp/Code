@@ -22,11 +22,11 @@ namespace HC.Patient.Repositories
                 Patients newPatinet = new Patients();
                 if (patientInfo.Id > 0)
                 {
-                    newPatinet = _context.Patients.Where(a => a.FirstName == patientInfo.FirstName && a.LastName == patientInfo.LastName && a.PrimaryDoctor == patientInfo.PrimaryDoctor && a.SSN == patientInfo.SSN && a.Id != patientInfo.Id).FirstOrDefault();
+                    newPatinet = _context.Patients.Where(a => a.FirstName == patientInfo.FirstName && a.LastName == patientInfo.LastName && a.PrimaryClinician == patientInfo.PrimaryClinician && a.SSN == patientInfo.SSN && a.Id != patientInfo.Id).FirstOrDefault();
                 }
                 else
                 {
-                    newPatinet = _context.Patients.Where(a => a.FirstName == patientInfo.FirstName && a.LastName == patientInfo.LastName && a.PrimaryDoctor == patientInfo.PrimaryDoctor && a.SSN == patientInfo.SSN).FirstOrDefault();
+                    newPatinet = _context.Patients.Where(a => a.FirstName == patientInfo.FirstName && a.LastName == patientInfo.LastName && a.PrimaryClinician == patientInfo.PrimaryClinician && a.SSN == patientInfo.SSN).FirstOrDefault();
                 }
                 if (newPatinet != null)
                 {
@@ -67,7 +67,7 @@ namespace HC.Patient.Repositories
                         patient.SecondaryRace = patientInfo.SecondaryRace;
                         patient.Ethnicity = patientInfo.Ethnicity;
                         patient.ClientStatus = patientInfo.ClientStatus;
-                        patient.PrimaryDoctor = patientInfo.PrimaryDoctor;
+                        patient.PrimaryClinician = patientInfo.PrimaryClinician;
                         patient.EmergencyContactFirstName = patientInfo.EmergencyContactFirstName;
                         patient.EmergencyContactLastName = patientInfo.EmergencyContactLastName;
                         patient.EmergencyContactPhone = patientInfo.EmergencyContactPhone;
@@ -323,7 +323,7 @@ namespace HC.Patient.Repositories
                 if (patientDiagnosis != null)
                 {
                     patientDiagnosis.VisitDateTime = patientInfo.VisitDateTime;
-                    patientDiagnosis.DoctorId = patientInfo.DoctorId;
+                    patientDiagnosis.ClinicianID = patientInfo.ClinicianID;
                     patientDiagnosis.PatientID = patientInfo.PatientID;
                     patientDiagnosis.CPTID = patientInfo.CPTID;
                     patientDiagnosis.LocationID = patientInfo.LocationID;

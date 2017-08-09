@@ -66,11 +66,12 @@ namespace HC.Patient.Data
         public DbSet<PatientLabTest> PatientLabTest { get; set; }
         public DbSet<MasterLabs> MasterLabs { get; set; }
 
-        public DbSet<Doctors> Doctors { get; set; }
+        public DbSet<Clinicians> Clinicians { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
         public DbSet<AppointmentType> AppointmentType { get; set; }
         public DbSet<PatientAppointment> PatientAppointment { get; set; }
-
+        public DbSet<Organization> Organization { get; set; }
+        public DbSet<OrganizationConnectionstring> OrganizationConnectionstring { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -204,10 +205,10 @@ namespace HC.Patient.Data
    .HasDefaultValue(false);
 
 
-            modelBuilder.Entity<Doctors>()
+            modelBuilder.Entity<Clinicians>()
 .Property(b => b.CreatedDate)
 .HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<Doctors>()
+            modelBuilder.Entity<Clinicians>()
    .Property(b => b.IsDeleted)
    .HasDefaultValue(false);
 
@@ -403,6 +404,43 @@ namespace HC.Patient.Data
             modelBuilder.Entity<PatientPastIllness>()
            .Property(b => b.CreatedDate)
            .HasDefaultValueSql("GetDate()");
+
+
+            modelBuilder.Entity<Organization>()
+   .Property(b => b.IsDeleted)
+   .HasDefaultValue(false);
+
+            modelBuilder.Entity<Organization>()
+           .Property(b => b.CreatedDate)
+           .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<OrganizationConnectionstring>()
+   .Property(b => b.IsDeleted)
+   .HasDefaultValue(false);
+
+            modelBuilder.Entity<OrganizationConnectionstring>()
+           .Property(b => b.CreatedDate)
+           .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<InsuranceCompanies>()
+.Property(b => b.OrganizationID)
+.HasDefaultValue(1);
+
+            modelBuilder.Entity<Patients>()
+.Property(b => b.OrganizationID)
+.HasDefaultValue(1);
+
+            modelBuilder.Entity<Provider>()
+.Property(b => b.OrganizationID)
+.HasDefaultValue(1);
+
+            modelBuilder.Entity<User>()
+.Property(b => b.OrganizationID)
+.HasDefaultValue(1);
+
+            modelBuilder.Entity<UserRoles>()
+.Property(b => b.OrganizationID)
+.HasDefaultValue(1);
 
         }
     }

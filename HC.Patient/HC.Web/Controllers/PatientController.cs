@@ -224,8 +224,8 @@ namespace HC.Patient.Web.Controllers
                             case PatientSearch.ID:
                                 patients = patients.OrderBy(m => m.Id).ToList();
                                 break;
-                            case PatientSearch.DOCTORNAME:
-                                patients = patients.OrderBy(m => m.DoctorName).ToList();
+                            case PatientSearch.CLINICIANNAME:
+                                patients = patients.OrderBy(m => m.ClinicianName).ToList();
                                 break;
                             case PatientSearch.FIRSTNAME:
                                 patients = patients.OrderBy(m => m.FirstName).ToList();
@@ -254,8 +254,8 @@ namespace HC.Patient.Web.Controllers
                             case PatientSearch.ID:
                                 patients = patients.OrderByDescending(m => m.Id).ToList();
                                 break;
-                            case PatientSearch.DOCTORNAME:
-                                patients = patients.OrderByDescending(m => m.DoctorName).ToList();
+                            case PatientSearch.CLINICIANNAME:
+                                patients = patients.OrderByDescending(m => m.ClinicianName).ToList();
                                 break;
                             case PatientSearch.FIRSTNAME:
                                 patients = patients.OrderByDescending(m => m.FirstName).ToList();

@@ -49,6 +49,14 @@ namespace HC.Patient.Entity
         [Attr("CreatedDate")]
         public DateTime CreatedDate { get; set; }
 
+        [Required]
+        [Attr("OrganizationID")]
+        [ForeignKey("Organization")]
+        public int OrganizationID { get; set; }
+
+        [HasOne("organization")]
+        public virtual Organization Organization { get; set; }
+
         //public PhoneNumbers PhoneNumbers { get; set; }
         public virtual User Users { get; set; }
         public virtual User Users1 { get; set; }

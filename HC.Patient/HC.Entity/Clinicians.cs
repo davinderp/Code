@@ -8,18 +8,18 @@ using System.Text;
 
 namespace HC.Patient.Entity
 {
-    public class Doctors : Identifiable<int>,IHasMeta
+    public class Clinicians : Identifiable<int>,IHasMeta
     {
-        public Doctors()
+        public Clinicians()
         {
 
 
         }
 
-        [Attr("DoctorID")]
+        [Attr("ClinicianID")]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("DoctorID")]
+        [Column("ClinicianID")]
         public override int Id { get; set; }
         [Attr("ProviderId")]
         [ForeignKey("Provider")]
@@ -65,6 +65,15 @@ namespace HC.Patient.Entity
         public int CreatedBy { get; set; }
         [Attr("CreatedDate")]
         public DateTime CreatedDate { get; set; }
+
+        [Required]
+        [Attr("OrganizationID")]
+        [ForeignKey("Organization")]
+        public int OrganizationID { get; set; }
+
+        [HasOne("organization")]
+        public virtual Organization Organization { get; set; }
+
         public virtual User Users { get; set; }
         public virtual User Users1 { get; set; }
         [HasMany("phonenumbers")]

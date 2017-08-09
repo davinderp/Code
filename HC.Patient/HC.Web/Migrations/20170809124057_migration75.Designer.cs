@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170809124057_migration75")]
+    partial class migration75
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -1174,6 +1175,12 @@ namespace HC.Patient.Web.Migrations
                     b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("UpdatedBy");
 
                     b.ToTable("Organization");
                 });
@@ -2469,10 +2476,6 @@ namespace HC.Patient.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 
-                    b.Property<int>("OrganizationID")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1);
-
                     b.Property<string>("Password");
 
                     b.Property<int>("RoleID");
@@ -2484,8 +2487,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedBy");
-
-                    b.HasIndex("OrganizationID");
 
                     b.HasIndex("RoleID");
 
@@ -2905,6 +2906,22 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.User", "Users")
                         .WithMany()
                         .HasForeignKey("DeletedBy");
+                });
+
+            modelBuilder.Entity("HC.Patient.Entity.Organization", b =>
+                {
+                    b.HasOne("HC.Patient.Entity.User", "Users")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.User", "Users2")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy");
+
+                    b.HasOne("HC.Patient.Entity.User", "Users1")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.OrganizationConnectionstring", b =>
@@ -3565,11 +3582,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.User", "Users")
                         .WithMany()
                         .HasForeignKey("DeletedBy");
-
-                    b.HasOne("HC.Patient.Entity.Organization", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationID")
-                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HC.Patient.Entity.UserRoles", "UserRoles")
                         .WithMany()
