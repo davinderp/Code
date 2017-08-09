@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Interfaces\IEntityService.cs" />
+    <Compile Remove="Interfaces\IHullTypeService.cs" />
+    <Compile Remove="Roles\Interfaces\IRoleManager.cs" />
+    <Compile Remove="Roles\RoleManager.cs" />
+    <Compile Remove="Security\AccountManager.cs" />
+    <Compile Remove="Security\Interfaces\IAccountManager.cs" />
+    <Compile Remove="Users\Interfaces\ISecUserService.cs" />
+    <Compile Remove="Users\Interfaces\IUserService.cs" />
+    <Compile Remove="Users\SecUserService.cs" />
+    <Compile Remove="Users\UserService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
+    <PackageReference Include="JsonApiDotNetCore" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="1.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HC.Common\HC.Common\HC.Common.csproj" />
+    <ProjectReference Include="..\..\HC.Common\HC.Service\HC.Service.csproj" />
+    <ProjectReference Include="..\HC.Data\HC.Patient.Data.csproj" />
+    <ProjectReference Include="..\HC.Entity\HC.Patient.Entity.csproj" />
+    <ProjectReference Include="..\HC.Model\HC.Patient.Model.csproj" />
+    <ProjectReference Include="..\HC.Repositories\HC.Patient.Repositories.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Roles\Interfaces\" />
+    <Folder Include="Security\Interfaces\" />
+    <Folder Include="Users\" />
+    <Folder Include="Users\Interfaces\" />
+  </ItemGroup>
+
+</Project>
