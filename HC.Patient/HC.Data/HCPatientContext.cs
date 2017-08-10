@@ -72,6 +72,8 @@ namespace HC.Patient.Data
         public DbSet<PatientAppointment> PatientAppointment { get; set; }
         public DbSet<Organization> Organization { get; set; }
         public DbSet<OrganizationConnectionstring> OrganizationConnectionstring { get; set; }
+        public DbSet<RolePermission> RolePermission { get; set; }
+        public DbSet<Modules> Modules { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
