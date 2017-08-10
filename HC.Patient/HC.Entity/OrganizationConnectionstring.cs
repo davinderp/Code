@@ -26,12 +26,12 @@ namespace HC.Patient.Entity
         [Required]
         [Attr("OrganizationDBName")]
         [MaxLength(100)]
-        public string OrganizationName { get; set; }
+        public string OrganizationDBName { get; set; }
 
         [Required]
         [Attr("OrganizationDBConnectionstring")]
         [MaxLength(1000)]
-        public string OrganizationDescription { get; set; }
+        public string OrganizationDBConnectionstring { get; set; }
 
         [Required]
         [Attr("IsActive")]
