@@ -22,6 +22,8 @@ namespace HC.Patient.Web.Controllers
     public class PatientLabTestController : JsonApiController<Entity.PatientLabTest, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
+
+        public readonly IJsonApiContext _jsonApiContext;
         private readonly IPatientCommonService _patientCommonService;
 
         #region Construtor of the class
@@ -34,6 +36,7 @@ namespace HC.Patient.Web.Controllers
             try
             {
                 _dbContextResolver = jsonApiContext.GetDbContextResolver();
+                _jsonApiContext = jsonApiContext;
                 this._patientCommonService = patientCommonService;
                 if (jsonApiContext.QuerySet != null && !jsonApiContext.QuerySet.Equals(null))
                 {
@@ -65,9 +68,14 @@ namespace HC.Patient.Web.Controllers
         /// <param name="patientInfo"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public override async Task<IActionResult> PatchAsync(int id, [FromBody]Entity.PatientLabTest patientLabTest)
+        public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientLabTest patientLabTest)
         {
-            ////var patientSocialHistory = _patientCommonService.UpdatePatientSocialHistoryData(id, patientInfo);
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientLabTestOld = _dbContextResolver.GetDbSet<PatientLabTest>().Where(m => m.Id == id).FirstOrDefault();
+
+            CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientLabTestOld, patientLabTest, "PatientLabTest").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
             return await base.PatchAsync(id, patientLabTest);
         }
 

@@ -24,6 +24,8 @@ namespace HC.Patient.Web.Controllers
     public class PatientImmunizationController : JsonApiController<Entity.PatientImmunization, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
+
+        public readonly IJsonApiContext _jsonApiContext;
         private readonly IPatientCommonService _patientCommonService;
         
         #region Construtor of the class
@@ -35,7 +37,9 @@ namespace HC.Patient.Web.Controllers
         {
             try
             {
-               // _dbContextResolver = jsonApiContext.GetDbContextResolver();
+                _dbContextResolver = jsonApiContext.GetDbContextResolver();
+                _jsonApiContext = jsonApiContext;
+                // _dbContextResolver = jsonApiContext.GetDbContextResolver();
                 this._patientCommonService = patientCommonService;
                 if (jsonApiContext.QuerySet != null && !jsonApiContext.QuerySet.Equals(null))
                 {
@@ -73,8 +77,15 @@ namespace HC.Patient.Web.Controllers
             return await base.GetAsync();
         }
         [HttpPatch("{id}")]
-        public override async Task<IActionResult> PatchAsync(int id, [FromBody]Entity.PatientImmunization patientImmunization)
+        public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientImmunization patientImmunization)
         {
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientImmunizationOld = _dbContextResolver.GetDbSet<PatientImmunization>().Where(m => m.Id == id).FirstOrDefault();
+
+            CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientImmunizationOld, patientImmunization, "PatientImmunization").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+
             return await base.PatchAsync(id, patientImmunization);
         }
 

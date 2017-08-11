@@ -24,6 +24,8 @@ namespace HC.Patient.Web.Controllers
     public class PatientEncounterController : JsonApiController<Entity.PatientEncounter, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
+
+        public readonly IJsonApiContext _jsonApiContext;
         private readonly IPatientCommonService _patientCommonService;
         #region Construtor of the class
         public PatientEncounterController(
@@ -34,6 +36,8 @@ namespace HC.Patient.Web.Controllers
         {
             try
             {
+                _dbContextResolver = jsonApiContext.GetDbContextResolver();
+                _jsonApiContext = jsonApiContext;
                 //_dbContextResolver = jsonApiContext.GetDbContextResolver();
                 this._patientCommonService = patientCommonService;
                 if (jsonApiContext.QuerySet != null && !jsonApiContext.QuerySet.Equals(null))
@@ -72,6 +76,12 @@ namespace HC.Patient.Web.Controllers
         [HttpPatch("{id}")]
         public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientEncounter patientEncounter)
         {
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientEncounterOld = _dbContextResolver.GetDbSet<PatientEncounter>().Where(m => m.Id == id).FirstOrDefault();
+
+            CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientEncounterOld, patientEncounter, "PatientEncounter").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
             return await base.PatchAsync(id, patientEncounter);
         }
             #endregion

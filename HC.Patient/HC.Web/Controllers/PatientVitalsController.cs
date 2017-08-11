@@ -1,3 +1,4 @@
+using HC.Common;
 using HC.Common.Filters;
 using HC.Patient.Entity;
 using HC.Patient.Model.Vitals;
@@ -14,6 +15,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static HC.Common.Enums.CommonEnum;
 
@@ -126,8 +128,16 @@ namespace HC.Patient.Web.Controllers
             return await base.PatchAsync(patientVitals.Id, patientVitals);
         }
 
-        public override async Task<IActionResult> PatchAsync(int id, [FromBody]Entity.PatientVitals patientVital)
+        [HttpPatch("{id}")]
+        public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientVitals patientVital)
         {
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientVitalOld = _dbContextResolver.GetDbSet<PatientVitals>().Where(m => m.Id == id).FirstOrDefault();
+
+            CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientVitalOld, patientVital, "PatientVitals").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+
             AttrAttribute BMI = new AttrAttribute(AttrToUpdate.BMI.ToString(), AttrToUpdate.BMI.ToString());
             patientVital = calculateBmi(patientVital);
             _jsonApiContext.AttributesToUpdate.Add(BMI, patientVital.BMI);

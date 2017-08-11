@@ -24,7 +24,10 @@ namespace HC.Patient.Web.Controllers
     public class PatientPastIllnessController : JsonApiController<Entity.PatientPastIllness, int>
     {
         //private readonly IDbContextResolver _dbContextResolver;
-        private readonly IPatientCommonService _patientCommonService;        
+        private readonly IPatientCommonService _patientCommonService;
+        private readonly IDbContextResolver _dbContextResolver;
+
+        public readonly IJsonApiContext _jsonApiContext;
         #region Construtor of the class
         public PatientPastIllnessController(
        IJsonApiContext jsonApiContext,
@@ -34,7 +37,8 @@ namespace HC.Patient.Web.Controllers
         {
             try
             {
-
+                _dbContextResolver = jsonApiContext.GetDbContextResolver();
+                _jsonApiContext = jsonApiContext;
                 //_dbContextResolver = jsonApiContext.GetDbContextResolver();
                 this._patientCommonService = patientCommonService;
                 if (jsonApiContext.QuerySet !=null && !jsonApiContext.QuerySet.Equals(null))
@@ -66,9 +70,15 @@ namespace HC.Patient.Web.Controllers
             return await base.PostAsync(patientInfo);
         }
         [HttpPatch("{id}")]
-        public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientPastIllness patientInfo)
+        public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientPastIllness patientPastIllness)
         {
-            return await base.PatchAsync(id,patientInfo);
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientPastIllnessOld = _dbContextResolver.GetDbSet<PatientPastIllness>().Where(m => m.Id == id).FirstOrDefault();
+
+            CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientPastIllnessOld, patientPastIllness, "PatientPastIllness").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+            return await base.PatchAsync(id, patientPastIllness);
         }
 
         [HttpDelete("{id}")]

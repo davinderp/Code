@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170811090306_migration79")]
+    partial class migration79
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -67,7 +68,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<int?>("EventID");
+                    b.Property<int>("EventID");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()

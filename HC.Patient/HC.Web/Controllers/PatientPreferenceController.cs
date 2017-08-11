@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using JsonApiDotNetCore.Internal.Query;
 using Microsoft.AspNetCore.Http.Internal;
 using HC.Common.Filters;
+using JsonApiDotNetCore.Data;
 
 namespace HC.Patient.Web.Controllers
 {
@@ -22,7 +23,9 @@ namespace HC.Patient.Web.Controllers
     public class PatientPreferenceController : JsonApiController<Entity.PatientPreference, int>
     {
         #region Construtor of the class
+        private readonly IDbContextResolver _dbContextResolver;
 
+        public readonly IJsonApiContext _jsonApiContext;
         public PatientPreferenceController(
            IJsonApiContext jsonApiContext,
            IResourceService<Entity.PatientPreference, int> resourceService,
@@ -31,6 +34,8 @@ namespace HC.Patient.Web.Controllers
         {
             try
             {
+                _dbContextResolver = jsonApiContext.GetDbContextResolver();
+                _jsonApiContext = jsonApiContext;
                 if (jsonApiContext.QuerySet != null && !jsonApiContext.QuerySet.Equals(null))
                 {
                     //jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsActive", "true", ""));
@@ -67,6 +72,13 @@ namespace HC.Patient.Web.Controllers
         [HttpPatch("{id}")]
         public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientPreference patientPreference)
         {
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientPreferenceOld = _dbContextResolver.GetDbSet<PatientPreference>().Where(m => m.Id == id).FirstOrDefault();
+
+            CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientPreferenceOld, patientPreference, "PatientPreference").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+
             return await base.PatchAsync(id, patientPreference);
         }
             #endregion

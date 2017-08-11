@@ -18,13 +18,17 @@ using JsonApiDotNetCore.Internal.Query;
 using Microsoft.AspNetCore.Http.Internal;
 using static HC.Common.Enums.CommonEnum;
 using HC.Common.Filters;
+using JsonApiDotNetCore.Data;
 
 namespace HC.Patient.Web.Controllers
 {
     [ValidateModel]
     public class PatientInsuranceDetailController : JsonApiController<PatientInsuranceDetails, int>
     {
+        private readonly IDbContextResolver _dbContextResolver;
+
         public readonly IJsonApiContext _jsonApiContext;
+
 
         #region Construtor of the class
         public PatientInsuranceDetailController(
@@ -35,6 +39,7 @@ namespace HC.Patient.Web.Controllers
         {
             try
             {
+                _dbContextResolver = jsonApiContext.GetDbContextResolver();
                 _jsonApiContext = jsonApiContext;
                 if (jsonApiContext.QuerySet != null && !jsonApiContext.QuerySet.Equals(null))
                 {
@@ -118,10 +123,16 @@ namespace HC.Patient.Web.Controllers
         }
 
         [HttpPatch("{id}")]
-        public override async Task<IActionResult> PatchAsync(int id, [FromBody]Entity.PatientInsuranceDetails patientInsuranceDetail)
+        public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientInsuranceDetails patientInsuranceDetail)
         {
-            
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientInsuranceDetailOld = _dbContextResolver.GetDbSet<PatientInsuranceDetails>().Where(m => m.Id == id).FirstOrDefault();
+
             CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientInsuranceDetailOld, patientInsuranceDetail, "PatientInsuranceDetails").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+
+            //CommonMethods commonMethods = new CommonMethods();
             //    //Convert Base64 to Image
             patientInsuranceDetail = ConvertBase64ToImage(patientInsuranceDetail, commonMethods);
             //For Fornt Image

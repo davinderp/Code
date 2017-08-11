@@ -74,5 +74,8 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
+  <!--<ItemGroup>
+    <Content Include="web.config" />
+  </ItemGroup>-->
 
 </Project>

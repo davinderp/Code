@@ -1,4 +1,6 @@
+using HC.Common;
 using HC.Common.Filters;
+using HC.Patient.Entity;
 using HC.Patient.Service.PatientCommon.Interfaces;
 using JsonApiDotNetCore.Controllers;
 using JsonApiDotNetCore.Data;
@@ -8,6 +10,7 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HC.Patient.Web.Controllers
@@ -16,7 +19,9 @@ namespace HC.Patient.Web.Controllers
     public class PatientMedicalFamilyHistoryController : JsonApiController<Entity.PatientMedicalFamilyHistory, int>
     {   
         private readonly IPatientCommonService _patientCommonService;
+        private readonly IDbContextResolver _dbContextResolver;
 
+        public readonly IJsonApiContext _jsonApiContext;
         #region Construtor of the class
         public PatientMedicalFamilyHistoryController(
         IJsonApiContext jsonApiContext,
@@ -26,6 +31,8 @@ namespace HC.Patient.Web.Controllers
         {
             try
             {
+                _dbContextResolver = jsonApiContext.GetDbContextResolver();
+                _jsonApiContext = jsonApiContext;
                 //_dbContextResolver = jsonApiContext.GetDbContextResolver();
                 this._patientCommonService = patientCommonService;
                 if (jsonApiContext.QuerySet != null && !jsonApiContext.QuerySet.Equals(null))
@@ -64,8 +71,14 @@ namespace HC.Patient.Web.Controllers
             return await base.GetAsync();
         }
         [HttpPatch("{id}")]
-        public override async Task<IActionResult> PatchAsync(int id, [FromBody]Entity.PatientMedicalFamilyHistory patientMedicalFamilyHistory)
+        public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientMedicalFamilyHistory patientMedicalFamilyHistory)
         {
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientMedicalFamilyHistoryOld = _dbContextResolver.GetDbSet<PatientMedicalFamilyHistory>().Where(m => m.Id == id).FirstOrDefault();
+
+            CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientMedicalFamilyHistoryOld, patientMedicalFamilyHistory, "PatientMedicalFamilyHistory").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
             return await base.PatchAsync(id, patientMedicalFamilyHistory);
         }
 

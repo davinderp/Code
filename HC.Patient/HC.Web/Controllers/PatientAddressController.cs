@@ -14,12 +14,17 @@ using JsonApiDotNetCore.Models;
 using JsonApiDotNetCore.Internal.Query;
 using Microsoft.AspNetCore.Http.Internal;
 using HC.Common.Filters;
+using JsonApiDotNetCore.Data;
 
 namespace HC.Patient.Web.Controllers
 {
     [ValidateModel]
     public class PatientAddressController : JsonApiController<Entity.PatientAddress, int>
     {
+
+        private readonly IDbContextResolver _dbContextResolver;
+
+        public readonly IJsonApiContext _jsonApiContext;
         #region Construtor of the class
         public PatientAddressController(
         IJsonApiContext jsonApiContext,
@@ -28,7 +33,9 @@ namespace HC.Patient.Web.Controllers
         : base(jsonApiContext, resourceService, loggerFactory)
         {
             try
-            {   
+            {
+                _dbContextResolver = jsonApiContext.GetDbContextResolver();
+                _jsonApiContext = jsonApiContext;
                 if (jsonApiContext.QuerySet != null && !jsonApiContext.QuerySet.Equals(null))
                 {
                     //jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsActive", "true", ""));
@@ -77,8 +84,14 @@ namespace HC.Patient.Web.Controllers
         /// <param name="patientAddress"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public override async Task<IActionResult> PatchAsync(int id, [FromBody]Entity.PatientAddress patientAddress)
+        public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientAddress patientAddress)
         {
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientAddressOld = _dbContextResolver.GetDbSet<PatientAddress>().Where(m => m.Id == id).FirstOrDefault();
+
+            CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientAddressOld, patientAddress, "PatientAddress").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
             return await base.PatchAsync(id, patientAddress);
         }
 

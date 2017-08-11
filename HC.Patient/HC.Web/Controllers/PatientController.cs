@@ -23,11 +23,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Internal;
 using JsonApiDotNetCore.Models;
 using HC.Common.Filters;
+using HC.Patient.Data;
+using HC.Model;
 
 namespace HC.Patient.Web.Controllers
 {
     //[Authorize("AuthorizedUser")]
-    [ValidateModel]
+
     public class PatientController : JsonApiController<Patients, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
@@ -59,7 +61,6 @@ namespace HC.Patient.Web.Controllers
                     jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsDeleted", "false", ""));
 
                 }
-
             }
             catch
             {
@@ -102,6 +103,7 @@ namespace HC.Patient.Web.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateModel]
         public override async Task<IActionResult> PostAsync([FromBody]Patients entity)
         {
             try
@@ -140,7 +142,14 @@ namespace HC.Patient.Web.Controllers
         [HttpPatch("{id}")]
         public override async Task<IActionResult> PatchAsync(int id, [FromBody]Patients patientInfo)
         {
+            var attrToUpdate= _jsonApiContext.AttributesToUpdate;
+           var patientInfoOld =  _dbContextResolver.GetDbSet<Patients>().Where(m => m.Id == id).FirstOrDefault();
+
             CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientInfoOld, patientInfo, "Patients").Where(i=> attrToUpdate.Keys.Any(a1 =>  a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+
+
             if (!string.IsNullOrEmpty(patientInfo.PhotoBase64))
             {
                 patientInfo = ConvertBase64ToImage(patientInfo, commonMethods);

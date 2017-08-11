@@ -74,6 +74,8 @@ namespace HC.Patient.Data
         public DbSet<OrganizationConnectionstring> OrganizationConnectionstring { get; set; }
         public DbSet<RolePermission> RolePermission { get; set; }
         public DbSet<Modules> Modules { get; set; }
+        public DbSet<Event> Event { get; set; }
+        public DbSet<AuditLogs> AuditLogs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -443,6 +445,24 @@ namespace HC.Patient.Data
             modelBuilder.Entity<UserRoles>()
 .Property(b => b.OrganizationID)
 .HasDefaultValue(1);
+
+
+            modelBuilder.Entity<AuditLogs>()
+.Property(b => b.IsDeleted)
+.HasDefaultValue(false);
+
+            modelBuilder.Entity<AuditLogs>()
+           .Property(b => b.CreatedDate)
+           .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<AuditLogs>()
+.Property(b => b.OrganizationID)
+.HasDefaultValue(1);
+
+
+//            modelBuilder.Entity<AuditLogs>()
+//.Property(b => b.EventID)
+//.HasDefaultValue(this.Event.LastOrDefaultAsync().Id + 1);
 
         }
     }

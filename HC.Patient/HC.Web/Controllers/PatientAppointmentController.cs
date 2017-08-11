@@ -12,6 +12,7 @@ using JsonApiDotNetCore.Services;
 using Microsoft.Extensions.Logging;
 using JsonApiDotNetCore.Internal.Query;
 using Microsoft.AspNetCore.Http.Internal;
+using HC.Common;
 
 namespace HC.Patient.Web.Controllers
 {
@@ -68,10 +69,15 @@ namespace HC.Patient.Web.Controllers
             return await base.PostAsync(entity);
         }
         [HttpPatch("{id}")]
-        public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientAppointment entity)
+        public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientAppointment patientAppointment)
         {
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientAppointmentOld = _dbContextResolver.GetDbSet<PatientAppointment>().Where(m => m.Id == id).FirstOrDefault();
 
-            return await base.PatchAsync(id,entity);
+            CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientAppointmentOld, patientAppointment, "PatientAppointment").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+            return await base.PatchAsync(id, patientAppointment);
         }
         #endregion
 

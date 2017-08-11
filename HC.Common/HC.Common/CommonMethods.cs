@@ -1,6 +1,10 @@
-﻿using System;
+﻿using HC.Model;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Dynamic;
 using System.IO;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using static HC.Common.Enums.CommonEnum;
@@ -136,6 +140,33 @@ namespace HC.Common
                 }
             }
             return cipherText;
+        }
+
+
+
+        public List<AuditLog> GetAuditLogValues(dynamic oOldRecord,dynamic oNewRecord,string tableName)
+        {
+
+            List<AuditLog> auditLog = new List<AuditLog>();
+
+            var oType = oOldRecord.GetType();
+
+            foreach (var oProperty in oType.GetProperties())
+            {
+                var oOldValue = oProperty.GetValue(oOldRecord, null);
+                var oNewValue = oProperty.GetValue(oNewRecord, null);
+                // this will handle the scenario where either value is null
+                if (!object.Equals(oOldValue, oNewValue))
+                {
+                    // Handle the display values when the underlying value is null
+                    var sOldValue = oOldValue == null ? "null" : oOldValue.ToString();
+                    var sNewValue = oNewValue == null ? "null" : oNewValue.ToString();
+
+                    //System.Diagnostics.Debug.WriteLine("Property " + oProperty.Name + " was: " + sOldValue + "; is: " + sNewValue);
+                    auditLog.Add(new AuditLog() { PrimaryKeyID = oNewRecord.Id, TableName = tableName, PropertyName = oProperty.Name, OldValue = sOldValue, NewValue = sNewValue });
+                }
+            }
+            return auditLog;
         }
     }
 }

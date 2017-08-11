@@ -1,5 +1,8 @@
+using HC.Common;
+using HC.Patient.Entity;
 using HC.Patient.Model.Vitals;
 using JsonApiDotNetCore.Controllers;
+using JsonApiDotNetCore.Data;
 using JsonApiDotNetCore.Internal.Query;
 using JsonApiDotNetCore.Models;
 using JsonApiDotNetCore.Services;
@@ -10,6 +13,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static HC.Common.Enums.CommonEnum;
 
@@ -17,6 +21,8 @@ namespace HC.Patient.Web.Controllers
 {
     public class UserController : JsonApiController<Entity.User, int>
     {
+        private readonly IDbContextResolver _dbContextResolver;
+        public readonly IJsonApiContext _jsonApiContext;
         Common.CommonMethods _commonMethods = new Common.CommonMethods();
         #region Construtor of the class
         public UserController(
@@ -27,6 +33,8 @@ namespace HC.Patient.Web.Controllers
         {
             try
             {
+                _dbContextResolver = jsonApiContext.GetDbContextResolver();
+                _jsonApiContext = jsonApiContext;
                 if (jsonApiContext.QuerySet != null && !jsonApiContext.QuerySet.Equals(null))
                 {
                     //jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsActive", "true", ""));
@@ -84,8 +92,15 @@ namespace HC.Patient.Web.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public override async Task<IActionResult> PatchAsync(int id, [FromBody]Entity.User user)
+        public override async Task<IActionResult> PatchAsync(int id, [FromBody]User user)
         {
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var userOld = _dbContextResolver.GetDbSet<User>().Where(m => m.Id == id).FirstOrDefault();
+
+            CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(userOld, user, "User").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+
             if (!string.IsNullOrEmpty(user.Password))
             {
                 user.Password = _commonMethods.Encrypt(user.Password);

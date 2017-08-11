@@ -26,6 +26,8 @@ namespace HC.Patient.Web.Controllers
     {
         private readonly IDbContextResolver _dbContextResolver;
 
+        public readonly IJsonApiContext _jsonApiContext;
+
         #region Construtor of the class
         public PatientPhoneNumberController(
         IJsonApiContext jsonApiContext,
@@ -36,6 +38,7 @@ namespace HC.Patient.Web.Controllers
             try
             {
                 _dbContextResolver = jsonApiContext.GetDbContextResolver();
+                _jsonApiContext = jsonApiContext;
                 if (jsonApiContext.QuerySet != null && !jsonApiContext.QuerySet.Equals(null))
                 {
                     //jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsActive", "true", ""));
@@ -121,6 +124,13 @@ namespace HC.Patient.Web.Controllers
         [HttpPatch("{id}")]
         public override async Task<IActionResult> PatchAsync(int id, [FromBody]PhoneNumbers patientPhoneNumbers)
         {
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientPhoneNumbersOld = _dbContextResolver.GetDbSet<PhoneNumbers>().Where(m => m.Id == id).FirstOrDefault();
+
+            CommonMethods commonMethods = new CommonMethods();
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientPhoneNumbersOld, patientPhoneNumbers, "PhoneNumbers").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+
             return await base.PatchAsync(id, patientPhoneNumbers);
         }
             #endregion
