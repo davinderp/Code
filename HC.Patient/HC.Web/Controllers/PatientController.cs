@@ -25,6 +25,8 @@ using JsonApiDotNetCore.Models;
 using HC.Common.Filters;
 using HC.Patient.Data;
 using HC.Model;
+using System.Net.Http;
+using System.Net;
 
 namespace HC.Patient.Web.Controllers
 {
@@ -104,22 +106,36 @@ namespace HC.Patient.Web.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateModel]
-        public override async Task<IActionResult> PostAsync([FromBody]Patients entity)
+        public override async Task<IActionResult> PostAsync(Patients entity)
         {
             try
             {
+                Patients newPatinet = new Patients();
                 if (ModelState.IsValid)
                 {
+                    newPatinet = _dbContextResolver.GetDbSet<Patients>().Where(m => m.FirstName == entity.FirstName && m.LastName == entity.LastName && m.PrimaryClinician == entity.PrimaryClinician && m.SSN == entity.SSN).FirstOrDefault();
+                    if (newPatinet != null)
+                    {
+                        Response.StatusCode = 422;//(Unprocessable Entity)
+                        return Json(new
+                        {
+                            data = new object(),
+                            Message = "Patient already Exist",
+                            StatusCode = 422
+                        });
+                    }
+
                     CommonMethods commonMethods = new CommonMethods();
                     ConvertBase64ToImage(entity, commonMethods);
                 }
                 else
                 {
+                    Response.StatusCode = 422;//(Unprocessable Entity)
                     return Json(new
                     {
                         data = new object(),
                         Message = "Please check your fields",
-                        StatusCode = 404
+                        StatusCode = 422
                     });
                 }
             }

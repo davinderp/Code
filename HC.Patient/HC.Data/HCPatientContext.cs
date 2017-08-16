@@ -92,6 +92,10 @@ namespace HC.Patient.Data
                .HasDefaultValue(false);
 
             modelBuilder.Entity<Patients>()
+              .Property(b => b.ClientStatus)
+              .HasDefaultValue(2);//2 is for Active Status
+
+            modelBuilder.Entity<Patients>()
            .Property(b => b.CreatedDate)
            .HasDefaultValueSql("GetDate()");
 

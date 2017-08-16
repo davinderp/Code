@@ -15,7 +15,7 @@ namespace HC.Patient.Entity
         {
             this.CreatedDate = DateTime.Now;
             this.CreatedBy = 1;
-
+            this.ClientStatus = 2;
         }
 
         [Attr("PatientID")]
@@ -93,9 +93,7 @@ namespace HC.Patient.Entity
         public int? SecondaryRace { get; set; }
         [Attr("Ethnicity")]
         [ForeignKey("MasterEthnicity")]
-        public int? Ethnicity { get; set; }   
-        [Required]
-        [RequiredNumber]
+        public int? Ethnicity { get; set; }           
         [Attr("ClientStatus")]
         [ForeignKey("MasterStatus1")]
         public int ClientStatus { get; set; }

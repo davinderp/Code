@@ -78,6 +78,7 @@ namespace HC.Patient.Web.Controllers
                 }
                 else
                 {
+                    Response.StatusCode = 404;//(Not Found)
                     return Json(new
                     {
                         data = new object(),
@@ -154,6 +155,7 @@ namespace HC.Patient.Web.Controllers
                     Vitals vital = JsonConvert.DeserializeObject<Vitals>(patientInfo.ToString());
 
                     _patientCommonService.UpdatePatientVitalsFollowUpData(vital);
+                    Response.StatusCode = 200;//(Status Ok)
                     return Json(new
                     {
                         data = new object(),
@@ -163,6 +165,7 @@ namespace HC.Patient.Web.Controllers
                 }
                 else
                 {
+                    Response.StatusCode = 404;//(Not Found)
                     return Json(new
                     {
                         data = new object(),

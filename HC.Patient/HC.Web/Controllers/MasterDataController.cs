@@ -61,8 +61,9 @@ namespace HC.Patient.Web.Controllers
             var masterStates = _masterDataService.GetStateByCountryID(countryID);
             if (masterStates != null && masterStates.Count > 0)
             {
+                Response.StatusCode = 200;//(Status OK)
                 return Json(new JsonModel
-                {
+                {   
                     data = masterStates,
                     Message = "success",
                     StatusCode = 200
@@ -70,6 +71,7 @@ namespace HC.Patient.Web.Controllers
             }
             else
             {
+                Response.StatusCode = 404;//(Not Found)
                 return Json(new JsonModel
                 {
                     data = new object(),
