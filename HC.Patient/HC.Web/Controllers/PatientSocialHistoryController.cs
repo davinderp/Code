@@ -22,7 +22,6 @@ using Audit.WebApi;
 namespace HC.Patient.Web.Controllers
 {
     [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
-    [ValidateModel]
     public class PatientSocialHistoryController : JsonApiController<Entity.PatientSocialHistory, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
@@ -101,6 +100,13 @@ namespace HC.Patient.Web.Controllers
             var patientSocialHistory = (Entity.PatientSocialHistory)((ObjectResult)asyncPatientSocialHistory).Value;
             patientSocialHistory.IsDeleted = true;
             return await base.PatchAsync(patientSocialHistory.Id, patientSocialHistory);
+        }
+
+        [HttpPost]
+        [ValidateModel]
+        public override async Task<IActionResult> PostAsync([FromBody]PatientSocialHistory patientSocialHistory)
+        {
+            return await base.PostAsync(patientSocialHistory);
         }
 
         #endregion

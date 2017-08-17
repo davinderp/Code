@@ -1,5 +1,6 @@
 using Audit.WebApi;
 using HC.Common;
+using HC.Common.Filters;
 using HC.Patient.Entity;
 using HC.Patient.Model.Vitals;
 using JsonApiDotNetCore.Controllers;
@@ -61,6 +62,8 @@ namespace HC.Patient.Web.Controllers
         #endregion
 
         #region Class Methods
+
+        [ValidateModel]
         [HttpPost]
         public override async Task<IActionResult> PostAsync([FromBody]Entity.User user)
         {

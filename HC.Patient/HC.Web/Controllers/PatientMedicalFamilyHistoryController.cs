@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace HC.Patient.Web.Controllers
 {
     [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
-    [ValidateModel]
+  
     public class PatientMedicalFamilyHistoryController : JsonApiController<Entity.PatientMedicalFamilyHistory, int>
     {   
         private readonly IPatientCommonService _patientCommonService;
@@ -106,6 +106,12 @@ namespace HC.Patient.Web.Controllers
             return await base.PatchAsync(patientMedicalFamilyHistory.Id, patientMedicalFamilyHistory);
         }
 
+
+        [ValidateModel]
+        public override async Task<IActionResult> PostAsync([FromBody]PatientMedicalFamilyHistory patientMedicalFamilyHistory)
+        {
+            return await base.PostAsync(patientMedicalFamilyHistory);
+        }
         #endregion
 
         #region Helping Methods

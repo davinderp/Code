@@ -20,7 +20,7 @@ using Audit.WebApi;
 namespace HC.Patient.Web.Controllers
 {
     [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
-    [ValidateModel]
+
     public class PatientAddressController : JsonApiController<Entity.PatientAddress, int>
     {
 
@@ -146,6 +146,11 @@ namespace HC.Patient.Web.Controllers
             return await base.PatchAsync(patientAddress.Id, patientAddress);
         }
 
+        [ValidateModel]
+        public override async Task<IActionResult> PostAsync([FromBody]PatientAddress patientAddress)
+        {
+            return await base.PostAsync(patientAddress);
+        }
         #endregion
 
         #region Helping Methods

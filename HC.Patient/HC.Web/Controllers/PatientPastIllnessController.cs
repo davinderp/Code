@@ -22,7 +22,7 @@ using Audit.WebApi;
 namespace HC.Patient.Web.Controllers
 {
     [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
-    [ValidateModel]
+
     public class PatientPastIllnessController : JsonApiController<Entity.PatientPastIllness, int>
     {
         //private readonly IDbContextResolver _dbContextResolver;
@@ -68,6 +68,7 @@ namespace HC.Patient.Web.Controllers
 
         #region Class Methods
         [HttpPost]
+        [ValidateModel]
         public override async Task<IActionResult> PostAsync([FromBody]PatientPastIllness patientInfo)
         {
             return await base.PostAsync(patientInfo);

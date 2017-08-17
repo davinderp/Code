@@ -23,7 +23,6 @@ using static HC.Common.Enums.CommonEnum;
 namespace HC.Patient.Web.Controllers
 {
     [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
-    [ValidateModel]
     public class PatientVitalsController : JsonApiController<Entity.PatientVitals, int>
     {
 
@@ -69,6 +68,7 @@ namespace HC.Patient.Web.Controllers
         #endregion
 
         #region Class Methods
+        [ValidateModel]
         [HttpPost]
         public override async Task<IActionResult> PostAsync([FromBody]Entity.PatientVitals entity)
         {

@@ -163,15 +163,16 @@ namespace HC.Patient.Web.Controllers
             return await base.PatchAsync(id, patientInsuranceDetail);
         }
 
-            #endregion
 
-            #region Helping Methods
-            /// <summary>
-            /// this method is used to convert base64 to Images 
-            /// </summary>
-            /// <param name="entity"></param>
-            /// <param name="commonMethods"></param>
-            private PatientInsuranceDetails ConvertBase64ToImage(PatientInsuranceDetails entity, CommonMethods commonMethods)
+        #endregion
+
+        #region Helping Methods
+        /// <summary>
+        /// this method is used to convert base64 to Images 
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="commonMethods"></param>
+        private PatientInsuranceDetails ConvertBase64ToImage(PatientInsuranceDetails entity, CommonMethods commonMethods)
         {
             try
             {

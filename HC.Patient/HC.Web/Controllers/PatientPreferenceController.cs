@@ -21,7 +21,7 @@ using Audit.WebApi;
 namespace HC.Patient.Web.Controllers
 {
     [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
-    [ValidateModel]
+
     public class PatientPreferenceController : JsonApiController<Entity.PatientPreference, int>
     {
         #region Construtor of the class
@@ -96,9 +96,16 @@ namespace HC.Patient.Web.Controllers
             await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
             return await base.PatchAsync(id, patientPreference);
         }
-            #endregion
 
-            #region Helping Methods
-            #endregion
+        [HttpPost]
+        [ValidateModel]
+        public override async Task<IActionResult> PostAsync([FromBody]PatientPreference patientPreference)
+        {
+            return await base.PostAsync(patientPreference);
         }
+        #endregion
+
+        #region Helping Methods
+        #endregion
+    }
 }

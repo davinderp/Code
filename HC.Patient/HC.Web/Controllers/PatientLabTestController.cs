@@ -17,6 +17,7 @@ using HC.Patient.Service.PatientCommon.Interfaces;
 using JsonApiDotNetCore.Internal.Query;
 using Microsoft.AspNetCore.Http.Internal;
 using Audit.WebApi;
+using HC.Common.Filters;
 
 namespace HC.Patient.Web.Controllers
 {
@@ -101,6 +102,15 @@ namespace HC.Patient.Web.Controllers
             var patientLabTest = (Entity.PatientLabTest)((ObjectResult)asyncPatientLabTest).Value;
             patientLabTest.IsDeleted = true;
             return await base.PatchAsync(patientLabTest.Id, patientLabTest);
+        }
+
+
+        [ValidateModel]
+        [HttpPost]
+        public override async Task<IActionResult> PostAsync([FromBody]PatientLabTest patientLabTest)
+        {
+
+            return await base.PostAsync(patientLabTest);
         }
 
         #endregion

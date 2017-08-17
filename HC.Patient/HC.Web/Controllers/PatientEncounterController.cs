@@ -22,7 +22,6 @@ using Audit.WebApi;
 namespace HC.Patient.Web.Controllers
 {
     [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
-    [ValidateModel]
     public class PatientEncounterController : JsonApiController<Entity.PatientEncounter, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
@@ -93,11 +92,19 @@ namespace HC.Patient.Web.Controllers
             await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
             return await base.PatchAsync(id, patientEncounter);
         }
-            #endregion
 
-            #region Helping Methods
-            #endregion
+        [ValidateModel]
+        [HttpPost]
+        public override async Task<IActionResult> PostAsync([FromBody]PatientEncounter patientEncounter)
+        {
 
-
+            return await base.PostAsync(patientEncounter);
         }
+        #endregion
+
+        #region Helping Methods
+        #endregion
+
+
+    }
 }

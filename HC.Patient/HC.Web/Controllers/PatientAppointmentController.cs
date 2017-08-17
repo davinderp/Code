@@ -105,5 +105,6 @@ namespace HC.Patient.Web.Controllers
             patientAppointment.IsDeleted = true;
             return await base.PatchAsync(patientAppointment.Id, patientAppointment);
         }
+
     }
 }
