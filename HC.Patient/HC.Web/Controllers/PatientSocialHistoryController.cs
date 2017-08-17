@@ -37,6 +37,7 @@ namespace HC.Patient.Web.Controllers
         {
             try
             {
+                _jsonApiContext = jsonApiContext;
                 _dbContextResolver = jsonApiContext.GetDbContextResolver();
                 this._patientCommonService = patientCommonService;
                 jsonApiContext.PageManager.DefaultPageSize = 10;
