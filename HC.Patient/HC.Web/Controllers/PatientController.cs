@@ -50,6 +50,7 @@ namespace HC.Patient.Web.Controllers
             {
                 _dbContextResolver = jsonApiContext.GetDbContextResolver();
                 _jsonApiContext = jsonApiContext;
+                jsonApiContext.PageManager.DefaultPageSize = 10;
                 if (jsonApiContext.QuerySet != null && !jsonApiContext.QuerySet.Equals(null))
                 {
                     //jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsActive", "true", ""));

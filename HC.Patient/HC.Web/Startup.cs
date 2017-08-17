@@ -92,7 +92,7 @@ namespace HC.Patient.Web
             services.AddJsonApi<HCPatientContext>(opt =>
             {
                 //opt.Namespace = "api/v1";
-                opt.DefaultPageSize = 10;
+                //opt.DefaultPageSize = 10;
                 opt.IncludeTotalRecordCount = true;
             });
 

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace HC.Patient.Entity
 {
-    public class PatientAppointment : Identifiable<int>, IHasMeta
+    public class PatientAppointment : Identifiable<int>//, IHasMeta
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -82,15 +82,15 @@ namespace HC.Patient.Entity
         //[HasOne("MasterRecurrence")]
         //public virtual MasterType MasterRecurrence { get; set; }
 
-        public Dictionary<string, object> GetMeta(IJsonApiContext context)
-        {
-            return new Dictionary<string, object> {
-                //{ "total-count",  context.PageManager.TotalRecords },
-                { "total-pages",  context.PageManager.TotalPages },
-                { "page-size",  context.PageManager.PageSize },
-                { "current-page",  context.PageManager.CurrentPage },
-                { "default-page-size",  context.PageManager.DefaultPageSize },
-            };
-        }
+        //public Dictionary<string, object> GetMeta(IJsonApiContext context)
+        //{
+        //    return new Dictionary<string, object> {
+        //        //{ "total-count",  context.PageManager.TotalRecords },
+        //        { "total-pages",  context.PageManager.TotalPages },
+        //        { "page-size",  context.PageManager.PageSize },
+        //        { "current-page",  context.PageManager.CurrentPage },
+        //        { "default-page-size",  context.PageManager.DefaultPageSize },
+        //    };
+        //}
     }
 }
