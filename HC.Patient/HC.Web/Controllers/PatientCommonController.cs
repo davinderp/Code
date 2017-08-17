@@ -37,6 +37,7 @@ namespace HC.Patient.Web.Controllers
             Patients patient = _patientCommonService.PatientExist(patientInfo);
             if (patient != null)
             {
+                Response.StatusCode = 200;//(Status Ok)
                 return Json(new
                 {
                     data = patient,
@@ -46,6 +47,7 @@ namespace HC.Patient.Web.Controllers
             }
             else
             {
+                Response.StatusCode = 404;//(Not Found)
                 return Json(new
                 {
                     data = new object(),

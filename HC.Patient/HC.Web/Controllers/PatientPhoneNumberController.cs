@@ -85,7 +85,7 @@ namespace HC.Patient.Web.Controllers
 
                     dbContext.RemoveRange(phoneNumber);
                     foreach (PhoneNumbers phone in patientNumbers.PhoneNumbers) { await base.PostAsync(phone); }
-
+                    Response.StatusCode = 200;//(Status Ok)
                     return Json(new
                     {
                         data = new object(),
@@ -98,6 +98,7 @@ namespace HC.Patient.Web.Controllers
                     var phoneNumber = dbContext.Where(m => m.PatientID == patientID).ToList();
                     dbContext.RemoveRange(phoneNumber);
                     await _dbContextResolver.GetContext().SaveChangesAsync();
+                    Response.StatusCode = 200;//(Status Ok)
                     return Json(new
                     {
                         data = new object(),

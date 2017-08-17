@@ -100,6 +100,7 @@ namespace HC.Patient.Web.Controllers
                 }
                 else
                 {
+                    Response.StatusCode = 404;//(Not Found)
                     return Json(new
                     {
                         data = new object(),

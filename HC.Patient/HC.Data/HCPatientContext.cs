@@ -87,9 +87,25 @@ namespace HC.Patient.Data
              .Property(b => b.IsDeleted)
              .HasDefaultValue(false);
 
+            modelBuilder.Entity<PatientAppointment>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<PatientAppointment>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            modelBuilder.Entity<PatientAppointment>()
+           .Property(b => b.CreatedDate)
+           .HasDefaultValueSql("GetDate()");
+
             modelBuilder.Entity<Patients>()
                .Property(b => b.IsDeleted)
                .HasDefaultValue(false);
+
+            modelBuilder.Entity<Patients>()
+              .Property(b => b.ClientStatus)
+              .HasDefaultValue(2);//2 is for Active Status
 
             modelBuilder.Entity<Patients>()
            .Property(b => b.CreatedDate)
