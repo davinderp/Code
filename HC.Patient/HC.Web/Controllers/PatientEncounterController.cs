@@ -84,14 +84,14 @@ namespace HC.Patient.Web.Controllers
 
             CommonMethods commonMethods = new CommonMethods();
 
-            var patientEncounterInfo =  await base.PatchAsync(id, patientEncounter);
+            //var patientEncounterInfo =  await base.PatchAsync(id, patientEncounter);
 
-            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id;
+            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
             List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientEncounterOld, patientEncounter, "PatientEncounter", attrToUpdate)
                 //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
                 .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName, EventID = eventID }).ToList();
             await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
-            return patientEncounterInfo;
+            return await base.PatchAsync(id, patientEncounter);
         }
             #endregion
 

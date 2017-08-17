@@ -35,7 +35,7 @@ namespace HC.Patient.Entity
         [Attr("NewValue")]
         public string NewValue { get; set; }
 
-        [ForeignKey("Event")]
+        //[ForeignKey("Event")]
         [Attr("EventID")]
         public int? EventID { get; set; }
         [Required]
@@ -58,7 +58,7 @@ namespace HC.Patient.Entity
         public virtual Organization Organization { get; set; }
         public virtual User Users { get; set; }
 
-        public virtual Event Event { get; set; }
+        //public virtual Event Event { get; set; }
         public Dictionary<string, object> GetMeta(IJsonApiContext context)
         {
             return new Dictionary<string, object> {

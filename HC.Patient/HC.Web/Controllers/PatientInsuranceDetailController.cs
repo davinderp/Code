@@ -149,11 +149,10 @@ namespace HC.Patient.Web.Controllers
                 _jsonApiContext.AttributesToUpdate.Add(InsurancePhotoPathBack, patientInsuranceDetail.InsurancePhotoPathBack);
                 _jsonApiContext.AttributesToUpdate.Add(InsurancePhotoPathThumbBack, patientInsuranceDetail.InsurancePhotoPathThumbBack);
             }
-            var patientInsurance= await base.PatchAsync(id, patientInsuranceDetail);
 
             var attrToUpdate = _jsonApiContext.AttributesToUpdate;
             var patientInsuranceDetailOld = _dbContextResolver.GetDbSet<PatientInsuranceDetails>().Where(m => m.Id == id).FirstOrDefault();
-            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id;
+            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
             List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientInsuranceDetailOld, patientInsuranceDetail, "PatientInsuranceDetails", attrToUpdate)
                 .Select(q => new AuditLogs()
                 { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName, EventID = eventID }).ToList();
@@ -161,7 +160,7 @@ namespace HC.Patient.Web.Controllers
 
             await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
 
-            return patientInsurance;
+            return await base.PatchAsync(id, patientInsuranceDetail);
         }
 
             #endregion

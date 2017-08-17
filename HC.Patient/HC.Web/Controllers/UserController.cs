@@ -112,14 +112,14 @@ namespace HC.Patient.Web.Controllers
             }
             //return await base.PatchAsync(id, user);
 
-            var userInfo = await base.PatchAsync(id, user);
+            //var userInfo = await base.PatchAsync(id, user);
 
-            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id;
+            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
             List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(userOld, user, "User", attrToUpdate)
                 //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
                 .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName, EventID = eventID }).ToList();
             await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
-            return userInfo;
+            return await base.PatchAsync(id, user);
         }
 
 

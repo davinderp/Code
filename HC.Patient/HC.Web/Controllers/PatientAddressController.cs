@@ -94,8 +94,8 @@ namespace HC.Patient.Web.Controllers
 
             CommonMethods commonMethods = new CommonMethods();
 
-            var patientAddressInfo = await base.PatchAsync(id, patientAddress);
-            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id;
+
+            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
             List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientAddressOld, patientAddress, "PatientAddress", attrToUpdate)
                 //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
                 .Select(q => new AuditLogs()
@@ -108,7 +108,7 @@ namespace HC.Patient.Web.Controllers
                     EventID = eventID
                 }).ToList();
             await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
-            return patientAddressInfo;
+            return await base.PatchAsync(id, patientAddress);
         }
 
 

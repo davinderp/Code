@@ -85,14 +85,14 @@ namespace HC.Patient.Web.Controllers
             //await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
             //return await base.PatchAsync(id, patientPastIllness);
 
-            var patientPastIllnessInfo = await base.PatchAsync(id, patientPastIllness);
+            //var patientPastIllnessInfo = await base.PatchAsync(id, patientPastIllness);
 
-            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id;
+            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
             List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientPastIllnessOld, patientPastIllness, "PatientPastIllness", attrToUpdate)
                 //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
                 .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName, EventID = eventID }).ToList();
             await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
-            return patientPastIllnessInfo;
+            return await base.PatchAsync(id, patientPastIllness);
         }
 
         [HttpDelete("{id}")]
