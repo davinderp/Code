@@ -19,10 +19,11 @@ using Microsoft.AspNetCore.Http.Internal;
 using static HC.Common.Enums.CommonEnum;
 using HC.Common.Filters;
 using JsonApiDotNetCore.Data;
+using Audit.WebApi;
 
 namespace HC.Patient.Web.Controllers
 {
-    [ValidateModel]
+    [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
     public class PatientInsuranceDetailController : JsonApiController<PatientInsuranceDetails, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
@@ -87,6 +88,7 @@ namespace HC.Patient.Web.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateModel]
         public override async Task<IActionResult> PostAsync([FromBody]PatientInsuranceDetails entity)
         {
             try
@@ -125,15 +127,9 @@ namespace HC.Patient.Web.Controllers
         [HttpPatch("{id}")]
         public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientInsuranceDetails patientInsuranceDetail)
         {
-            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
-            var patientInsuranceDetailOld = _dbContextResolver.GetDbSet<PatientInsuranceDetails>().Where(m => m.Id == id).FirstOrDefault();
 
             CommonMethods commonMethods = new CommonMethods();
-            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientInsuranceDetailOld, patientInsuranceDetail, "PatientInsuranceDetails").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
-            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
-
-            //CommonMethods commonMethods = new CommonMethods();
-            //    //Convert Base64 to Image
+            //Convert Base64 to Image
             patientInsuranceDetail = ConvertBase64ToImage(patientInsuranceDetail, commonMethods);
             //For Fornt Image
             if (!string.IsNullOrEmpty(patientInsuranceDetail.InsurancePhotoPathFront) && !string.IsNullOrEmpty(patientInsuranceDetail.InsurancePhotoPathThumbFront))
@@ -151,7 +147,19 @@ namespace HC.Patient.Web.Controllers
                 _jsonApiContext.AttributesToUpdate.Add(InsurancePhotoPathBack, patientInsuranceDetail.InsurancePhotoPathBack);
                 _jsonApiContext.AttributesToUpdate.Add(InsurancePhotoPathThumbBack, patientInsuranceDetail.InsurancePhotoPathThumbBack);
             }
-            return await base.PatchAsync(id, patientInsuranceDetail);
+            var patientInsurance= await base.PatchAsync(id, patientInsuranceDetail);
+
+            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            var patientInsuranceDetailOld = _dbContextResolver.GetDbSet<PatientInsuranceDetails>().Where(m => m.Id == id).FirstOrDefault();
+            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id;
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientInsuranceDetailOld, patientInsuranceDetail, "PatientInsuranceDetails", attrToUpdate)
+                .Select(q => new AuditLogs()
+                { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName, EventID = eventID }).ToList();
+
+
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+
+            return patientInsurance;
         }
 
             #endregion

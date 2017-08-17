@@ -13,10 +13,11 @@ using Microsoft.Extensions.Logging;
 using JsonApiDotNetCore.Internal.Query;
 using Microsoft.AspNetCore.Http.Internal;
 using HC.Common;
+using Audit.WebApi;
 
 namespace HC.Patient.Web.Controllers
 {
-    
+    [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
     public class PatientAppointmentController : JsonApiController<PatientAppointment, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
@@ -75,9 +76,23 @@ namespace HC.Patient.Web.Controllers
             var patientAppointmentOld = _dbContextResolver.GetDbSet<PatientAppointment>().Where(m => m.Id == id).FirstOrDefault();
 
             CommonMethods commonMethods = new CommonMethods();
-            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientAppointmentOld, patientAppointment, "PatientAppointment").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+
+            var patientAppointmentInfo = await base.PatchAsync(id, patientAppointment);
+
+            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id;
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientAppointmentOld, patientAppointment, "PatientAppointment", attrToUpdate)
+                //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
+                .Select(q => new AuditLogs()
+                {
+                    NewValue = q.NewValue,
+                    OldValue = q.OldValue,
+                    PrimaryKeyID = q.PrimaryKeyID,
+                    TableName = q.TableName,
+                    PropertyName = q.PropertyName,
+                    EventID = eventID
+                }).ToList();
             await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
-            return await base.PatchAsync(id, patientAppointment);
+            return patientAppointmentInfo;
         }
         #endregion
 

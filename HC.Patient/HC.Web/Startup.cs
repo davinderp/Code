@@ -35,6 +35,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using HC.Patient.Web.Options;
+using Audit.SqlServer.Providers;
 
 namespace HC.Patient.Web
 {
@@ -113,6 +114,16 @@ namespace HC.Patient.Web
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
+
+            Audit.Core.Configuration.DataProvider = new SqlDataProvider()
+            {
+                ConnectionString = Configuration.GetConnectionString("HCPatient"),
+                Schema = "dbo",
+                TableName = "Event",
+                IdColumnName = "EventId",
+                JsonColumnName = "Data",
+                LastUpdatedDateColumnName = "LastUpdatedDate"
+            };
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

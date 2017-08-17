@@ -14,9 +14,11 @@ using Microsoft.AspNetCore.Authorization;
 using HC.Patient.Entity;
 using HC.Common.Filters;
 using HC.Model;
+using Audit.WebApi;
 
 namespace HC.Patient.Web.Controllers
 {
+    [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
     [ValidateModel]
     [Produces("application/json")]
     [Route("api/MasterData")]

@@ -1,9 +1,11 @@
+using Audit.WebApi;
 using HC.Patient.Entity;
 using HC.Patient.Service.PatientCommon.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HC.Patient.Web.Controllers
 {
+    [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
     public class PatientCommonController : Controller
     {
         private readonly IPatientCommonService _patientCommonService;

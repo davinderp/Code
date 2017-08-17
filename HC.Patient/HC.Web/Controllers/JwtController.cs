@@ -13,9 +13,11 @@ using HC.Patient.Model;
 using HC.Patient.Web.Options;
 using HC.Patient.Service.Token.Interfaces;
 using HC.Common.Filters;
+using Audit.WebApi;
 
 namespace HC.Patient.Web.Controllers
 {
+    [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
     [Produces("application/json")]
     [Route("authentication")]
     [ValidateModel]

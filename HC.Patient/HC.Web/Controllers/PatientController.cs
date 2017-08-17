@@ -25,11 +25,12 @@ using JsonApiDotNetCore.Models;
 using HC.Common.Filters;
 using HC.Patient.Data;
 using HC.Model;
+using Audit.WebApi;
 
 namespace HC.Patient.Web.Controllers
 {
     //[Authorize("AuthorizedUser")]
-
+    [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
     public class PatientController : JsonApiController<Patients, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
@@ -146,9 +147,6 @@ namespace HC.Patient.Web.Controllers
            var patientInfoOld =  _dbContextResolver.GetDbSet<Patients>().Where(m => m.Id == id).FirstOrDefault();
 
             CommonMethods commonMethods = new CommonMethods();
-            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientInfoOld, patientInfo, "Patients").Where(i=> attrToUpdate.Keys.Any(a1 =>  a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
-            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
-
 
             if (!string.IsNullOrEmpty(patientInfo.PhotoBase64))
             {
@@ -162,7 +160,14 @@ namespace HC.Patient.Web.Controllers
                     _jsonApiContext.AttributesToUpdate.Add(photoThumbnailPath, patientInfo.PhotoThumbnailPath);
                 }
             }
-            return await base.PatchAsync(id, patientInfo);
+            var patientDetails = await base.PatchAsync(id, patientInfo);
+
+            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id;
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientInfoOld, patientInfo, "Patients", attrToUpdate)
+                //.Where(i=> attrToUpdate.Keys.Any(a1 =>  a1.InternalAttributeName == i.PropertyName))
+                .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName, EventID = eventID }).ToList();
+            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+            return patientDetails;
         }
         #endregion
 

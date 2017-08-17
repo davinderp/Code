@@ -16,9 +16,11 @@ using JsonApiDotNetCore.Data;
 using HC.Patient.Service.PatientCommon.Interfaces;
 using JsonApiDotNetCore.Internal.Query;
 using Microsoft.AspNetCore.Http.Internal;
+using Audit.WebApi;
 
 namespace HC.Patient.Web.Controllers
 {
+    [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
     public class PatientLabTestController : JsonApiController<Entity.PatientLabTest, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
@@ -74,9 +76,20 @@ namespace HC.Patient.Web.Controllers
             var patientLabTestOld = _dbContextResolver.GetDbSet<PatientLabTest>().Where(m => m.Id == id).FirstOrDefault();
 
             CommonMethods commonMethods = new CommonMethods();
-            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientLabTestOld, patientLabTest, "PatientLabTest").Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName)).Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            //List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientLabTestOld, patientLabTest, "PatientLabTest", attrToUpdate)
+            //    //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
+            //    .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
+            //await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+            //return await base.PatchAsync(id, patientLabTest);
+
+            var patientLabTestInfo = await base.PatchAsync(id, patientLabTest);
+
+            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id;
+            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientLabTestOld, patientLabTest, "PatientLabTest", attrToUpdate)
+                //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
+                .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName, EventID = eventID }).ToList();
             await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
-            return await base.PatchAsync(id, patientLabTest);
+            return patientLabTestInfo;
         }
 
         [HttpDelete("{id}")]
