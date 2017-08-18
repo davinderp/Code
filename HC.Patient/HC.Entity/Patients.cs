@@ -144,6 +144,7 @@ namespace HC.Patient.Entity
         [Required]
         [Attr("IsActive")]
         public bool IsActive { get; set; }
+        [Attr("CreatedDate")]
         public DateTime CreatedDate { get; set; }
         [Attr("IsDeleted")]
         public bool? IsDeleted { get; set; }

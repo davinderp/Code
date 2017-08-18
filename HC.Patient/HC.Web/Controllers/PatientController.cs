@@ -196,10 +196,13 @@ namespace HC.Patient.Web.Controllers
         private async Task<IActionResult> CustomFilters()
         {
             bool IsSearchKey = false;
+            bool IsStartWith = false;
+
             FilterQuery filterQuery = new FilterQuery("", "", "");
             if (_jsonApiContext.QuerySet != null && _jsonApiContext.QuerySet.Filters != null)
             {
                 _jsonApiContext.QuerySet.Filters.ForEach(p => { if (p.Key.ToUpper() == PatientSearch.SEARCHKEY.ToString()) { IsSearchKey = true; filterQuery = p; } });
+                _jsonApiContext.QuerySet.Filters.ForEach(p => { if (p.Key.ToUpper() == PatientSearch.STARTWITH.ToString()) { IsStartWith = true; filterQuery = p; } });
                 if (IsSearchKey)
                 {
 
@@ -231,6 +234,35 @@ namespace HC.Patient.Web.Controllers
 
                     return asyncPatients;
                 }
+                if (IsStartWith)
+                {
+
+                    List<Patients> patients = new List<Patients>();
+                    CommonMethods commonMethods = new CommonMethods();
+                    var type = commonMethods.ParseString(filterQuery.Value);
+                    if (type == DataType.System_String || type == DataType.System_Int32 || type == DataType.System_Int64)
+                    {
+                        patients = _jsonApiContext.GetDbContextResolver().GetDbSet<Patients>().Where(l => l.FirstName.ToUpper().StartsWith(filterQuery.Value.ToUpper())).ToList();
+                        _jsonApiContext.QuerySet.Filters.Remove(filterQuery);
+                    }
+                    else if (type == DataType.System_DateTime)
+                    {
+                        patients = DateFilter(filterQuery, patients);
+
+                    }
+                    patients = CustomSortingForStartWith(patients);
+                    if (_jsonApiContext.QuerySet.PageQuery.PageSize != 0)
+                    {
+                        patients = patients.Take(_jsonApiContext.QuerySet.PageQuery.PageSize).ToList();
+                    }
+                    var asyncPatients = await base.GetAsync();
+
+                    patients.ForEach(p => p.GenderValue = _jsonApiContext.GetDbContextResolver().GetDbSet<MasterGender>().Where(o => o.Id == p.Gender).FirstOrDefault().Gender);
+                    ((ObjectResult)asyncPatients).Value = patients;
+                    _jsonApiContext.PageManager.TotalRecords = patients.Count();
+
+                    return asyncPatients;
+                }
                 else
                 {
                     return await base.GetAsync();
@@ -242,8 +274,14 @@ namespace HC.Patient.Web.Controllers
                 return await base.GetAsync();
             }
         }
-
-        private List<Patients> CustomSorting(List<Patients> patients)
+        private List<Patients> CustomSortingForStartWith(List<Patients> patients)
+        {   if (patients.Count > 0)
+            {
+                patients = patients.OrderByDescending(a => a.CreatedDate).ToList();
+            }
+            return patients;
+        }
+            private List<Patients> CustomSorting(List<Patients> patients)
         {
             if (_jsonApiContext.QuerySet.SortParameters != null)
             {
