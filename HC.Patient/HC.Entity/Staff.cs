@@ -8,18 +8,18 @@ using System.Text;
 
 namespace HC.Patient.Entity
 {
-    public class Clinicians : Identifiable<int>,IHasMeta
+    public class Staff : Identifiable<int>,IHasMeta
     {
-        public Clinicians()
+        public Staff()
         {
 
 
         }
 
-        [Attr("ClinicianID")]
+        [Attr("StaffID")]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("ClinicianID")]
+        [Column("StaffID")]
         public override int Id { get; set; }
         [Attr("ProviderId")]
         [ForeignKey("Provider")]
@@ -50,6 +50,9 @@ namespace HC.Patient.Entity
         [Attr("Email")]
         [StringLength(256)]
         public string Email { get; set; }
+        [Attr("RoleID")]
+        [ForeignKey("UserRoles")]
+        public int RoleID { get; set; }
         [Attr("IsActive")]
         public bool IsActive { get; set; }
         [Attr("IsDeleted")]
@@ -73,7 +76,8 @@ namespace HC.Patient.Entity
 
         [HasOne("organization")]
         public virtual Organization Organization { get; set; }
-
+        [HasOne("userroles")]
+        public virtual UserRoles UserRoles { get; set; }
         public virtual User Users { get; set; }
         public virtual User Users1 { get; set; }
         [HasMany("phonenumbers")]
@@ -82,7 +86,6 @@ namespace HC.Patient.Entity
         public Dictionary<string, object> GetMeta(IJsonApiContext context)
         {
             return new Dictionary<string, object> {
-                //{ "total-count",  context.PageManager.TotalRecords },
                 { "total-pages",  context.PageManager.TotalPages },
                 { "page-size",  context.PageManager.PageSize },
                 { "current-page",  context.PageManager.CurrentPage },

@@ -45,7 +45,7 @@ namespace HC.Patient.Model.MasterData
 
         public List<MasterType> MasterAddressType { get; set; }
 
-        public List<Clinicians> Clinicians { get; set; }
+        public List<Staff> Staff { get; set; }
         public List<AppointmentType> AppointmentType { get; set; }
 
     }

@@ -157,7 +157,7 @@ namespace HC.Patient.Repositories
                             listMasterDataModel.MasterAddressType = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).ToList();
                             break;
                         case MasterDataEnum.MASTERCLINICIAN:
-                            listMasterDataModel.Clinicians = _context.Clinicians.Where(a => a.IsActive == true && a.IsDeleted == false).ToList();
+                            listMasterDataModel.Staff = _context.Staff.Where(a => a.IsActive == true && a.IsDeleted == false).ToList();
                             break;
                         case MasterDataEnum.APPOINTMENTTYPE:
                             listMasterDataModel.AppointmentType = _context.AppointmentType.Where(a => a.IsActive == true && a.IsDeleted == false).ToList();

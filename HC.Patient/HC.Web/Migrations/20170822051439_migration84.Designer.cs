@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170822051439_migration84")]
+    partial class migration84
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -99,6 +100,66 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("OrganizationID");
 
                     b.ToTable("AuditLogs");
+                });
+
+            modelBuilder.Entity("HC.Patient.Entity.Clinicians", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("ClinicianID");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GetDate()");
+
+                    b.Property<int?>("DeletedBy")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("DeletedDate");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("MiddleName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<int>("OrganizationID");
+
+                    b.Property<int>("ProviderId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("OrganizationID");
+
+                    b.HasIndex("ProviderId");
+
+                    b.ToTable("Clinicians");
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.Event", b =>
@@ -1335,6 +1396,8 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("AppointmentTypeID");
 
+                    b.Property<int>("ClinicianID");
+
                     b.Property<int>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate")
@@ -1361,8 +1424,6 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("PatientID");
 
-                    b.Property<int>("StaffID");
-
                     b.Property<DateTime>("StartDateTime");
 
                     b.Property<int?>("UpdatedBy");
@@ -1373,13 +1434,13 @@ namespace HC.Patient.Web.Migrations
 
                     b.HasIndex("AppointmentTypeID");
 
+                    b.HasIndex("ClinicianID");
+
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedBy");
 
                     b.HasIndex("PatientID");
-
-                    b.HasIndex("StaffID");
 
                     b.HasIndex("UpdatedBy");
 
@@ -1545,6 +1606,8 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("CPTID");
 
+                    b.Property<int>("ClinicianID");
+
                     b.Property<int>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate")
@@ -1569,8 +1632,6 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<string>("Plans");
 
-                    b.Property<int>("StaffID");
-
                     b.Property<string>("Subjective");
 
                     b.Property<int?>("UpdatedBy");
@@ -1583,6 +1644,8 @@ namespace HC.Patient.Web.Migrations
 
                     b.HasIndex("CPTID");
 
+                    b.HasIndex("ClinicianID");
+
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedBy");
@@ -1590,8 +1653,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("LocationID");
 
                     b.HasIndex("PatientID");
-
-                    b.HasIndex("StaffID");
 
                     b.HasIndex("UpdatedBy");
 
@@ -2391,6 +2452,8 @@ namespace HC.Patient.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("PhoneNumberId");
 
+                    b.Property<int?>("ClinicianID");
+
                     b.Property<int>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate")
@@ -2416,9 +2479,11 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int?>("ProviderId");
 
-                    b.Property<int?>("StaffID");
+                    b.Property<int?>("StaffId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClinicianID");
 
                     b.HasIndex("CreatedBy");
 
@@ -2430,7 +2495,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.HasIndex("StaffID");
+                    b.HasIndex("StaffId");
 
                     b.ToTable("PhoneNumbers");
                 });
@@ -2565,10 +2630,6 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("ProviderId");
 
-                    b.Property<int>("RoleID")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(2);
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
@@ -2578,8 +2639,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("OrganizationID");
 
                     b.HasIndex("ProviderId");
-
-                    b.HasIndex("RoleID");
 
                     b.ToTable("Staff");
                 });
@@ -2685,6 +2744,29 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.Organization", "Organization")
                         .WithMany()
                         .HasForeignKey("OrganizationID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HC.Patient.Entity.Clinicians", b =>
+                {
+                    b.HasOne("HC.Patient.Entity.User", "Users1")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.User", "Users")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.Provider", "Provider")
+                        .WithMany()
+                        .HasForeignKey("ProviderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -3109,6 +3191,11 @@ namespace HC.Patient.Web.Migrations
                         .HasForeignKey("AppointmentTypeID")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("HC.Patient.Entity.Clinicians", "Clinician")
+                        .WithMany()
+                        .HasForeignKey("ClinicianID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HC.Patient.Entity.User", "Users")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
@@ -3121,11 +3208,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.Patients", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HC.Patient.Entity.Staff", "Staff")
-                        .WithMany()
-                        .HasForeignKey("StaffID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HC.Patient.Entity.User", "Users1")
@@ -3216,6 +3298,11 @@ namespace HC.Patient.Web.Migrations
                         .HasForeignKey("CPTID")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("HC.Patient.Entity.Clinicians", "Clinician")
+                        .WithMany()
+                        .HasForeignKey("ClinicianID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HC.Patient.Entity.User", "Users")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
@@ -3233,11 +3320,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.Patients", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HC.Patient.Entity.Staff", "Staff")
-                        .WithMany()
-                        .HasForeignKey("StaffID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HC.Patient.Entity.User", "Users1")
@@ -3268,7 +3350,7 @@ namespace HC.Patient.Web.Migrations
 
             modelBuilder.Entity("HC.Patient.Entity.PatientImmunization", b =>
                 {
-                    b.HasOne("HC.Patient.Entity.Staff", "Staff1")
+                    b.HasOne("HC.Patient.Entity.Clinicians", "Clinician1")
                         .WithMany()
                         .HasForeignKey("AdministeredBy");
 
@@ -3299,7 +3381,7 @@ namespace HC.Patient.Web.Migrations
                         .WithMany()
                         .HasForeignKey("ManufactureID");
 
-                    b.HasOne("HC.Patient.Entity.Staff", "Staff")
+                    b.HasOne("HC.Patient.Entity.Clinicians", "Clinician")
                         .WithMany()
                         .HasForeignKey("OrderBy");
 
@@ -3555,7 +3637,7 @@ namespace HC.Patient.Web.Migrations
                         .HasForeignKey("OrganizationID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HC.Patient.Entity.Staff", "Staff")
+                    b.HasOne("HC.Patient.Entity.Clinicians", "Clinician")
                         .WithMany()
                         .HasForeignKey("PrimaryClinician");
 
@@ -3649,6 +3731,10 @@ namespace HC.Patient.Web.Migrations
 
             modelBuilder.Entity("HC.Patient.Entity.PhoneNumbers", b =>
                 {
+                    b.HasOne("HC.Patient.Entity.Clinicians", "Clinician")
+                        .WithMany("PhoneNumbers")
+                        .HasForeignKey("ClinicianID");
+
                     b.HasOne("HC.Patient.Entity.User", "Users1")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
@@ -3671,9 +3757,9 @@ namespace HC.Patient.Web.Migrations
                         .WithMany("PhoneNumbers")
                         .HasForeignKey("ProviderId");
 
-                    b.HasOne("HC.Patient.Entity.Staff", "Staff")
+                    b.HasOne("HC.Patient.Entity.Staff")
                         .WithMany("PhoneNumbers")
-                        .HasForeignKey("StaffID");
+                        .HasForeignKey("StaffId");
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.Provider", b =>
@@ -3727,11 +3813,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.Provider", "Provider")
                         .WithMany()
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HC.Patient.Entity.UserRoles", "UserRoles")
-                        .WithMany()
-                        .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

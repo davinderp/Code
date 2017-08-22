@@ -98,7 +98,7 @@ namespace HC.Patient.Entity
         [ForeignKey("MasterStatus1")]
         public int ClientStatus { get; set; }
         [Attr("PrimaryClinician")]
-        [ForeignKey("Clinician")]
+        [ForeignKey("Staff")]
         public int? PrimaryClinician { get; set; }
 
         
@@ -243,7 +243,7 @@ namespace HC.Patient.Entity
             {
                 try
                 {
-                    return Clinician.FirstName +" "+ Clinician.LastName;
+                    return Staff.FirstName +" "+ Staff.LastName;
                 }
                 catch (Exception)
                 {
@@ -311,8 +311,8 @@ namespace HC.Patient.Entity
         public virtual MasterRace SecondaryRace1 { get; set; }
         public virtual MasterEthnicity MasterEthnicity { get; set; }
         public virtual MasterStatus MasterStatus1 { get; set; }
-        [HasOne("Clinician")]
-        public virtual Clinicians Clinician { get; set; }
+        [HasOne("Staff")]
+        public virtual Staff Staff { get; set; }
         public virtual MasterType MasterType1 { get; set; }
         public virtual MasterCountry MasterCountry { get; set; }
         [HasOne("users")]

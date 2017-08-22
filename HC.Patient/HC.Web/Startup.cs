@@ -238,8 +238,8 @@ namespace HC.Patient.Web
             }
             //LogManager.Configuration = new LoggingConfiguration();
 
-                organization = context.Organization.Where(p => p.Id == organizationID).FirstOrDefault();
-                LogManager.Configuration.Variables["connectionString"] = organization.OrganizationConnectionstring.OrganizationDBConnectionstring;
+            organization = context.Organization.Where(p => p.Id == organizationID).FirstOrDefault();
+            LogManager.Configuration.Variables["connectionString"] = Configuration.GetConnectionString("HCPatient");
 
             LogManager.Configuration.Variables["configDir"] = "C:\\Logs";
             LogManager.ConfigurationReloaded += updateConfig;
@@ -250,7 +250,7 @@ namespace HC.Patient.Web
 
         private void updateConfig(object sender, LoggingConfigurationReloadedEventArgs e)
         {
-            LogManager.Configuration.Variables["connectionString"] = organization.OrganizationConnectionstring.OrganizationDBConnectionstring;
+            LogManager.Configuration.Variables["connectionString"] = Configuration.GetConnectionString("HCPatient");
             LogManager.Configuration.Variables["configDir"] = "C:\\Logs";
         }
 }

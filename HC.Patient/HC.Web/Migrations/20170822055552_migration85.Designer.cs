@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170822055552_migration85")]
+    partial class migration85
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -2565,10 +2566,6 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("ProviderId");
 
-                    b.Property<int>("RoleID")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(2);
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
@@ -2578,8 +2575,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("OrganizationID");
 
                     b.HasIndex("ProviderId");
-
-                    b.HasIndex("RoleID");
 
                     b.ToTable("Staff");
                 });
@@ -3727,11 +3722,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.Provider", "Provider")
                         .WithMany()
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HC.Patient.Entity.UserRoles", "UserRoles")
-                        .WithMany()
-                        .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
