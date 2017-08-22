@@ -17,7 +17,7 @@ namespace HC.Patient.Web.Controllers
 {
     [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
 
-    public class PatientDiagnosisController : JsonApiController<Entity.PatientDiagnosis, int>
+    public class PatientDiagnosisController : CustomJsonApiController<Entity.PatientDiagnosis, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
 
@@ -70,19 +70,19 @@ namespace HC.Patient.Web.Controllers
         [HttpPatch("{id}")]
         public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientDiagnosis patientDiagnosis)
         {
-            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
-            var patientDiagnosisOld = _dbContextResolver.GetDbSet<PatientDiagnosis>().Where(m => m.Id == id).FirstOrDefault();
+            //var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            //var patientDiagnosisOld = _dbContextResolver.GetDbSet<PatientDiagnosis>().Where(m => m.Id == id).FirstOrDefault();
 
-            CommonMethods commonMethods = new CommonMethods();
+            //CommonMethods commonMethods = new CommonMethods();
 
-            //var patientDiagnosisInfo = await base.PatchAsync(id, patientDiagnosis);
+            ////var patientDiagnosisInfo = await base.PatchAsync(id, patientDiagnosis);
 
-            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
-            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientDiagnosisOld, patientDiagnosis, "PatientDiagnosis", attrToUpdate)
-                //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
-                .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName,
-                    PropertyName = q.PropertyName,EventID=eventID }).ToList();
-            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+            //int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
+            //List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientDiagnosisOld, patientDiagnosis, "PatientDiagnosis", attrToUpdate)
+            //    //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
+            //    .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName,
+            //        PropertyName = q.PropertyName,EventID=eventID }).ToList();
+            //await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
             return await base.PatchAsync(id, patientDiagnosis);
         }
 

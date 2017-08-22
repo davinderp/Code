@@ -22,7 +22,7 @@ using static HC.Common.Enums.CommonEnum;
 namespace HC.Patient.Web.Controllers
 {
     [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
-    public class UserController : JsonApiController<Entity.User, int>
+    public class UserController : CustomJsonApiController<Entity.User, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
         public readonly IJsonApiContext _jsonApiContext;
@@ -100,10 +100,10 @@ namespace HC.Patient.Web.Controllers
         [HttpPatch("{id}")]
         public override async Task<IActionResult> PatchAsync(int id, [FromBody]User user)
         {
-            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
-            var userOld = _dbContextResolver.GetDbSet<User>().Where(m => m.Id == id).FirstOrDefault();
+            //var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            //var userOld = _dbContextResolver.GetDbSet<User>().Where(m => m.Id == id).FirstOrDefault();
 
-            CommonMethods commonMethods = new CommonMethods();
+            //CommonMethods commonMethods = new CommonMethods();
             //List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(userOld, user, "User", attrToUpdate)
             //    //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
             //    .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
@@ -117,11 +117,11 @@ namespace HC.Patient.Web.Controllers
 
             //var userInfo = await base.PatchAsync(id, user);
 
-            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
-            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(userOld, user, "User", attrToUpdate)
-                //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
-                .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName, EventID = eventID }).ToList();
-            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+            //int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
+            //List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(userOld, user, "User", attrToUpdate)
+            //    //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
+            //    .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName, EventID = eventID }).ToList();
+            //await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
             return await base.PatchAsync(id, user);
         }
 

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\AccountController.cs" />
+    <Compile Remove="Controllers\BaseJsonApiController.cs" />
     <Compile Remove="Controllers\CountryController.cs" />
     <Compile Remove="Controllers\EntityController.cs" />
     <Compile Remove="Controllers\HullTypeController.cs" />
@@ -42,12 +43,19 @@
     <PackageReference Include="Audit.NET.SqlServer" Version="7.1.3" />
     <PackageReference Include="Audit.WebApi" Version="7.1.3" />
     <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
+    <PackageReference Include="Elmah.Io.AspNetCore" Version="3.2.41-pre" />
     <PackageReference Include="JsonApiDotNetCore" Version="2.0.8" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Localization" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.2" />
@@ -55,12 +63,20 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" />
     <PackageReference Include="Moq" Version="4.7.99" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta5" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.4.1" />
+    <PackageReference Include="RobertHargreaves.log4net.Trunk" Version="2.0.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
     <PackageReference Include="System.Diagnostics.TraceSource" Version="4.0.0" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +88,7 @@
     <ProjectReference Include="..\HC.Data\HC.Patient.Data.csproj" />
     <ProjectReference Include="..\HC.Repositories\HC.Patient.Repositories.csproj" />
     <ProjectReference Include="..\HC.Service\HC.Patient.Service.csproj" />
+    <ProjectReference Include="..\NLog.Targets.ElasticSearch\HC.Nlog.Targets.ElasticSearch.csproj" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />

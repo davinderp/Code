@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.10
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HC.Patient.Web", "HC.Patient\HC.Web\HC.Patient.Web.csproj", "{C80A0520-39A5-4BDD-A4CD-6EC0E0132FAC}"
 EndProject
@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HC.Model", "HC.Common\HC.Mo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestCases", "TestCases", "{CFAFD6F1-5DFC-4DD3-9A18-BFBD554EB149}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HC.Patient.xUnitTest", "HC.UnitTest\HC.Patient.xUnitTest\HC.Patient.xUnitTest.csproj", "{0D91403C-06B4-44BD-95AA-189C87CFD2DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HC.Patient.xUnitTest", "HC.UnitTest\HC.Patient.xUnitTest\HC.Patient.xUnitTest.csproj", "{0D91403C-06B4-44BD-95AA-189C87CFD2DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HC.Nlog.Targets.ElasticSearch", "HC.Patient\NLog.Targets.ElasticSearch\HC.Nlog.Targets.ElasticSearch.csproj", "{EADD4950-CC81-4154-B267-9A79E8794A3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{0D91403C-06B4-44BD-95AA-189C87CFD2DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D91403C-06B4-44BD-95AA-189C87CFD2DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D91403C-06B4-44BD-95AA-189C87CFD2DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EADD4950-CC81-4154-B267-9A79E8794A3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EADD4950-CC81-4154-B267-9A79E8794A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EADD4950-CC81-4154-B267-9A79E8794A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EADD4950-CC81-4154-B267-9A79E8794A3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,5 +103,6 @@ Global
 		{5BD49C57-F0B8-4AAC-B09E-2E2FABD4554A} = {BB00E36C-DDB6-41BA-9D01-26661DCADEAC}
 		{52DD3FE6-1EF8-4BFA-85FB-1DE006225C33} = {BB00E36C-DDB6-41BA-9D01-26661DCADEAC}
 		{0D91403C-06B4-44BD-95AA-189C87CFD2DA} = {CFAFD6F1-5DFC-4DD3-9A18-BFBD554EB149}
+		{EADD4950-CC81-4154-B267-9A79E8794A3C} = {4835C260-F422-44A1-A36D-E5E35DFF5AC8}
 	EndGlobalSection
 EndGlobal

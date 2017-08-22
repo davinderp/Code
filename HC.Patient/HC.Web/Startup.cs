@@ -1,66 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Audit.SqlServer.Providers;
+using Elmah.Io.AspNetCore;
+using HC.Patient.Data;
+using HC.Patient.Web.Options;
+using HC.Repositories;
+using HC.Repositories.Interfaces;
+using JsonApiDotNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using HC.Patient.Data;
-using HC.Repositories;
-using HC.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
+using NLog.Extensions.Logging;
+using NLog.Web;
 //using HC.Patient.Service.Users.Interfaces;
 //using HC.Patient.Service.Users;
 using Swashbuckle.AspNetCore.Swagger;
-using JsonApiDotNetCore.Extensions;
-using HC.Patient.Entity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using AspNetCoreNlog;
-using NLog.Extensions.Logging;
-using NLog.Web;
-using NLog;
-using NLog.Config;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using HC.Patient.Service.MasterData.Interfaces;
-using HC.Patient.Service.MasterData;
-using HC.Patient.Repositories.Interfaces;
-using HC.Patient.Repositories;
+using System;
 using System.Net;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using HC.Patient.Web.Options;
-using Audit.SqlServer.Providers;
+using System.IO;
+using System.Linq;
+using HC.Patient.Entity;
 
 namespace HC.Patient.Web
 {
     public partial class Startup
     {
         private const string DefaultCorsPolicyName = "localhost";
+        public IConfigurationRoot Configuration { get; }
+        private static int organizationID = 0;
+        private Organization organization = new Organization();
         public Startup(IHostingEnvironment env)
         {
+            env.ConfigureNLog("nlog.config");
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            organizationID = Configuration.GetValue<Int32>("OrganizationID");
+          
         }
 
-        public IConfigurationRoot Configuration { get; }
+
         private const string SecretKey = "needtogetthisfromenvironment";
         private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
 
 
         //This method gets called by the runtime.Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)//,HCPatientContext context)
         {
-
+            //organization = context.Organization.Where(p => p.Id == organizationID).FirstOrDefault();
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AuthorizedUser",
@@ -92,7 +90,7 @@ namespace HC.Patient.Web
             services.AddJsonApi<HCPatientContext>(opt =>
             {
                 //opt.Namespace = "api/v1";
-                //opt.DefaultPageSize = 10;
+                opt.DefaultPageSize = 10;
                 opt.IncludeTotalRecordCount = true;
             });
 
@@ -117,17 +115,18 @@ namespace HC.Patient.Web
 
             Audit.Core.Configuration.DataProvider = new SqlDataProvider()
             {
-                ConnectionString = Configuration.GetConnectionString("HCPatient"),
+                ConnectionString = organization.OrganizationConnectionstring.OrganizationDBConnectionstring,
                 Schema = "dbo",
                 TableName = "Event",
                 IdColumnName = "EventId",
                 JsonColumnName = "Data",
                 LastUpdatedDateColumnName = "LastUpdatedDate"
             };
+            services.AddScoped<LogFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, HCPatientContext context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, HCPatientContext context)//, 
         {
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
             var tokenValidationParameters = new TokenValidationParameters
@@ -146,7 +145,7 @@ namespace HC.Patient.Web
 
                 ClockSkew = TimeSpan.Zero
             };
-
+            app.UseElmahIo("6e46539834624195b66edb223f370836", new Guid("d6251932-8823-4afe-b0ba-0ef3fac938fb"));
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
                 AutomaticAuthenticate = true,
@@ -155,8 +154,8 @@ namespace HC.Patient.Web
             });
 
             app.UseCors(DefaultCorsPolicyName); //Enable CORS!
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddDebug();
 
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
@@ -202,36 +201,57 @@ namespace HC.Patient.Web
 
             context.Database.EnsureCreated();
             //if (context.PASCore_Users.Any() == false)
-            {
-                //context.PASCore_UserRoles.Add(new PASCore_UserRoles
-                //{
-                //    EntityId = Guid.NewGuid(),
-                //    FirstName="test"
-                //});
-                context.SaveChanges();
-            }
+            //{
+            //    //context.PASCore_UserRoles.Add(new PASCore_UserRoles
+            //    //{
+            //    //    EntityId = Guid.NewGuid(),
+            //    //    FirstName="test"
+            //    //});
+            //    context.SaveChanges();
+            //}
             // ...
             app.UseJsonApi();
             //ConfigureAuth(app);
 
-            //loggerFactory.AddNLog();
+            loggerFactory.AddNLog();
+
 
             //add NLog.Web
-            //app.AddNLogWeb();
+            app.AddNLogWeb();
 
+
+
+            var configDir = "C:\\Logs";
+
+            if (configDir != string.Empty)
+            {
+                var logEventInfo = LogEventInfo.CreateNullEvent();
+
+
+                foreach (FileTarget target in LogManager.Configuration.AllTargets.Where(t => t is FileTarget))
+                {
+                    var filename = target.FileName.Render(logEventInfo).Replace("'", "");
+                    target.FileName = Path.Combine(configDir, filename);
+                }
+
+                LogManager.ReconfigExistingLoggers();
+            }
             //LogManager.Configuration = new LoggingConfiguration();
 
-            //LogManager.Configuration.Variables["connectionString"] = Configuration.GetConnectionString("NLog");
-            //LogManager.Configuration.Variables["configDir"] = "C:\\Logs";
-            //LogManager.ConfigurationReloaded += updateConfig;
+                organization = context.Organization.Where(p => p.Id == organizationID).FirstOrDefault();
+                LogManager.Configuration.Variables["connectionString"] = organization.OrganizationConnectionstring.OrganizationDBConnectionstring;
 
+            LogManager.Configuration.Variables["configDir"] = "C:\\Logs";
+            LogManager.ConfigurationReloaded += updateConfig;
             app.UseMvc();
         }
 
-        //private void updateConfig(object sender, LoggingConfigurationReloadedEventArgs e)
-        //{
-        //    LogManager.Configuration.Variables["connectionString"] = Configuration.GetConnectionString("NLog");
-        //    LogManager.Configuration.Variables["configDir"] = "C:\\Logs";
-        //}
-    }
+
+
+        private void updateConfig(object sender, LoggingConfigurationReloadedEventArgs e)
+        {
+            LogManager.Configuration.Variables["connectionString"] = organization.OrganizationConnectionstring.OrganizationDBConnectionstring;
+            LogManager.Configuration.Variables["configDir"] = "C:\\Logs";
+        }
+}
 }

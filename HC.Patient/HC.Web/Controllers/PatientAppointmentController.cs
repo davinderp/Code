@@ -17,20 +17,26 @@ using Audit.WebApi;
 
 namespace HC.Patient.Web.Controllers
 {
+    [ServiceFilter(typeof(LogFilter))]
     [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
-    public class PatientAppointmentController : JsonApiController<PatientAppointment, int>
+    public class PatientAppointmentController : CustomJsonApiController<PatientAppointment, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
 
         public readonly IJsonApiContext _jsonApiContext;
 
+        private ILogger<PatientAppointmentController> _logger;
+
         #region Construtor of the class
         public PatientAppointmentController(
        IJsonApiContext jsonApiContext,
        IResourceService<PatientAppointment, int> resourceService,
-       ILoggerFactory loggerFactory)
+       ILoggerFactory loggerFactory, ILogger<PatientAppointmentController> logger)
     : base(jsonApiContext, resourceService, loggerFactory)
         {
+            //_logger = logger;
+            //_logger.LogCritical("nlog is working from a controller");
+            //throw new ArgumentException("way wrong");
             try
             {
                 _dbContextResolver = jsonApiContext.GetDbContextResolver();
@@ -72,26 +78,26 @@ namespace HC.Patient.Web.Controllers
         [HttpPatch("{id}")]
         public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientAppointment patientAppointment)
         {
-            var attrToUpdate = _jsonApiContext.AttributesToUpdate;
-            var patientAppointmentOld = _dbContextResolver.GetDbSet<PatientAppointment>().Where(m => m.Id == id).FirstOrDefault();
+            //var attrToUpdate = _jsonApiContext.AttributesToUpdate;
+            //var patientAppointmentOld = _dbContextResolver.GetDbSet<PatientAppointment>().Where(m => m.Id == id).FirstOrDefault();
 
-            CommonMethods commonMethods = new CommonMethods();
+            //CommonMethods commonMethods = new CommonMethods();
 
-            // var patientAppointmentInfo = await base.PatchAsync(id, patientAppointment);
+            //// var patientAppointmentInfo = await base.PatchAsync(id, patientAppointment);
 
-            int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
-            List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientAppointmentOld, patientAppointment, "PatientAppointment", attrToUpdate)
-                //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
-                .Select(q => new AuditLogs()
-                {
-                    NewValue = q.NewValue,
-                    OldValue = q.OldValue,
-                    PrimaryKeyID = q.PrimaryKeyID,
-                    TableName = q.TableName,
-                    PropertyName = q.PropertyName,
-                    EventID = eventID
-                }).ToList();
-            await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
+            //int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
+            //List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientAppointmentOld, patientAppointment, "PatientAppointment", attrToUpdate)
+            //    //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
+            //    .Select(q => new AuditLogs()
+            //    {
+            //        NewValue = q.NewValue,
+            //        OldValue = q.OldValue,
+            //        PrimaryKeyID = q.PrimaryKeyID,
+            //        TableName = q.TableName,
+            //        PropertyName = q.PropertyName,
+            //        EventID = eventID
+            //    }).ToList();
+            //await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
             return await base.PatchAsync(id, patientAppointment);
         }
         #endregion

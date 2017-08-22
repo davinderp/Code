@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-
 namespace HC.Patient.Web
 {
     public class Program
@@ -17,7 +17,7 @@ namespace HC.Patient.Web
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
+                //.UseApplicationInsights()
                 .Build();
 
             host.Run();

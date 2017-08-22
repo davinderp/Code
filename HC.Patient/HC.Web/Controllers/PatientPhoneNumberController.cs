@@ -24,7 +24,7 @@ namespace HC.Patient.Web.Controllers
 {
     [AuditApi(EventTypeName = "{controller}/{action} ({verb})", IncludeResponseBody = true, IncludeHeaders = true, IncludeModelState = true)]
 
-    public class PatientPhoneNumberController : JsonApiController<PhoneNumbers, int>
+    public class PatientPhoneNumberController : CustomJsonApiController<PhoneNumbers, int>
     {
         private readonly IDbContextResolver _dbContextResolver;
 
