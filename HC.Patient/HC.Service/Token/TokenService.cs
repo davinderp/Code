@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Text;
 using HC.Patient.Model;
 using HC.Patient.Repositories.Interfaces;
-using HC.Patient.Entity;
 
 namespace HC.Patient.Service.Token
 {
@@ -17,7 +16,7 @@ namespace HC.Patient.Service.Token
         {
             this._tokenRepository = tokenRepository;
         }
-        public User GetUserByUserName(string userName)
+        public ApplicationUser GetUserByUserName(string userName)
         {
             return _tokenRepository.GetUserByUserName(userName);
         }

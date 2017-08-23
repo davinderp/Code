@@ -50,10 +50,6 @@ namespace HC.Patient.Entity
         //[ForeignKey("Users1")]
         public int? UpdatedBy { get; set; }
 
-
-        [HasMany("organizationconnectionstring")]
-        public virtual OrganizationConnectionstring OrganizationConnectionstring { get; set; }
-
         //[HasOne("users")]
         //public virtual User Users { get; set; }
         //public virtual User Users1 { get; set; }

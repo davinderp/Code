@@ -14,7 +14,6 @@ using HC.Patient.Web.Options;
 using HC.Patient.Service.Token.Interfaces;
 using HC.Common.Filters;
 using Audit.WebApi;
-using HC.Patient.Entity;
 
 namespace HC.Patient.Web.Controllers
 {
@@ -54,21 +53,12 @@ namespace HC.Patient.Web.Controllers
             if (identity == null)
             {
                 _logger.LogInformation($"Invalid username ({applicationUser.UserName}) or password ({applicationUser.Password})");
-                //return BadRequest("Invalid credentials");
-                Response.StatusCode = 402;//(Unprocessable Entity)
-                return Json(new
-                {
-                    data = new object(),
-                    Message = "Invalid credentials",
-                    StatusCode = 402
-                });
+                return BadRequest("Invalid credentials");
             }
 
-            var claims = new[]{
-                new Claim("UserID", dbUser.Id.ToString()),
-                new Claim("UserName", dbUser.UserName.ToString()),
-                //new Claim("RoleName", dbUser.UserRoles.RoleName.ToString()),
-        new Claim(JwtRegisteredClaimNames.Sub, dbUser.UserName),
+            var claims = new[]
+            {
+        new Claim(JwtRegisteredClaimNames.Sub, applicationUser.UserName),
         new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
         new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
         identity.FindFirst("HealthCare")
@@ -125,7 +115,7 @@ namespace HC.Patient.Web.Controllers
         /// You'd want to retrieve claims through your claims provider
         /// in whatever way suits you, the below is purely for demo purposes!
         /// </summary>
-        private static Task<ClaimsIdentity> GetClaimsIdentity(ApplicationUser user, User dbUser)
+        private static Task<ClaimsIdentity> GetClaimsIdentity(ApplicationUser user, ApplicationUser dbUser)
         {
             if (dbUser != null && (user.UserName == dbUser.UserName && user.Password == dbUser.Password))
             {
@@ -137,7 +127,8 @@ namespace HC.Patient.Web.Controllers
             }
             else
             {
-                return Task.FromResult<ClaimsIdentity>(null);
+                return Task.FromResult(new ClaimsIdentity(new GenericIdentity(user.UserName, "Token"),
+                  new Claim[] { }));
             }
 
             // Credentials are invalid, or account doesn't exist

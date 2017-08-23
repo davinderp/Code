@@ -1,5 +1,4 @@
-﻿using HC.Patient.Entity;
-using HC.Patient.Model;
+﻿using HC.Patient.Model;
 using HC.Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,6 @@ namespace HC.Patient.Service.Token.Interfaces
 {
     public interface ITokenService : IBaseService
     {
-       User GetUserByUserName(string userName);
+       ApplicationUser GetUserByUserName(string userName);
     }
 }

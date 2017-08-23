@@ -29,7 +29,7 @@ namespace HC.Patient.Entity
 
 
         [Attr("OrderBy")]
-        [ForeignKey("Staff")]
+        [ForeignKey("Clinician")]
         public int? OrderBy { get; set; }
         [Attr("VFCID")]
         [ForeignKey("MasterVFCEligibility")]
@@ -72,7 +72,7 @@ namespace HC.Patient.Entity
 
 
         [Attr("AdministeredBy")]
-        [ForeignKey("Staff1")]
+        [ForeignKey("Clinician1")]
         public int? AdministeredBy { get; set; }
         [Attr("ImmunityStatusID")]
         [Required]
@@ -111,13 +111,13 @@ namespace HC.Patient.Entity
         /// Foreign key's tables
         /// </summary>
         public Patients Patient { get; set; }
-        public Staff Staff { get; set; }
+        public Clinicians Clinician { get; set; }
         public MasterVFCEligibility MasterVFCEligibility { get; set; }
         public MasterImmunization MasterImmunization { get; set; }
         public MasterManufacture MasterManufacture { get; set; }
         public MasterAdministrationSite MasterAdministrationSite { get; set; }
         public MasterRouteOfAdministration MasterRouteOfAdministration { get; set; }
-        public Staff Staff1 { get; set; }
+        public Clinicians Clinician1 { get; set; }
         public MasterImmunityStatus MasterImmunityStatus { get; set; }
         public MasterRejectionReason MasterRejectionReason { get; set; }
         public virtual User Users { get; set; }

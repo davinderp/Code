@@ -25,9 +25,9 @@ namespace HC.Patient.Entity
         public DateTime VisitDateTime { get; set; }
         [Required]
         [RequiredNumber]
-        [Attr("StaffID")]
-        [ForeignKey("Staff")]
-        public int StaffID { get; set; }
+        [Attr("ClinicianID")]
+        [ForeignKey("Clinician")]
+        public int ClinicianID { get; set; }
         [Required]
         [RequiredNumber]
         [Attr("PatientID")]
@@ -76,7 +76,7 @@ namespace HC.Patient.Entity
 
 
         //Foreign key's tables
-        public Staff Staff { get; set; }
+        public Clinicians Clinician { get; set; }
         public Patients Patient { get; set; }
         public MasterCPT MasterCPT { get; set; }
         public MasterLocation MasterLocation { get; set; }

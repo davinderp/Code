@@ -88,7 +88,7 @@
     <ProjectReference Include="..\HC.Data\HC.Patient.Data.csproj" />
     <ProjectReference Include="..\HC.Repositories\HC.Patient.Repositories.csproj" />
     <ProjectReference Include="..\HC.Service\HC.Patient.Service.csproj" />
-    <ProjectReference Include="..\NLog.Targets.ElasticSearch\HC.Nlog.Targets.ElasticSearch.csproj" />
+    <ProjectReference Include="..\NLog.Targets.ElasticSearch\NLog.Targets.ElasticSearch.csproj" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />

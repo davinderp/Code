@@ -20,11 +20,11 @@ namespace HC.Patient.Repositories
             this._context = context;
         }
 
-        public User GetUserByUserName(string userName)
+        public ApplicationUser GetUserByUserName(string userName)
         {
             try
             {
-                return _context.User.Where(m => m.UserName == userName).FirstOrDefault(); //.Select(p => new ApplicationUser() { UserName = p.UserName, Password = p.Password }).FirstOrDefault();
+                return _context.User.Where(m => m.UserName == userName).Select(p => new ApplicationUser() { UserName = p.UserName, Password = p.Password }).FirstOrDefault();
             }
             catch (Exception)
             {

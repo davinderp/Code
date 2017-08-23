@@ -323,7 +323,7 @@ namespace HC.Patient.Repositories
                 if (patientDiagnosis != null)
                 {
                     patientDiagnosis.VisitDateTime = patientInfo.VisitDateTime;
-                    patientDiagnosis.StaffID = patientInfo.StaffID;
+                    patientDiagnosis.ClinicianID = patientInfo.ClinicianID;
                     patientDiagnosis.PatientID = patientInfo.PatientID;
                     patientDiagnosis.CPTID = patientInfo.CPTID;
                     patientDiagnosis.LocationID = patientInfo.LocationID;

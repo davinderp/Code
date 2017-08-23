@@ -115,7 +115,7 @@ namespace HC.Patient.Web
 
             Audit.Core.Configuration.DataProvider = new SqlDataProvider()
             {
-                ConnectionString = organization.OrganizationConnectionstring.OrganizationDBConnectionstring,
+                ConnectionString = Configuration.GetConnectionString("HCPatient"),//organization.OrganizationConnectionstring.OrganizationDBConnectionstring,
                 Schema = "dbo",
                 TableName = "Event",
                 IdColumnName = "EventId",

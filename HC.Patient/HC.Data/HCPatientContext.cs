@@ -66,7 +66,7 @@ namespace HC.Patient.Data
         public DbSet<PatientLabTest> PatientLabTest { get; set; }
         public DbSet<MasterLabs> MasterLabs { get; set; }
 
-        //public DbSet<Clinicians> Clinicians { get; set; }
+        public DbSet<Clinicians> Clinicians { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
         public DbSet<AppointmentType> AppointmentType { get; set; }
         public DbSet<PatientAppointment> PatientAppointment { get; set; }
@@ -76,7 +76,6 @@ namespace HC.Patient.Data
         public DbSet<Modules> Modules { get; set; }
         public DbSet<Event> Event { get; set; }
         public DbSet<AuditLogs> AuditLogs { get; set; }
-        public DbSet<Staff> Staff { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -226,12 +225,12 @@ namespace HC.Patient.Data
    .HasDefaultValue(false);
 
 
-//            modelBuilder.Entity<Clinicians>()
-//.Property(b => b.CreatedDate)
-//.HasDefaultValueSql("GetDate()");
-//            modelBuilder.Entity<Clinicians>()
-//   .Property(b => b.IsDeleted)
-//   .HasDefaultValue(false);
+            modelBuilder.Entity<Clinicians>()
+.Property(b => b.CreatedDate)
+.HasDefaultValueSql("GetDate()");
+            modelBuilder.Entity<Clinicians>()
+   .Property(b => b.IsDeleted)
+   .HasDefaultValue(false);
 
 
             modelBuilder.Entity<PatientPreference>()
@@ -476,23 +475,10 @@ namespace HC.Patient.Data
 .Property(b => b.OrganizationID)
 .HasDefaultValue(1);
 
-            modelBuilder.Entity<Staff>()
-.Property(b => b.IsDeleted)
-.HasDefaultValue(false);
 
-            modelBuilder.Entity<Staff>()
-           .Property(b => b.CreatedDate)
-           .HasDefaultValueSql("GetDate()");
-
-            modelBuilder.Entity<Staff>()
-.Property(b => b.OrganizationID)
-.HasDefaultValue(1);
-
-
-            modelBuilder.Entity<Staff>()
-.Property(b => b.RoleID)
-.HasDefaultValue(2);
-
+//            modelBuilder.Entity<AuditLogs>()
+//.Property(b => b.EventID)
+//.HasDefaultValue(this.Event.LastOrDefaultAsync().Id + 1);
 
         }
     }

@@ -24,9 +24,9 @@ namespace HC.Patient.Entity
 
         [Required]
         [RequiredNumber]
-        [Attr("StaffID")]
-        [ForeignKey("Staff")]
-        public int StaffID { get; set; }
+        [Attr("ClinicianID")]
+        [ForeignKey("Clinician")]
+        public int ClinicianID { get; set; }
 
         [RequiredDate]
         [Attr("StartDateTime")]
@@ -75,8 +75,8 @@ namespace HC.Patient.Entity
         public virtual User Users1 { get; set; }
         [HasOne("Users2")]
         public virtual User Users2 { get; set; }
-        [HasOne("Staff")]
-        public virtual Staff Staff { get; set; }
+        [HasOne("Clinician")]
+        public virtual Clinicians Clinician { get; set; }
         [HasOne("AppointmentType")]
         public virtual AppointmentType AppointmentType { get; set; }
         //[HasOne("MasterRecurrence")]

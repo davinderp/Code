@@ -10,6 +10,6 @@ namespace HC.Patient.Repositories.Interfaces
 {
     public interface ITokenRepository//: IRepository<MasterDataModel>
     {
-        User GetUserByUserName(string userName);
+        ApplicationUser GetUserByUserName(string userName);
     }
 }
