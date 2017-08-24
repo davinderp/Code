@@ -141,6 +141,10 @@ namespace HC.Patient.Entity
 
         [Attr("ProgramStartDate")]
         public DateTime? ProgramStartDate { get; set; }
+        [Attr("LocationID")]
+        [ForeignKey("Location")]
+        public int LocationID { get; set; }
+
         [Required]
         [Attr("IsActive")]
         public bool IsActive { get; set; }
@@ -334,6 +338,8 @@ namespace HC.Patient.Entity
         public virtual List<PatientPreference> PatientPreference { get; set; }
 
         public virtual MasterProgram MasterProgram { get; set; }
+
+        public virtual Location Location { get; set; }
 
         [Attr("Address")]
         [NotMapped]

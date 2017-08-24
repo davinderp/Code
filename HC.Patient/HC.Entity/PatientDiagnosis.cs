@@ -33,6 +33,8 @@ namespace HC.Patient.Entity
         [Required]
         [Attr("IsActive")]
         public bool IsActive { get; set; }
+        [Attr("DiagnosisDate")]
+        public DateTime DiagnosisDate { get; set; }
         [Attr("CreatedDate")]
         public DateTime CreatedDate { get; set; }
         [Required]

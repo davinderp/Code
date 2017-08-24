@@ -77,6 +77,7 @@ namespace HC.Patient.Data
         public DbSet<Event> Event { get; set; }
         public DbSet<AuditLogs> AuditLogs { get; set; }
         public DbSet<Encounter_CPT> Encounter_CPT { get; set; }
+        public DbSet<Location> Location { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
