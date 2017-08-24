@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170824064826_migration87")]
+    partial class migration87
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -159,24 +160,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("ProviderId");
 
                     b.ToTable("Clinicians");
-                });
-
-            modelBuilder.Entity("HC.Patient.Entity.Encounter_CPT", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CPTID");
-
-                    b.Property<int>("EncounterId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CPTID");
-
-                    b.HasIndex("EncounterId");
-
-                    b.ToTable("Encounter_CPT");
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.Event", b =>
@@ -2719,19 +2702,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.Provider", "Provider")
                         .WithMany()
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("HC.Patient.Entity.Encounter_CPT", b =>
-                {
-                    b.HasOne("HC.Patient.Entity.MasterCPT", "MasterCPT")
-                        .WithMany()
-                        .HasForeignKey("CPTID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HC.Patient.Entity.PatientEncounter", "PatientEncounter")
-                        .WithMany()
-                        .HasForeignKey("EncounterId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

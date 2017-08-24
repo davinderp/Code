@@ -21,8 +21,12 @@ namespace HC.Patient.Entity
         public override int Id { get; set; }
         [Required]
         [RequiredDate]
-        [Attr("VisitDateTime")]
-        public DateTime VisitDateTime { get; set; }
+        [Attr("VisitStartDate")]
+        public DateTime VisitStartDate { get; set; }
+        [Required]
+        [RequiredDate]
+        [Attr("VisitEndDate")]
+        public DateTime VisitEndDate { get; set; }
         [Required]
         [RequiredNumber]
         [Attr("ClinicianID")]
@@ -43,6 +47,9 @@ namespace HC.Patient.Entity
         [Attr("LocationID")]
         [ForeignKey("MasterLocation")]
         public int LocationID { get; set; }
+        [Attr("AppointmentID")]
+        [ForeignKey("PatientAppointment")]
+        public int AppointmentID { get; set; }
 
         [Attr("Subjective")]
         public string Subjective { get; set; }
@@ -72,15 +79,12 @@ namespace HC.Patient.Entity
         public int? DeletedBy { get; set; }  public DateTime? DeletedDate { get; set; }
 
 
-
-
-
         //Foreign key's tables
         public Clinicians Clinician { get; set; }
         public Patients Patient { get; set; }
         public MasterCPT MasterCPT { get; set; }
         public MasterLocation MasterLocation { get; set; }
-
+        public PatientAppointment PatientAppointment { get; set; }
         public virtual User Users { get; set; }
         public User Users1 { get; set; }
         public User Users2 { get; set; }

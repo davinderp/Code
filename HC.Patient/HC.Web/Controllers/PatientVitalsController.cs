@@ -159,46 +159,46 @@ namespace HC.Patient.Web.Controllers
             return await base.PatchAsync(id, patientVital);
         }
 
-        [HttpPatch]
-        public JsonResult PatchAsync([FromBody]JObject patientInfo)
-        {
-            try
-            {
-                if (patientInfo.Count != 0)
-                {
-                    Vitals vital = JsonConvert.DeserializeObject<Vitals>(patientInfo.ToString());
+        //[HttpPatch]
+        //public JsonResult PatchAsync([FromBody]JObject patientInfo)
+        //{
+        //    try
+        //    {
+        //        if (patientInfo.Count != 0)
+        //        {
+        //            Vitals vital = JsonConvert.DeserializeObject<Vitals>(patientInfo.ToString());
 
-                    _patientCommonService.UpdatePatientVitalsFollowUpData(vital);
-                    Response.StatusCode = 200;//(Status Ok)
-                    return Json(new
-                    {
-                        data = new object(),
-                        Message = "success",
-                        StatusCode = 200
-                    });
-                }
-                else
-                {
-                    Response.StatusCode = 404;//(Not Found)
-                    return Json(new
-                    {
-                        data = new object(),
-                        Message = "Please check your fields",
-                        StatusCode = 404
-                    });
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-                //return Json(new
-                //{
-                //    data = new object(),
-                //    Message = "Please check your fields",
-                //    StatusCode = 404
-                //});
-            }
-        }
+        //            _patientCommonService.UpdatePatientVitalsFollowUpData(vital);
+        //            Response.StatusCode = 200;//(Status Ok)
+        //            return Json(new
+        //            {
+        //                data = new object(),
+        //                Message = "success",
+        //                StatusCode = 200
+        //            });
+        //        }
+        //        else
+        //        {
+        //            Response.StatusCode = 404;//(Not Found)
+        //            return Json(new
+        //            {
+        //                data = new object(),
+        //                Message = "Please check your fields",
+        //                StatusCode = 404
+        //            });
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //        //return Json(new
+        //        //{
+        //        //    data = new object(),
+        //        //    Message = "Please check your fields",
+        //        //    StatusCode = 404
+        //        //});
+        //    }
+        //}
 
         #endregion
 

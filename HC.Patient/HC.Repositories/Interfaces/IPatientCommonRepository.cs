@@ -17,7 +17,7 @@ namespace HC.Patient.Repositories.Interfaces
         PhoneNumbers UpdatePhoneNumbersData(int id, PhoneNumbers patientInfo);
         PatientPreference UpdatePatientPreferenceData(int id, PatientPreference patientInfo);
         PatientVitals UpdatePatientVitalseData(int id, PatientVitals patientInfo);
-        bool UpdatePatientVitalsFollowUpData(Vitals followupVitals);
+        //bool UpdatePatientVitalsFollowUpData(Vitals followupVitals);
         bool UpdatePatientDiagnosisData(int id, PatientDiagnosis patientInfo);
         bool UpdatePatientEncounterData(int id, PatientEncounter patientInfo);
         bool UpdatePatientMedicalFamilyHistoryData(int id, PatientMedicalFamilyHistory patientInfo);

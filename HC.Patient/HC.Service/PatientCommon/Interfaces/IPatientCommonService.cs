@@ -13,7 +13,7 @@ namespace HC.Patient.Service.PatientCommon.Interfaces
         PhoneNumbers UpdatePhoneNumbersData(int id, PhoneNumbers patientInfo);
         PatientPreference UpdatePatientPreferenceData(int id, PatientPreference patientInfo);
         PatientVitals UpdatePatientVitalseData(int id, PatientVitals patientInfo);
-        bool UpdatePatientVitalsFollowUpData(Vitals followupVitals);
+        //bool UpdatePatientVitalsFollowUpData(Vitals followupVitals);
         bool UpdatePatientMedicalFamilyHistoryData(int id, PatientMedicalFamilyHistory patientInfo);
         PatientImmunization UpdatePatientImmunizationData(int id, PatientImmunization patientInfo);
         PatientSocialHistory UpdatePatientSocialHistoryData(int id, PatientSocialHistory patientInfo);
