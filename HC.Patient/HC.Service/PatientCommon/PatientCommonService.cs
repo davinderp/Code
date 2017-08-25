@@ -42,10 +42,10 @@ namespace HC.Patient.Service.PatientCommon
         {
             return _patientCommonRepository.UpdatePatientVitalseData(id, patientInfo);
         }
-        public bool UpdatePatientVitalsFollowUpData(Vitals patientInfo)
-        {
-            return _patientCommonRepository.UpdatePatientVitalsFollowUpData(patientInfo);
-        }
+        //public bool UpdatePatientVitalsFollowUpData(Vitals patientInfo)
+        //{
+        //    return _patientCommonRepository.UpdatePatientVitalsFollowUpData(patientInfo);
+        //}
         public bool UpdatePatientDiagnosisData(int id, PatientDiagnosis patientInfo)
         {
             return _patientCommonRepository.UpdatePatientDiagnosisData(id, patientInfo);

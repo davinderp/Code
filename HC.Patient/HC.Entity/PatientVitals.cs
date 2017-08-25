@@ -25,11 +25,7 @@ namespace HC.Patient.Entity
         [RequiredNumber]
         [Attr("PatientID")]
         [ForeignKey("Patient")]
-        public int PatientID { get; set; }
-        [Required]
-        [RequiredNumber]
-        [Attr("EncounterID")]        
-        public int EncounterID { get; set; }
+        public int PatientID { get; set; }        
         [Required]
         [RequiredNumber]
         [Attr("BPDiastolic")]
@@ -89,10 +85,7 @@ namespace HC.Patient.Entity
         [Required]
         public bool IsActive { get; set; }
         [Attr("IsDeleted")]
-        public bool? IsDeleted { get; set; }
-        [Required]
-        [Attr("FollowUp")]
-        public bool FollowUp { get; set; }
+        public bool? IsDeleted { get; set; }       
 
         [HasOne("Patient")]
         public virtual Patients Patient { get; set; }

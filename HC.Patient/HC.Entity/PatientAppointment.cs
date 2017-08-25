@@ -36,9 +36,9 @@ namespace HC.Patient.Entity
         [Attr("EndDateTime")]
         public DateTime EndDateTime { get; set; }
         [Required]
-        [Attr("Description")]
+        [Attr("Notes")]
         [MaxLength(200)]
-        public string Description { get; set; }
+        public string Notes { get; set; }
         [Required]
         [Attr("IsActive")]
         public bool IsActive { get; set; }

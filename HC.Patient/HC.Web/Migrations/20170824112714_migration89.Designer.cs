@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170824112714_migration89")]
+    partial class migration89
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -1538,8 +1539,6 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<DateTime>("DiagnosisDate");
-
                     b.Property<int>("ICDID");
 
                     b.Property<bool>("IsActive");
@@ -2321,8 +2320,6 @@ namespace HC.Patient.Web.Migrations
                     b.Property<string>("LastName")
                         .HasMaxLength(100);
 
-                    b.Property<int>("LocationID");
-
                     b.Property<string>("MRN")
                         .IsRequired()
                         .HasMaxLength(50);
@@ -2386,8 +2383,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("Ethnicity");
 
                     b.HasIndex("Gender");
-
-                    b.HasIndex("LocationID");
 
                     b.HasIndex("MaritalStatus");
 
@@ -3679,11 +3674,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.MasterGender", "MasterGender")
                         .WithMany()
                         .HasForeignKey("Gender")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HC.Patient.Entity.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HC.Patient.Entity.MasterStatus", "MasterStatus")

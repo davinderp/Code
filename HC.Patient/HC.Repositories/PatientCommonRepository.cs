@@ -254,7 +254,7 @@ namespace HC.Patient.Repositories
                         //patientVitals.BMI_Status = patientInfo.BMI_Status;
                         patientVitals.BPDiastolic = patientInfo.BPDiastolic;
                         patientVitals.BPSystolic = patientInfo.BPSystolic;
-                        patientVitals.EncounterID = patientInfo.EncounterID;
+                        //patientVitals.EncounterID = patientInfo.EncounterID;
                         patientVitals.HeartRate = patientInfo.HeartRate;
                         patientVitals.HeightFt = patientInfo.HeightFt;
                         patientVitals.HeightIn = patientInfo.HeightIn;
@@ -267,7 +267,7 @@ namespace HC.Patient.Repositories
                         //patientVitals.Weight_kg = patientInfo.Weight_kg;
                         patientVitals.WeightLbs = patientInfo.WeightLbs;
                         //patientVitals.Height_cm = patientInfo.Height_cm;
-                        patientVitals.FollowUp = patientInfo.FollowUp;
+                        //patientVitals.FollowUp = patientInfo.FollowUp;
                         //save object
                         _context.SaveChanges();
                     }
@@ -280,23 +280,24 @@ namespace HC.Patient.Repositories
                 throw;
             }
         }
-        public bool UpdatePatientVitalsFollowUpData(Vitals patientInfo)
-        {
-            foreach (var item in patientInfo.Ids)
-            {
-                var vitals = _context.PatientVitals.Find(item);
-                if (vitals != null)
-                {
-                    vitals.FollowUp = patientInfo.Followup_Flag;
-                    _context.SaveChanges();
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        //Follow up removed as per DP sir told 24-8-2017
+        //public bool UpdatePatientVitalsFollowUpData(Vitals patientInfo)
+        //{
+        //    foreach (var item in patientInfo.Ids)
+        //    {
+        //        var vitals = _context.PatientVitals.Find(item);
+        //        if (vitals != null)
+        //        {
+        //            vitals.FollowUp = patientInfo.Followup_Flag;
+        //            _context.SaveChanges();
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
         public bool UpdatePatientDiagnosisData(int id, PatientDiagnosis patientInfo)
         {
             if (id > 0)
@@ -322,7 +323,8 @@ namespace HC.Patient.Repositories
                 var patientDiagnosis = _context.PatientEncounter.Find(id);
                 if (patientDiagnosis != null)
                 {
-                    patientDiagnosis.VisitDateTime = patientInfo.VisitDateTime;
+                    patientDiagnosis.VisitStartDate = patientInfo.VisitStartDate;
+                    patientDiagnosis.VisitEndDate = patientInfo.VisitEndDate;
                     patientDiagnosis.ClinicianID = patientInfo.ClinicianID;
                     patientDiagnosis.PatientID = patientInfo.PatientID;
                     patientDiagnosis.CPTID = patientInfo.CPTID;
