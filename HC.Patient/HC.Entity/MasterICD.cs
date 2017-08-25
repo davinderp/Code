@@ -15,16 +15,21 @@ namespace HC.Patient.Entity
         public DateTime CreatedDate { get; set; }
         [Required]
         [ForeignKey("Users1")]
+        [Attr("CreatedBy")]
         public int CreatedBy { get; set; }
         public virtual User Users1 { get; set; }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("ICDID")]
         public override int Id { get; set; }
+        [Attr("Code")]
         public string Code { get; set; }
+        [Attr("CodeType")]
         public string CodeType { get; set; }
         [NotMapped]
+        [Attr("value")]
         public string value { get { return this.Description + " (" + this.Code + ")"; } }
+        [Attr("Description")]
         public string Description { get; set; }
 
         [Required]

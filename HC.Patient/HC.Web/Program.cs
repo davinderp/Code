@@ -14,10 +14,13 @@ namespace HC.Patient.Web
         {
             var host = new WebHostBuilder()
                 .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseContentRoot(Directory.GetCurrentDirectory())                
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                //.UseApplicationInsights()
+                 //.UseApplicationInsights()
+                 ////For Enable error
+                 //.CaptureStartupErrors(true)
+                 //.UseSetting("detailedErrors", "true")
                 .Build();
 
             host.Run();
