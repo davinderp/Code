@@ -29,10 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="web1.config" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Images\PatientInsurancePhotos\thumb\" />
     <Folder Include="Images\PatientPhotos\thumb\" />
     <Folder Include="Models\" />

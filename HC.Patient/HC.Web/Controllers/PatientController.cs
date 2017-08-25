@@ -85,6 +85,7 @@ namespace HC.Patient.Web.Controllers
         [HttpGet]
         public override async Task<IActionResult> GetAsync()
         {
+            //RecRuleParser.ParseRRule("FREQ=DAILY;UNTIL=19971224T000000Z", false);
             return await CustomFilters();
 
         }
