@@ -336,7 +336,6 @@ namespace HC.Patient.Entity
         public virtual List<PhoneNumbers> PhoneNumbers { get; set; }
         [HasMany("patientpreference")]
         public virtual List<PatientPreference> PatientPreference { get; set; }
-
         public virtual MasterProgram MasterProgram { get; set; }
 
         public virtual Location Location { get; set; }

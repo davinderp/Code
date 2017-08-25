@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="AuthToken\JwtIssuerOptions.cs" />
+    <Compile Remove="RecRuleParser.cs" />
   </ItemGroup>
 
   <ItemGroup>
