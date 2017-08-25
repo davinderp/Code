@@ -53,6 +53,7 @@ namespace HC.Patient.Entity
 
         //Foreign key's tables
         public Patients Patient { get; set; }
+        [HasOne("mastericd")]
         public MasterICD MasterICD { get; set; }
         public virtual User Users { get; set; }
         public User Users1 { get; set; }
