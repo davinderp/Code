@@ -79,6 +79,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\HC.Common\HC.Common\HC.Common.csproj" />
     <ProjectReference Include="..\..\HC.Common\HC.Model\HC.Model.csproj" />
     <ProjectReference Include="..\HC.Data\HC.Patient.Data.csproj" />

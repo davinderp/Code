@@ -14,6 +14,7 @@ using HC.Patient.Web.Options;
 using HC.Patient.Service.Token.Interfaces;
 using HC.Common.Filters;
 using Audit.WebApi;
+using HC.Patient.Entity;
 
 namespace HC.Patient.Web.Controllers
 {
@@ -58,6 +59,10 @@ namespace HC.Patient.Web.Controllers
 
             var claims = new[]
             {
+        new Claim("UserID", dbUser.Id.ToString()),
+        new Claim("RoleID", dbUser.RoleID.ToString()),
+        new Claim("UserName", dbUser.UserName.ToString()),
+        new Claim("UserName", dbUser.OrganizationID.ToString()),        
         new Claim(JwtRegisteredClaimNames.Sub, applicationUser.UserName),
         new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
         new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
@@ -115,7 +120,7 @@ namespace HC.Patient.Web.Controllers
         /// You'd want to retrieve claims through your claims provider
         /// in whatever way suits you, the below is purely for demo purposes!
         /// </summary>
-        private static Task<ClaimsIdentity> GetClaimsIdentity(ApplicationUser user, ApplicationUser dbUser)
+        private static Task<ClaimsIdentity> GetClaimsIdentity(ApplicationUser user, User dbUser)
         {
             if (dbUser != null && (user.UserName == dbUser.UserName && user.Password == dbUser.Password))
             {
