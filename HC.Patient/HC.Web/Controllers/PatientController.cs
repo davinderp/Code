@@ -165,15 +165,18 @@ namespace HC.Patient.Web.Controllers
            //var patientInfoOld =  _dbContextResolver.GetDbSet<Patients>().Where(m => m.Id == id).FirstOrDefault();
 
             CommonMethods commonMethods = new CommonMethods();
+            AttrAttribute photoPath = new AttrAttribute(AttrToUpdate.PhotoPath.ToString(), AttrToUpdate.PhotoPath.ToString());
+            AttrAttribute photoThumbnailPath = new AttrAttribute(AttrToUpdate.PhotoThumbnailPath.ToString(), AttrToUpdate.PhotoThumbnailPath.ToString());
 
             if (!string.IsNullOrEmpty(patientInfo.PhotoBase64))
             {
+                _jsonApiContext.AttributesToUpdate.Remove(photoPath);
+                _jsonApiContext.AttributesToUpdate.Remove(photoThumbnailPath);
+
                 patientInfo = ConvertBase64ToImage(patientInfo, commonMethods);
+
                 if (!string.IsNullOrEmpty(patientInfo.PhotoPath) && !string.IsNullOrEmpty(patientInfo.PhotoThumbnailPath))
                 {
-                    AttrAttribute photoPath = new AttrAttribute(AttrToUpdate.PhotoPath.ToString(), AttrToUpdate.PhotoPath.ToString());
-                    AttrAttribute photoThumbnailPath = new AttrAttribute(AttrToUpdate.PhotoThumbnailPath.ToString(), AttrToUpdate.PhotoThumbnailPath.ToString());
-
                     _jsonApiContext.AttributesToUpdate.Add(photoPath, patientInfo.PhotoPath);
                     _jsonApiContext.AttributesToUpdate.Add(photoThumbnailPath, patientInfo.PhotoThumbnailPath);
                 }
