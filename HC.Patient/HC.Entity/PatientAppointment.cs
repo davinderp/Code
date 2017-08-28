@@ -1,4 +1,5 @@
 ﻿using HC.Common.Filters;
+using Ical.Net.DataTypes;
 using JsonApiDotNetCore.Models;
 using JsonApiDotNetCore.Services;
 using System;
@@ -61,6 +62,17 @@ namespace HC.Patient.Entity
         [Attr("AppointmentTypeID")]
         [ForeignKey("AppointmentType")]
         public int AppointmentTypeID { get; set; }
+
+        [Attr("RecurrenceRule")]
+        public string RecurrenceRule { get; set; }
+
+        [NotMapped]
+        [Attr("Occurrences")]
+        public List<Period> Occurrences { get; set; }
+
+        [NotMapped]
+        [Attr("RecurrencePattern")]
+        public RecurrencePattern RecurrencePattern { get; set; }
 
         //[Attr("AppointmentRecurrenceID")]
         //[ForeignKey("MasterRecurrence")]

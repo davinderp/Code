@@ -154,7 +154,7 @@ namespace HC.Patient.Web.Controllers
         {
 
             var asyncPatients = await base.GetAsync(id);
-            var patients = (Entity.Patients)((ObjectResult)asyncPatients).Value;
+            var patients = (Patients)((ObjectResult)asyncPatients).Value;
             patients.IsDeleted = true;
             return await base.PatchAsync(patients.Id, patients);
         }
