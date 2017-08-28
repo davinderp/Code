@@ -70,51 +70,6 @@ namespace HC.Patient.Web.Controllers
         [HttpGet]
         public override async Task<IActionResult> GetAsync()
         {
-            // BuildMyString.com generated code. Please enjoy your string responsibly.
-
-            //string sb = "BEGIN:VCALENDAR\r\n" +
-            //"VERSION:2.0\r\n" +
-            //"PRODID:-//Mozilla.org/NONSGML Mozilla Calendar V1.1//EN\r\n" +
-            //"BEGIN:VEVENT\r\n" +
-            //"CREATED:20060717T210517Z\r\n" +
-            //"LAST-MODIFIED:20060717T210718Z\r\n" +
-            //"DTSTAMP:20060717T210718Z\r\n" +
-            //"UID:uuid1153170430406\r\n" +
-            //"SUMMARY:Test event\r\n" +
-            //"DTSTART;TZID=US-Eastern:19970902T090000\r\n" +
-            //"RRULE:FREQ=DAILY;UNTIL=19971224T000000Z\r\n" +
-            //"DTEND:19970902T100000\r\n" +
-            //"END:VEVENT\r\n" +
-            //"BEGIN:VTIMEZONE\r\n" +
-            //"TZID:US-Eastern\r\n" +
-            //"LAST-MODIFIED:19870101T000000Z\r\n" +
-            //"TZURL:http://zones.stds_r_us.net/tz/US-Eastern\r\n" +
-            //"BEGIN:STANDARD\r\n" +
-            //"DTSTART:19671029T020000\r\n" +
-            //"RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r\n" +
-            //"TZOFFSETFROM:-0400\r\n" +
-            //"TZOFFSETTO:-0500\r\n" +
-            //"TZNAME:EST\r\n" +
-            //"END:STANDARD\r\n" +
-            //"BEGIN:DAYLIGHT\r\n" +
-            //"DTSTART:19870405T020000\r\n" +
-            //"RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4\r\n" +
-            //"TZOFFSETFROM:-0500\r\n" +
-            //"TZOFFSETTO:-0400\r\n" +
-            //"TZNAME:EDT\r\n" +
-            //"END:DAYLIGHT\r\n" +
-            //"END:VTIMEZONE\r\n" +
-            //"END:VCALENDAR\r\n";
-
-
-
-
-            //var iCal1 = Calendar.LoadFromStream(new StringReader(sb));
-            //var events = iCal1[0].Events[0].GetOccurrences(new CalDateTime(1997, 9, 1), new CalDateTime(2017, 9, 1));
-
-
-            //Ical.Net.Calendar cal = new Ical.Net.Calendar();
-
             var asyncPatientAppointments = await base.GetAsync();
             var patientAppointments = (List<PatientAppointment>)((ObjectResult)asyncPatientAppointments).Value;
 
