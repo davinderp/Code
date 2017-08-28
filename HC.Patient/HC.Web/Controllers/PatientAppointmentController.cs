@@ -70,42 +70,84 @@ namespace HC.Patient.Web.Controllers
         [HttpGet]
         public override async Task<IActionResult> GetAsync()
         {
+
             var asyncPatientAppointments = await base.GetAsync();
             var patientAppointments = (List<PatientAppointment>)((ObjectResult)asyncPatientAppointments).Value;
 
-            patientAppointments.ForEach(p => {
+            patientAppointments.ForEach(p =>
+            {
 
-                RecurrencePattern pattern = new RecurrencePattern(p.RecurrenceRule);
-                pattern.RestrictionType = RecurrenceRestrictionType.NoRestriction;
+                if (!string.IsNullOrEmpty(p.RecurrenceRule))
+                {
+                    RecurrencePattern pattern = new RecurrencePattern(p.RecurrenceRule);
+                    pattern.RestrictionType = RecurrenceRestrictionType.NoRestriction;
 
-                var us = new CultureInfo("en-US");
+                    var us = new CultureInfo("en-US");
 
-                var startDate = new CalDateTime(p.StartDateTime, "UTC");
-                var fromDate = new CalDateTime(p.StartDateTime, "UTC");
-                var toDate = new CalDateTime(pattern.Until, "UTC");
+                    var startDate = new CalDateTime(p.StartDateTime, "UTC");
+                    var fromDate = new CalDateTime(p.StartDateTime, "UTC");
+                    var toDate = new CalDateTime(pattern.Until, "UTC");
 
-                var evaluator = pattern.GetService(typeof(IEvaluator)) as IEvaluator;
+                    var evaluator = pattern.GetService(typeof(IEvaluator)) as IEvaluator;
 
-                p.Occurrences = evaluator.Evaluate(
-                    startDate,
-                    DateUtil.SimpleDateTimeToMatch(fromDate, startDate),
-                    DateUtil.SimpleDateTimeToMatch(toDate, startDate),
-                    true)
-                    .OrderBy(o => o.StartTime)
-                    .ToList();
-                var endDate = new CalDateTime(p.EndDateTime, "UTC");
-                TimeSpan t = p.EndDateTime - p.StartDateTime;
-                p.Occurrences.ForEach(m => m.Duration = t);
-                p.RecurrencePattern = pattern;
+                    p.Occurrences = evaluator.Evaluate(
+                        startDate,
+                        DateUtil.SimpleDateTimeToMatch(fromDate, startDate),
+                        DateUtil.SimpleDateTimeToMatch(toDate, startDate),
+                        true)
+                        .OrderBy(o => o.StartTime)
+                        .ToList();
+                    var endDate = new CalDateTime(p.EndDateTime, "UTC");
+                    TimeSpan t = p.EndDateTime - p.StartDateTime;
+                    p.Occurrences.ForEach(m => m.Duration = t);
+                    p.RecurrencePattern = pattern;
+                }
             });
 
             ((ObjectResult)asyncPatientAppointments).Value = patientAppointments;
 
             return asyncPatientAppointments;
-            
+
             //return
 
         }
+
+        [HttpGet("{id}")]
+        public override async Task<IActionResult> GetAsync(int ID)
+        {
+            var asyncPatientAppointment = await base.GetAsync(ID);
+            var patientAppointment = (PatientAppointment)((ObjectResult)asyncPatientAppointment).Value;
+
+
+            RecurrencePattern pattern = new RecurrencePattern(patientAppointment.RecurrenceRule);
+            pattern.RestrictionType = RecurrenceRestrictionType.NoRestriction;
+
+            var us = new CultureInfo("en-US");
+
+            var startDate = new CalDateTime(patientAppointment.StartDateTime, "UTC");
+            var fromDate = new CalDateTime(patientAppointment.StartDateTime, "UTC");
+            var toDate = new CalDateTime(pattern.Until, "UTC");
+
+            var evaluator = pattern.GetService(typeof(IEvaluator)) as IEvaluator;
+
+            patientAppointment.Occurrences = evaluator.Evaluate(
+                        startDate,
+                        DateUtil.SimpleDateTimeToMatch(fromDate, startDate),
+                        DateUtil.SimpleDateTimeToMatch(toDate, startDate),
+                        true)
+                        .OrderBy(o => o.StartTime)
+                        .ToList();
+            var endDate = new CalDateTime(patientAppointment.EndDateTime, "UTC");
+            TimeSpan t = patientAppointment.EndDateTime - patientAppointment.StartDateTime;
+            patientAppointment.Occurrences.ForEach(m => m.Duration = t);
+            patientAppointment.RecurrencePattern = pattern;
+
+
+            ((ObjectResult)asyncPatientAppointment).Value = patientAppointment;
+
+            return asyncPatientAppointment;
+        }
+
 
         [ValidateModel]
         [HttpPost]

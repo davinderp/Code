@@ -64,7 +64,7 @@ namespace HC.Patient.Entity
         public int? DeletedBy { get; set; }  public DateTime? DeletedDate { get; set; }        
 
 
-
+        [HasOne("patient")]
         public virtual Patients Patient { get; set; }
         public virtual MasterPreferredLanguage MasterPreferredLanguage { get; set; }
         [HasOne("users")]
