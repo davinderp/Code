@@ -162,6 +162,25 @@ namespace HC.Patient.Repositories
                         case MasterDataEnum.APPOINTMENTTYPE:
                             listMasterDataModel.AppointmentType = _context.AppointmentType.Where(a => a.IsActive == true && a.IsDeleted == false).ToList();
                             break;
+                        //Following are the Master tables for Lab
+                        case MasterDataEnum.LABTESTTYPE:
+                            listMasterDataModel.MasterLabTestType = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).ToList();
+                            break;
+                        case MasterDataEnum.MASTERLONIC:
+                            listMasterDataModel.MasterLonic = _context.MasterLonic.Where(a => a.IsActive == true && a.IsDeleted == false).ToList();
+                            break;
+                        case MasterDataEnum.MASTERLABS:
+                            listMasterDataModel.MasterLabs = _context.MasterLabs.Where(a => a.IsActive == true && a.IsDeleted == false).ToList();
+                            break;
+                        case MasterDataEnum.TIMETYPE:
+                            listMasterDataModel.MasterTimeType = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).ToList();
+                            break;
+                        case MasterDataEnum.FREQUENCYTYPE:
+                            listMasterDataModel.MasterFrequencyType = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).ToList();
+                            break;
+                        case MasterDataEnum.FREQUENCYDURATIONTYPE:
+                            listMasterDataModel.MasterFrequencyDurationType = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).ToList();
+                            break;
                     }
                 }
             });
