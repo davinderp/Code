@@ -87,6 +87,7 @@ namespace HC.Patient.Entity
         public DateTime? DeletedDate { get; set; }
 
         //Foreign key's tables
+        [HasOne("patient")]
         public virtual Patients Patient { get; set; }
         [HasOne("masteralcohal")]
         public virtual MasterType MasterTestType { get; set; }

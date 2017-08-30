@@ -86,6 +86,10 @@ namespace HC.Patient.Data
         .Property(b => b.CreatedDate)
         .HasDefaultValueSql("GetDate()");
 
+            modelBuilder.Entity<PatientLabTest>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
             modelBuilder.Entity<AppointmentType>()
              .Property(b => b.IsDeleted)
              .HasDefaultValue(false);
