@@ -86,9 +86,23 @@ namespace HC.Patient.Web.Controllers
 
                     var startDate = new CalDateTime(p.StartDateTime, "UTC");
                     var fromDate = new CalDateTime(p.StartDateTime, "UTC");
-                    var toDate = new CalDateTime(pattern.Until, "UTC");
+                    var toDate = new CalDateTime();
+                    if (pattern.Until != null && pattern.Until != DateTime.MinValue)
+                    {
+                        toDate = new CalDateTime(pattern.Until, "UTC");
+                    }
+                    else if (pattern.Count != 0 && pattern.Count != Int32.MinValue)
+                    {
+                        toDate = new CalDateTime(p.EndDateTime.AddDays(pattern.Interval * pattern.Count), "UTC");
+                    }
+                    else
+                    {
+                        toDate = new CalDateTime(DateTime.MaxValue, "UTC");
+                    }
 
                     var evaluator = pattern.GetService(typeof(IEvaluator)) as IEvaluator;
+
+                    var tt = DateUtil.SimpleDateTimeToMatch(toDate, startDate);
 
                     p.Occurrences = evaluator.Evaluate(
                         startDate,
@@ -108,8 +122,6 @@ namespace HC.Patient.Web.Controllers
 
             return asyncPatientAppointments;
 
-            //return
-
         }
 
         [HttpGet("{id}")]
@@ -126,7 +138,19 @@ namespace HC.Patient.Web.Controllers
 
             var startDate = new CalDateTime(patientAppointment.StartDateTime, "UTC");
             var fromDate = new CalDateTime(patientAppointment.StartDateTime, "UTC");
-            var toDate = new CalDateTime(pattern.Until, "UTC");
+            var toDate = new CalDateTime();
+            if (pattern.Until != null && pattern.Until != DateTime.MinValue)
+            {
+                toDate = new CalDateTime(pattern.Until, "UTC");
+            }
+            else if (pattern.Count != 0)
+            {
+                toDate = new CalDateTime(patientAppointment.EndDateTime.AddDays(pattern.Interval * pattern.Count), "UTC");
+            }
+            else
+            {
+                toDate = new CalDateTime(DateTime.MaxValue, "UTC");
+            }
 
             var evaluator = pattern.GetService(typeof(IEvaluator)) as IEvaluator;
 
