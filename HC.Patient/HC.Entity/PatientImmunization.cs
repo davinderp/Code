@@ -109,15 +109,21 @@ namespace HC.Patient.Entity
 
         /// <summary>
         /// Foreign key's tables
-        /// </summary>
+        /// </summary>       
+        [HasOne("patient")]
         public Patients Patient { get; set; }
+        [HasOne("clinician")]
         public Clinicians Clinician { get; set; }
         public MasterVFCEligibility MasterVFCEligibility { get; set; }
         [HasOne("masterimmunization")]
         public MasterImmunization MasterImmunization { get; set; }
+        [HasOne("mastermanufacture")]
         public MasterManufacture MasterManufacture { get; set; }
+        [HasOne("masteradministrationsite")]
         public MasterAdministrationSite MasterAdministrationSite { get; set; }
+        [HasOne("masterrouteofadministration")]
         public MasterRouteOfAdministration MasterRouteOfAdministration { get; set; }
+        [HasOne("clinician1")]
         public Clinicians Clinician1 { get; set; }
         public MasterImmunityStatus MasterImmunityStatus { get; set; }
         public MasterRejectionReason MasterRejectionReason { get; set; }

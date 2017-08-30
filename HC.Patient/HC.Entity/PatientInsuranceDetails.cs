@@ -32,13 +32,7 @@ namespace HC.Patient.Entity
         public int InsuranceCompanyID { get; set; }
         [StringLength(500)]
         [Attr("InsuranceCompanyAddress")]
-        public string InsuranceCompanyAddress { get; set; }
-        [StringLength(20)]
-        [Attr("CarrierPayerID")]
-        public string CarrierPayerID { get; set; }
-        [StringLength(20)]
-        [Attr("TPLCode")]
-        public string TPLCode { get; set; }
+        public string InsuranceCompanyAddress { get; set; }        
         [StringLength(20)]
         [Attr("InsuranceIDNumber")]
         public string InsuranceIDNumber { get; set; }
