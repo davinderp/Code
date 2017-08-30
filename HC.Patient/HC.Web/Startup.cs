@@ -64,6 +64,10 @@ namespace HC.Patient.Web
                 options.AddPolicy("AuthorizedUser",
                                   policy => policy.RequireClaim("HealthCare", "IAmAuthorized"));
 
+                //options.AddPolicy("DoctorUser",
+                //                  policy => policy.RequireClaim("HealthCare", "IAmAuthorized"));
+
+
             });
 
             // Get options from app settings
