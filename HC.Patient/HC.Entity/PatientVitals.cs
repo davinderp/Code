@@ -68,6 +68,9 @@ namespace HC.Patient.Entity
         public double BMI { get; set; }
         //[Attr("BMI_Status")]
         //public string BMI_Status { get; set; }
+        [Required]        
+        [Attr("Temperature")]
+        public double Temperature { get; set; }
         [Attr("CreatedDate")]
         public DateTime CreatedDate { get; set; }
         [Required]
