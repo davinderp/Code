@@ -140,9 +140,7 @@ namespace HC.Patient.Repositories
                     {
                         patientInsuranceDetails.PatientID = patientInfo.PatientID;
                         patientInsuranceDetails.InsuranceCompanyID = patientInfo.InsuranceCompanyID;
-                        patientInsuranceDetails.InsuranceCompanyAddress = patientInfo.InsuranceCompanyAddress;
-                        patientInsuranceDetails.CarrierPayerID = patientInfo.CarrierPayerID;
-                        patientInsuranceDetails.TPLCode = patientInfo.TPLCode;
+                        patientInsuranceDetails.InsuranceCompanyAddress = patientInfo.InsuranceCompanyAddress;                        
                         patientInsuranceDetails.InsuranceIDNumber = patientInfo.InsuranceIDNumber;
                         patientInsuranceDetails.InsuranceGroupName = patientInfo.InsuranceGroupName;
                         patientInsuranceDetails.InsurancePlanName = patientInfo.InsurancePlanName;
