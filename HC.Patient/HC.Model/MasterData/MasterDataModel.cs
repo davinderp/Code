@@ -47,6 +47,13 @@ namespace HC.Patient.Model.MasterData
 
         public List<Clinicians> Clinicians { get; set; }
         public List<AppointmentType> AppointmentType { get; set; }
+        // LAB
+        public List<MasterType> MasterLabTestType { get; set; }
+        public List<MasterLonic> MasterLonic { get; set; }
+        public List<MasterLabs> MasterLabs { get; set; }
+        public List<MasterType> MasterTimeType { get; set; }
+        public List<MasterType> MasterFrequencyType { get; set; }
+        public List<MasterType> MasterFrequencyDurationType { get; set; }
 
     }
 }

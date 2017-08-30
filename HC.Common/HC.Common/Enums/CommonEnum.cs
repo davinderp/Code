@@ -18,7 +18,8 @@ namespace HC.Common.Enums
             SOCIALHISTORY,TRAVELHISTORY,
             ADDRESSTYPE,
             MASTERCLINICIAN,
-            APPOINTMENTTYPE
+            APPOINTMENTTYPE,
+            LABTESTTYPE, MASTERLONIC, MASTERLABS, TIMETYPE, FREQUENCYTYPE, FREQUENCYDURATIONTYPE
         }
 
         /// <summary>

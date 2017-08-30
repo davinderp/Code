@@ -28,7 +28,7 @@ namespace HC.Patient.Entity
         public string CodeType { get; set; }
         [NotMapped]
         [Attr("value")]
-        public string value { get { return this.Description + " (" + this.Code + ")"; } }
+        public string value { get { return "(" + this.Code + ") " + this.Description; } }
         [Attr("Description")]
         public string Description { get; set; }
 

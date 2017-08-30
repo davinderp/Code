@@ -71,6 +71,8 @@ namespace HC.Patient.Web.Controllers
         [ValidateModel]
         public override async Task<IActionResult> PostAsync([FromBody]PatientPastIllness patientInfo)
         {
+            var Token = HttpContext.Request.Headers.Skip(7).FirstOrDefault().Value; // 
+
             return await base.PostAsync(patientInfo);
         }
         [HttpPatch("{id}")]

@@ -113,6 +113,7 @@ namespace HC.Patient.Entity
         public Patients Patient { get; set; }
         public Clinicians Clinician { get; set; }
         public MasterVFCEligibility MasterVFCEligibility { get; set; }
+        [HasOne("masterimmunization")]
         public MasterImmunization MasterImmunization { get; set; }
         public MasterManufacture MasterManufacture { get; set; }
         public MasterAdministrationSite MasterAdministrationSite { get; set; }

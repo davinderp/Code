@@ -54,7 +54,14 @@ namespace HC.Patient.Web.Controllers
             if (identity == null)
             {
                 _logger.LogInformation($"Invalid username ({applicationUser.UserName}) or password ({applicationUser.Password})");
-                return BadRequest("Invalid credentials");
+                Response.StatusCode = 401;//(Invalid credentials)
+                return Json(new
+                {
+                    data = new object(),
+                    Message = "Invalid credentials",
+                    StatusCode = 401
+                });
+                //return BadRequest("Invalid credentials");
             }
 
             var claims = new[]
@@ -132,8 +139,7 @@ namespace HC.Patient.Web.Controllers
             }
             else
             {
-                return Task.FromResult(new ClaimsIdentity(new GenericIdentity(user.UserName, "Token"),
-                  new Claim[] { }));
+                return Task.FromResult<ClaimsIdentity>(null);
             }
 
             // Credentials are invalid, or account doesn't exist
