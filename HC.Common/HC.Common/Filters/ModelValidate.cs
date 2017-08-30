@@ -46,11 +46,10 @@ namespace HC.Common.Filters
             // your validation logic
             try
             {
-
           
             var types = Enum.GetNames(typeof(System.TypeCode));
 
-            if ((value.GetType().ToString() == "System.Int32" || value.GetType().ToString() == "System.Int64") && (int)value > 0)
+            if ((value.GetType().ToString() == "System.Int32" || value.GetType().ToString() == "System.Int64"|| value.GetType().ToString() == "System.Double") && !value.Equals(0) )
             {
                 return ValidationResult.Success;
             }
