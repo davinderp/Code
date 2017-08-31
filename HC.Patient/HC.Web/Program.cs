@@ -17,7 +17,7 @@ namespace HC.Patient.Web
                 .UseContentRoot(Directory.GetCurrentDirectory())                
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                 //.UseApplicationInsights()
+                 .UseApplicationInsights()
                  ////For Enable error
                  //.CaptureStartupErrors(true)
                  //.UseSetting("detailedErrors", "true")
