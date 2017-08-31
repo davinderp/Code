@@ -393,11 +393,14 @@ namespace HC.Patient.Web.Controllers
                 if (!string.IsNullOrEmpty(entity.PhotoBase64))
                 {
                     string webRootPath = "";
+                    //todo: Need to fix static Directory path "webRootPath" in release mode
 #if DEBUG
                     webRootPath = Directory.GetCurrentDirectory();
 #else
-            webRootPath = Directory.GetCurrentDirectory().Replace("HC_Patient", "HC_Photos");
-            webRootPath = Directory.GetCurrentDirectory().Replace("hcpatient_test", "HC_Photos");
+            //webRootPath = Directory.GetCurrentDirectory().Replace("HC_Patient", "HC_Photos");
+            //webRootPath = Directory.GetCurrentDirectory().Replace("hcpatient_test", "HC_Photos");           
+            ////  Static Root
+            webRootPath = "C:\\inetpub\\wwwroot\\HC_Photos";
 #endif
 
                     //getting data from base64 url

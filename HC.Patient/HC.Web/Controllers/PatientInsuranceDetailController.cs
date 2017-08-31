@@ -180,8 +180,10 @@ namespace HC.Patient.Web.Controllers
 #if DEBUG
                 webRootPath = Directory.GetCurrentDirectory();
 #else
-            webRootPath = Directory.GetCurrentDirectory().Replace("HC_Patient", "HC_Photos");
-            webRootPath = Directory.GetCurrentDirectory().Replace("hcpatient_test", "HC_Photos");
+            //webRootPath = Directory.GetCurrentDirectory().Replace("HC_Patient", "HC_Photos");
+            //webRootPath = Directory.GetCurrentDirectory().Replace("hcpatient_test", "HC_Photos");           
+            ////  Static Root
+            webRootPath = "C:\\inetpub\\wwwroot\\HC_Photos";
 #endif
                 if (!Directory.Exists(webRootPath + "\\Images\\PatientInsurancePhotos\\"))
                 {
