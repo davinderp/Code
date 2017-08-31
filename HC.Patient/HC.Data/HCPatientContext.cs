@@ -78,21 +78,365 @@ namespace HC.Patient.Data
         public DbSet<AuditLogs> AuditLogs { get; set; }
         public DbSet<Encounter_CPT> Encounter_CPT { get; set; }
         public DbSet<Location> Location { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<AppointmentType>()
-        .Property(b => b.CreatedDate)
-        .HasDefaultValueSql("GetDate()");
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<AppointmentType>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<AppointmentType>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+            //
+
+            modelBuilder.Entity<AuditLogs>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<AuditLogs>()
+           .Property(b => b.CreatedDate)
+           .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<AuditLogs>()
+            .Property(b => b.OrganizationID)
+            .HasDefaultValue(1);
+
+            //modelBuilder.Entity<AuditLogs>()
+            //.Property(b => b.EventID)
+            //.HasDefaultValue(this.Event.LastOrDefaultAsync().Id + 1);
+            //
+
+            modelBuilder.Entity<Clinicians>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<Clinicians>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<Clinicians>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            //InsuranceCompanies
+            modelBuilder.Entity<InsuranceCompanies>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<InsuranceCompanies>()
+           .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<InsuranceCompanies>()
+            .Property(b => b.OrganizationID)
+            .HasDefaultValue(1);
+
+            modelBuilder.Entity<InsuranceCompanies>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            //Location
+            modelBuilder.Entity<Location>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<Location>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<Location>()
+           .Property(b => b.IsActive)
+           .HasDefaultValue(true);
+
+            //MasterAdministrationSite
+            modelBuilder.Entity<MasterAdministrationSite>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterAdministrationSite>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterAdministrationSite>()
+           .Property(b => b.IsActive)
+           .HasDefaultValue(true);
+
+            //MasterCountry
+            modelBuilder.Entity<MasterCountry>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterCountry>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");            
+
+            //MasterLocation
+            modelBuilder.Entity<MasterLocation>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterLocation>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterLocation>()
+           .Property(b => b.IsActive)
+           .HasDefaultValue(true);
+
+            //MasterCPT
+            modelBuilder.Entity<MasterCPT>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterCPT>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterEthnicity
+            modelBuilder.Entity<MasterEthnicity>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterEthnicity>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            //MasterFundingSource
+            modelBuilder.Entity<MasterFundingSource>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterFundingSource>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            //MasterGender
+            modelBuilder.Entity<MasterGender>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterGender>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterICD
+            modelBuilder.Entity<MasterICD>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterICD>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterImmunityStatus
+            modelBuilder.Entity<MasterImmunityStatus>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterImmunityStatus>()
+            .Property(b => b.IsDeleted)
+           .HasDefaultValue(false);
+
+            //MasterImmunization
+            modelBuilder.Entity<MasterImmunization>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterImmunization>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterImmunization
+            modelBuilder.Entity<MasterLabs>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterLabs>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterLonic
+            modelBuilder.Entity<MasterLonic>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterLonic>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterManufacture
+            modelBuilder.Entity<MasterManufacture>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterManufacture>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterOccupation
+            modelBuilder.Entity<MasterOccupation>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterOccupation>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterPatientCommPreferences
+            modelBuilder.Entity<MasterPatientCommPreferences>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterPatientCommPreferences>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterPreferredLanguage
+            modelBuilder.Entity<MasterPreferredLanguage>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterPreferredLanguage>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            //MasterProgram
+            modelBuilder.Entity<MasterProgram>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterProgram>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterRace
+            modelBuilder.Entity<MasterRace>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterRace>()
+           .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            //MasterReferral
+            modelBuilder.Entity<MasterReferral>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterReferral>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterRejectionReason
+            modelBuilder.Entity<MasterRejectionReason>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterRejectionReason>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterRelationship
+            modelBuilder.Entity<MasterRelationship>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterRelationship>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterRouteOfAdministration
+            modelBuilder.Entity<MasterRouteOfAdministration>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterRouteOfAdministration>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterService
+            modelBuilder.Entity<MasterService>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterService>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterState
+            modelBuilder.Entity<MasterState>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterState>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            //MasterType
+            modelBuilder.Entity<MasterType>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterType>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterVFCEligibility
+            modelBuilder.Entity<MasterVFCEligibility>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterVFCEligibility>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //Organization
+            modelBuilder.Entity<Organization>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<Organization>()
+           .Property(b => b.CreatedDate)
+           .HasDefaultValueSql("GetDate()");
+
+            //OrganizationConnectionstring
+            modelBuilder.Entity<OrganizationConnectionstring>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<OrganizationConnectionstring>()
+           .Property(b => b.CreatedDate)
+           .HasDefaultValueSql("GetDate()");
+
+            //PatientAddress
+            modelBuilder.Entity<PatientAddress>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<PatientAddress>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<PatientAddress>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(false);
+
+            //
+
+
 
             modelBuilder.Entity<PatientLabTest>()
             .Property(b => b.IsDeleted)
             .HasDefaultValue(false);
 
-            modelBuilder.Entity<AppointmentType>()
-             .Property(b => b.IsDeleted)
-             .HasDefaultValue(false);
+
 
             modelBuilder.Entity<PatientAppointment>()
             .Property(b => b.IsDeleted)
@@ -118,58 +462,19 @@ namespace HC.Patient.Data
            .Property(b => b.CreatedDate)
            .HasDefaultValueSql("GetDate()");
 
-            modelBuilder.Entity<MasterCountry>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
 
-            modelBuilder.Entity<MasterCountry>()
-   .Property(b => b.CreatedDate)
-   .HasDefaultValueSql("GetDate()");
 
-            modelBuilder.Entity<MasterEthnicity>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
 
-            modelBuilder.Entity<MasterEthnicity>()
-   .Property(b => b.CreatedDate)
-   .HasDefaultValueSql("GetDate()");
 
-            modelBuilder.Entity<MasterFundingSource>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
 
-            modelBuilder.Entity<MasterFundingSource>()
-   .Property(b => b.CreatedDate)
-   .HasDefaultValueSql("GetDate()");
 
-            modelBuilder.Entity<MasterPreferredLanguage>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
-            modelBuilder.Entity<MasterPreferredLanguage>()
-   .Property(b => b.CreatedDate)
-    .HasDefaultValueSql("GetDate()");
+            
 
-            modelBuilder.Entity<MasterRace>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
-            modelBuilder.Entity<MasterRace>()
-   .Property(b => b.CreatedDate)
-    .HasDefaultValueSql("GetDate()");
-
-            modelBuilder.Entity<MasterState>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
-            modelBuilder.Entity<MasterState>()
-   .Property(b => b.CreatedDate)
-    .HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterStatus>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
-            modelBuilder.Entity<MasterStatus>()
-   .Property(b => b.CreatedDate)
-   .HasDefaultValueSql("GetDate()");
+            
 
             modelBuilder.Entity<User>()
         .Property(b => b.CreatedDate)
@@ -180,12 +485,7 @@ namespace HC.Patient.Data
              .HasDefaultValue(false);
 
 
-            modelBuilder.Entity<MasterOccupation>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterOccupation>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+
 
             modelBuilder.Entity<PatientDocuments>()
 .Property(b => b.CreatedDate)
@@ -216,12 +516,7 @@ namespace HC.Patient.Data
    .Property(b => b.IsDeleted)
    .HasDefaultValue(false);
 
-            modelBuilder.Entity<PatientAddress>()
-        .Property(b => b.CreatedDate)
-        .HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<PatientAddress>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
 
             modelBuilder.Entity<Provider>()
@@ -232,12 +527,7 @@ namespace HC.Patient.Data
    .HasDefaultValue(false);
 
 
-            modelBuilder.Entity<Clinicians>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<Clinicians>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
 
             modelBuilder.Entity<PatientPreference>()
@@ -247,56 +537,20 @@ namespace HC.Patient.Data
    .Property(b => b.IsDeleted)
    .HasDefaultValue(false);
 
-            modelBuilder.Entity<InsuranceCompanies>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<InsuranceCompanies>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
 
 
-            modelBuilder.Entity<MasterProgram>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterProgram>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
 
-            modelBuilder.Entity<MasterReferral>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterReferral>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
+
+            
 
 
-            modelBuilder.Entity<MasterService>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterService>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
-            modelBuilder.Entity<MasterType>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterType>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
+            
 
-            modelBuilder.Entity<MasterPatientCommPreferences>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterPatientCommPreferences>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
-
-            modelBuilder.Entity<MasterGender>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterGender>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
             modelBuilder.Entity<PhoneNumbers>()
 .Property(b => b.CreatedDate)
@@ -312,26 +566,11 @@ namespace HC.Patient.Data
    .Property(b => b.IsDeleted)
    .HasDefaultValue(false);
 
-            modelBuilder.Entity<MasterICD>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterICD>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
-            modelBuilder.Entity<MasterCPT>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterCPT>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
 
-            modelBuilder.Entity<MasterLocation>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterLocation>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+
+           
 
             modelBuilder.Entity<PatientDiagnosis>()
 .Property(b => b.CreatedDate)
@@ -354,54 +593,19 @@ namespace HC.Patient.Data
    .Property(b => b.IsDeleted)
    .HasDefaultValue(false);
 
-            modelBuilder.Entity<MasterVFCEligibility>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterVFCEligibility>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
-            modelBuilder.Entity<MasterImmunization>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterImmunization>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
-            modelBuilder.Entity<MasterManufacture>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterManufacture>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
-            modelBuilder.Entity<MasterAdministrationSite>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterAdministrationSite>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
 
-            modelBuilder.Entity<MasterRouteOfAdministration>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterRouteOfAdministration>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
 
-            modelBuilder.Entity<MasterImmunityStatus>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterImmunityStatus>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
-            modelBuilder.Entity<MasterRejectionReason>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterRejectionReason>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
+
+            
 
             modelBuilder.Entity<PatientImmunization>()
 .Property(b => b.CreatedDate)
@@ -417,12 +621,7 @@ namespace HC.Patient.Data
    .Property(b => b.IsDeleted)
    .HasDefaultValue(false);
 
-            modelBuilder.Entity<MasterRelationship>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<MasterRelationship>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
             modelBuilder.Entity<PatientPastIllness>()
                .Property(b => b.IsDeleted)
@@ -433,25 +632,11 @@ namespace HC.Patient.Data
            .HasDefaultValueSql("GetDate()");
 
 
-            modelBuilder.Entity<Organization>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
 
-            modelBuilder.Entity<Organization>()
-           .Property(b => b.CreatedDate)
-           .HasDefaultValueSql("GetDate()");
 
-            modelBuilder.Entity<OrganizationConnectionstring>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            
 
-            modelBuilder.Entity<OrganizationConnectionstring>()
-           .Property(b => b.CreatedDate)
-           .HasDefaultValueSql("GetDate()");
-
-            modelBuilder.Entity<InsuranceCompanies>()
-.Property(b => b.OrganizationID)
-.HasDefaultValue(1);
+            
 
             modelBuilder.Entity<Patients>()
 .Property(b => b.OrganizationID)
@@ -470,22 +655,7 @@ namespace HC.Patient.Data
 .HasDefaultValue(1);
 
 
-            modelBuilder.Entity<AuditLogs>()
-.Property(b => b.IsDeleted)
-.HasDefaultValue(false);
 
-            modelBuilder.Entity<AuditLogs>()
-           .Property(b => b.CreatedDate)
-           .HasDefaultValueSql("GetDate()");
-
-            modelBuilder.Entity<AuditLogs>()
-.Property(b => b.OrganizationID)
-.HasDefaultValue(1);
-
-
-//            modelBuilder.Entity<AuditLogs>()
-//.Property(b => b.EventID)
-//.HasDefaultValue(this.Event.LastOrDefaultAsync().Id + 1);
 
         }
     }

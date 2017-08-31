@@ -13,6 +13,7 @@ namespace HC.Patient.Entity
         {
             this.CreatedDate = DateTime.Now;
             this.CreatedBy = 1;
+            this.IsDeleted = false;
 
         }
         [Key]

@@ -435,7 +435,7 @@ namespace HC.Patient.Web.Controllers
 #endif              
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw;
             }
