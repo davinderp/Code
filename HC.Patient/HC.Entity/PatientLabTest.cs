@@ -90,9 +90,9 @@ namespace HC.Patient.Entity
         //Foreign key's tables
         [HasOne("patient")]
         public virtual Patients Patient { get; set; }
-        [HasOne("masteralcohal")]
+        [HasOne("mastertesttype")]
         public virtual MasterType MasterTestType { get; set; }
-        [HasOne("mastertobacco")]
+        [HasOne("masterlonic")]
         public virtual MasterLonic MasterLonic { get; set; }
         [HasOne("masterlabs")]
         public virtual MasterLabs MasterLabs { get; set; }

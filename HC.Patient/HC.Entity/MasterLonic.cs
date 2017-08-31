@@ -16,11 +16,15 @@ namespace HC.Patient.Entity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("LonicID")]
-        public override int Id { get; set; }        
+        public override int Id { get; set; }     
+        [Attr("LonicCode")]
         public string LonicCode { get; set; }
         [NotMapped]
+        [Attr("value")]
         public string value { get { return this.LonicCode; } set { this.LonicCode = value; } }
+        [Attr("Description")]
         public string Description { get; set; }
+        [Attr("CreatedDate")]
         public DateTime CreatedDate { get; set; }
         [ForeignKey("Users1")]
         public int CreatedBy { get; set; }
