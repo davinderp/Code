@@ -247,7 +247,7 @@ namespace HC.Patient.Entity
             {
                 try
                 {
-                    return Clinician.FirstName +" "+ Clinician.LastName;
+                        return Clinician.FirstName +" "+ Clinician.LastName;
                 }
                 catch (Exception)
                 {

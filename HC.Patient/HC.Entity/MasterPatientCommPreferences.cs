@@ -17,6 +17,7 @@ namespace HC.Patient.Entity
         [Column("PatientCommPreferencesID")]
         public override int Id { get; set; }
         //public int LanguageID { get; set; }
+        [Attr("PatientCommPreferences")]
         public string PatientCommPreferences { get; set; }
         [NotMapped]
         public string value { get { return this.PatientCommPreferences; } set { this.PatientCommPreferences = value; } }

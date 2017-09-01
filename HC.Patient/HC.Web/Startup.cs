@@ -28,6 +28,7 @@ using System.Text;
 using System.IO;
 using System.Linq;
 using HC.Patient.Entity;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace HC.Patient.Web
 {
@@ -160,6 +161,12 @@ namespace HC.Patient.Web
             app.UseCors(DefaultCorsPolicyName); //Enable CORS!
             //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             //loggerFactory.AddDebug();
+
+            //app.UseForwardedHeaders(new ForwardedHeadersOptions
+            //{
+            //    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            //});
+
 
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();

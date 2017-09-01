@@ -426,21 +426,12 @@ namespace HC.Patient.Data
 
             modelBuilder.Entity<PatientAddress>()
             .Property(b => b.IsActive)
-            .HasDefaultValue(false);
+            .HasDefaultValue(true);
 
-            //
-
-
-
-            modelBuilder.Entity<PatientLabTest>()
-            .Property(b => b.IsDeleted)
-            .HasDefaultValue(false);
-
-
-
+            //PatientAppointment
             modelBuilder.Entity<PatientAppointment>()
-            .Property(b => b.IsDeleted)
-            .HasDefaultValue(false);
+           .Property(b => b.IsDeleted)
+           .HasDefaultValue(false);
 
             modelBuilder.Entity<PatientAppointment>()
             .Property(b => b.IsActive)
@@ -450,213 +441,244 @@ namespace HC.Patient.Data
            .Property(b => b.CreatedDate)
            .HasDefaultValueSql("GetDate()");
 
-            modelBuilder.Entity<Patients>()
-               .Property(b => b.IsDeleted)
-               .HasDefaultValue(false);
+            //PatientDiagnosis
+            modelBuilder.Entity<PatientDiagnosis>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
 
-            modelBuilder.Entity<Patients>()
-              .Property(b => b.ClientStatus)
-              .HasDefaultValue(2);//2 is for Active Status
+            modelBuilder.Entity<PatientDiagnosis>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
 
-            modelBuilder.Entity<Patients>()
-           .Property(b => b.CreatedDate)
-           .HasDefaultValueSql("GetDate()");
+            modelBuilder.Entity<PatientDiagnosis>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
 
-
-
-
-
-
-
-            
-
-            
-
-            
-
-            
-
-            modelBuilder.Entity<User>()
-        .Property(b => b.CreatedDate)
-        .HasDefaultValueSql("GetDate()");
-
-            modelBuilder.Entity<User>()
-             .Property(b => b.IsDeleted)
-             .HasDefaultValue(false);
-
-
-
+            //PatientDocuments
+            modelBuilder.Entity<PatientDocuments>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
 
             modelBuilder.Entity<PatientDocuments>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
             modelBuilder.Entity<PatientDocuments>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
 
+            //PatientEmploymentDetail
+            modelBuilder.Entity<PatientEmploymentDetail>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
 
             modelBuilder.Entity<PatientEmploymentDetail>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<PatientEmploymentDetail>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //PatientEncounter
+            modelBuilder.Entity<PatientEncounter>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<PatientEncounter>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<PatientEncounter>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            //PatientGuardian
+            modelBuilder.Entity<PatientGuardian>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
 
             modelBuilder.Entity<PatientGuardian>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<PatientGuardian>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
 
+            modelBuilder.Entity<PatientGuardian>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            //PatientImmunization
+            modelBuilder.Entity<PatientImmunization>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<PatientImmunization>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<PatientImmunization>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            //PatientInsuranceDetails
             modelBuilder.Entity<PatientInsuranceDetails>()
             .Property(b => b.CreatedDate)
             .HasDefaultValueSql("GetDate()");
+
             modelBuilder.Entity<PatientInsuranceDetails>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
 
-            
+            modelBuilder.Entity<PatientInsuranceDetails>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
 
+            //PatientLabTest
+            modelBuilder.Entity<PatientLabTest>()
+           .Property(b => b.IsDeleted)
+           .HasDefaultValue(false);
 
-            modelBuilder.Entity<Provider>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<Provider>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            modelBuilder.Entity<PatientLabTest>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
 
+            modelBuilder.Entity<PatientLabTest>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
 
-            
-
-
-            modelBuilder.Entity<PatientPreference>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<PatientPreference>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
-
-
-
-
-            
-
-            
-
-
-            
-
-            
-            
-
-            
-
-            modelBuilder.Entity<PhoneNumbers>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<PhoneNumbers>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
-
-            modelBuilder.Entity<PatientVitals>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<PatientVitals>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
-
-            
-
-
-
-           
-
-            modelBuilder.Entity<PatientDiagnosis>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<PatientDiagnosis>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
-
-            modelBuilder.Entity<PatientEncounter>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<PatientEncounter>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            //PatientMedicalFamilyHistory
+            modelBuilder.Entity<PatientMedicalFamilyHistory>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
 
             modelBuilder.Entity<PatientMedicalFamilyHistory>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
             modelBuilder.Entity<PatientMedicalFamilyHistory>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
 
-            
-
-            
-
-            
-
-
-
-            
-
-            
-
-            
-
-            modelBuilder.Entity<PatientImmunization>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<PatientImmunization>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
-
-            modelBuilder.Entity<PatientSocialHistory>()
-.Property(b => b.CreatedDate)
-.HasDefaultValueSql("GetDate()");
-            modelBuilder.Entity<PatientSocialHistory>()
-   .Property(b => b.IsDeleted)
-   .HasDefaultValue(false);
-
-            
+            //PatientPastIllness
+            modelBuilder.Entity<PatientPastIllness>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
 
             modelBuilder.Entity<PatientPastIllness>()
-               .Property(b => b.IsDeleted)
-               .HasDefaultValue(false);
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
 
             modelBuilder.Entity<PatientPastIllness>()
-           .Property(b => b.CreatedDate)
-           .HasDefaultValueSql("GetDate()");
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
 
+            //PatientPreference
+            modelBuilder.Entity<PatientPreference>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
 
+            modelBuilder.Entity<PatientPreference>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
 
+            modelBuilder.Entity<PatientPreference>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
 
-            
-
-            
+            //Patients
+            modelBuilder.Entity<Patients>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
 
             modelBuilder.Entity<Patients>()
-.Property(b => b.OrganizationID)
-.HasDefaultValue(1);
+            .Property(b => b.ClientStatus)
+            .HasDefaultValue(2);//2 is for Active Status
+
+            modelBuilder.Entity<Patients>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<Patients>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            modelBuilder.Entity<Patients>()
+            .Property(b => b.OrganizationID)
+            .HasDefaultValue(1);
+
+            //PatientSocialHistory
+            modelBuilder.Entity<PatientSocialHistory>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<PatientSocialHistory>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<PatientSocialHistory>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            //PatientVitals
+            modelBuilder.Entity<PatientVitals>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<PatientVitals>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<PatientVitals>()
+           .Property(b => b.IsActive)
+           .HasDefaultValue(true);
+
+            //PhoneNumbers
+            modelBuilder.Entity<PhoneNumbers>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<PhoneNumbers>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<PhoneNumbers>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            //Provider
+            modelBuilder.Entity<Provider>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
 
             modelBuilder.Entity<Provider>()
-.Property(b => b.OrganizationID)
-.HasDefaultValue(1);
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<Provider>()
+           .Property(b => b.IsActive)
+           .HasDefaultValue(true);
+
+            modelBuilder.Entity<Provider>()
+            .Property(b => b.OrganizationID)
+            .HasDefaultValue(1);
+
+            //User
+            modelBuilder.Entity<User>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
 
             modelBuilder.Entity<User>()
-.Property(b => b.OrganizationID)
-.HasDefaultValue(1);
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
 
+            modelBuilder.Entity<User>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            modelBuilder.Entity<User>()
+            .Property(b => b.OrganizationID)
+            .HasDefaultValue(1);
+
+            //UserRoles
             modelBuilder.Entity<UserRoles>()
-.Property(b => b.OrganizationID)
-.HasDefaultValue(1);
-
-
-
-
+            .Property(b => b.OrganizationID)
+            .HasDefaultValue(1);
+            //------------------//
         }
     }
 }

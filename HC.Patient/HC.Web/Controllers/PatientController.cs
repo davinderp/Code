@@ -257,7 +257,7 @@ namespace HC.Patient.Web.Controllers
                     patients = CustomSortingForStartWith(patients);
                     if (_jsonApiContext.QuerySet.PageQuery.PageSize != 0)
                     {
-                        patients = patients.Take(_jsonApiContext.QuerySet.PageQuery.PageSize).ToList();
+                        patients = patients.Take(_jsonApiContext.QuerySet.PageQuery.PageSize).OrderByDescending(a => a.CreatedDate).ToList();
                     }
                     var asyncPatients = await base.GetAsync();
 

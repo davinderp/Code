@@ -23,6 +23,7 @@ namespace HC.Patient.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("GenderID")]
         public override int Id { get; set; }
+        [Attr("Gender")]
         public string Gender { get; set; }
         [NotMapped]
         public string value { get { return this.Gender; } set { this.Gender = value; } }

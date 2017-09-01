@@ -64,7 +64,10 @@ namespace HC.Patient.Entity
         public double? Temperature { get; set; }
         [Attr("CreatedDate")]
         public DateTime CreatedDate { get; set; }
-        
+
+        [Attr("VitalDate")]
+        public DateTime VitalDate { get; set; }
+
         [Attr("CreatedBy")]
         [ForeignKey("Users")]
         public int CreatedBy { get; set; }
