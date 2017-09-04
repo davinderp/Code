@@ -246,7 +246,7 @@ namespace HC.Patient.Web.Controllers
                     var type = commonMethods.ParseString(filterQuery.Value);
                     if (type == DataType.System_String || type == DataType.System_Int32 || type == DataType.System_Int64)
                     {
-                        patients = _jsonApiContext.GetDbContextResolver().GetDbSet<Patients>().Where(l => l.FirstName.ToUpper().StartsWith(filterQuery.Value.ToUpper())).ToList();
+                        patients = _jsonApiContext.GetDbContextResolver().GetDbSet<Patients>().Where(l => l.FirstName.ToUpper().StartsWith(filterQuery.Value.ToUpper()) && l.IsDeleted==false && l.IsActive==true).ToList();
                         _jsonApiContext.QuerySet.Filters.Remove(filterQuery);
                     }
                     else if (type == DataType.System_DateTime)
@@ -363,19 +363,19 @@ namespace HC.Patient.Web.Controllers
             switch ((PatientSearch)Enum.Parse(typeof(PatientSearch), filterQuery.Operation.ToUpper()))
             {
                 case PatientSearch.FROMDATE:
-                    patients = _jsonApiContext.GetDbContextResolver().GetDbSet<Patients>().Where(o => o.CreatedDate >= searchDate).ToList();
+                    patients = _jsonApiContext.GetDbContextResolver().GetDbSet<Patients>().Where(o => o.CreatedDate >= searchDate && o.IsDeleted==false && o.IsActive==true).ToList();
                     _jsonApiContext.QuerySet.Filters.Remove(filterQuery);
                     break;
                 case PatientSearch.TODATE:
-                    patients = _jsonApiContext.GetDbContextResolver().GetDbSet<Patients>().Where(o => o.CreatedDate <= searchDate).ToList();
+                    patients = _jsonApiContext.GetDbContextResolver().GetDbSet<Patients>().Where(o => o.CreatedDate <= searchDate && o.IsDeleted == false && o.IsActive == true).ToList();
                     _jsonApiContext.QuerySet.Filters.Remove(filterQuery);
                     break;
                 case PatientSearch.FROMDOB:
-                    patients = _jsonApiContext.GetDbContextResolver().GetDbSet<Patients>().Where(o => o.DOB >= searchDate).ToList();
+                    patients = _jsonApiContext.GetDbContextResolver().GetDbSet<Patients>().Where(o => o.DOB >= searchDate && o.IsDeleted == false && o.IsActive == true).ToList();
                     _jsonApiContext.QuerySet.Filters.Remove(filterQuery);
                     break;
                 case PatientSearch.TODOB:
-                    patients = _jsonApiContext.GetDbContextResolver().GetDbSet<Patients>().Where(o => o.DOB <= searchDate).ToList();
+                    patients = _jsonApiContext.GetDbContextResolver().GetDbSet<Patients>().Where(o => o.DOB <= searchDate && o.IsDeleted == false && o.IsActive == true).ToList();
                     _jsonApiContext.QuerySet.Filters.Remove(filterQuery);
                     break;
             }
