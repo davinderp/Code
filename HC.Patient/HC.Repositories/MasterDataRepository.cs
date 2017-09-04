@@ -181,6 +181,11 @@ namespace HC.Patient.Repositories
                         case MasterDataEnum.FREQUENCYDURATIONTYPE:
                             listMasterDataModel.MasterFrequencyDurationType = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).OrderBy(a => a.TypeName).ToList();
                             break;
+                        //Master Allergy
+                        case MasterDataEnum.MASTERALLERGIES:
+                            listMasterDataModel.MasterAllergies = _context.MasterAllergies.Where(a => a.IsActive == true && a.IsDeleted == false).OrderBy(a => a.AllergyType).ToList();
+                            break;
+
                     }
                 }
             });
