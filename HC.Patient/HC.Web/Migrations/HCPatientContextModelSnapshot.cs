@@ -358,6 +358,41 @@ namespace HC.Patient.Web.Migrations
                     b.ToTable("MasterAdministrationSite");
                 });
 
+            modelBuilder.Entity("HC.Patient.Entity.MasterAllergies", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("AllergyID");
+
+                    b.Property<string>("AllergyType");
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GetDate()");
+
+                    b.Property<int?>("DeletedBy");
+
+                    b.Property<DateTime?>("DeletedDate");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.ToTable("MasterAllergies");
+                });
+
             modelBuilder.Entity("HC.Patient.Entity.MasterCountry", b =>
                 {
                     b.Property<int>("Id")
@@ -1489,6 +1524,58 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("UpdatedBy");
 
                     b.ToTable("PatientAddress");
+                });
+
+            modelBuilder.Entity("HC.Patient.Entity.PatientAllergies", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("PatientAllergyId");
+
+                    b.Property<string>("Allergen")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("AllergyType");
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GetDate()");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<bool?>("IsVerified");
+
+                    b.Property<int>("PatientID");
+
+                    b.Property<string>("Reaction")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(100);
+
+                    b.Property<int?>("UpdatedBy");
+
+                    b.Property<DateTime?>("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AllergyType");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PatientID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PatientAllergies");
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.PatientAppointment", b =>
@@ -2911,6 +2998,18 @@ namespace HC.Patient.Web.Migrations
                         .HasForeignKey("DeletedBy");
                 });
 
+            modelBuilder.Entity("HC.Patient.Entity.MasterAllergies", b =>
+                {
+                    b.HasOne("HC.Patient.Entity.User", "Users1")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.User", "Users")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy");
+                });
+
             modelBuilder.Entity("HC.Patient.Entity.MasterCountry", b =>
                 {
                     b.HasOne("HC.Patient.Entity.User", "Users1")
@@ -3289,6 +3388,28 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.MasterState", "MasterState")
                         .WithMany()
                         .HasForeignKey("StateID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.User", "Users1")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+                });
+
+            modelBuilder.Entity("HC.Patient.Entity.PatientAllergies", b =>
+                {
+                    b.HasOne("HC.Patient.Entity.MasterAllergies", "MasterAllergies")
+                        .WithMany()
+                        .HasForeignKey("AllergyType")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.User", "Users")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.Patients", "Patient")
+                        .WithMany("PatientAllergies")
+                        .HasForeignKey("PatientID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HC.Patient.Entity.User", "Users1")

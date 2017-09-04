@@ -8,8 +8,8 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    [Migration("20170811090306_migration79")]
-    partial class migration79
+    [Migration("20170904065720_migration1")]
+    partial class migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,7 +35,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -68,7 +70,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<int>("EventID");
+                    b.Property<int?>("EventID");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -131,7 +133,9 @@ namespace HC.Patient.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -162,6 +166,24 @@ namespace HC.Patient.Web.Migrations
                     b.ToTable("Clinicians");
                 });
 
+            modelBuilder.Entity("HC.Patient.Entity.Encounter_CPT", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CPTID");
+
+                    b.Property<int>("EncounterId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CPTID");
+
+                    b.HasIndex("EncounterId");
+
+                    b.ToTable("Encounter_CPT");
+                });
+
             modelBuilder.Entity("HC.Patient.Entity.Event", b =>
                 {
                     b.Property<int>("Id")
@@ -185,6 +207,9 @@ namespace HC.Patient.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("InsuranceCompanyId");
 
+                    b.Property<string>("CarrierPayerID")
+                        .HasMaxLength(20);
+
                     b.Property<string>("CompanyAddress");
 
                     b.Property<string>("CompanyEmail");
@@ -203,7 +228,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -212,6 +239,9 @@ namespace HC.Patient.Web.Migrations
                     b.Property<int>("OrganizationID")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(1);
+
+                    b.Property<string>("TPLCode")
+                        .HasMaxLength(20);
 
                     b.HasKey("Id");
 
@@ -222,6 +252,71 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("OrganizationID");
 
                     b.ToTable("InsuranceCompanies");
+                });
+
+            modelBuilder.Entity("HC.Patient.Entity.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("LocationID");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("City")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("CountryID");
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GetDate()");
+
+                    b.Property<int?>("DeletedBy");
+
+                    b.Property<DateTime?>("DeletedDate");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("LocationDescription")
+                        .IsRequired()
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("LocationName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<int>("OrganizationID");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(20);
+
+                    b.Property<int>("StateID");
+
+                    b.Property<int?>("UpdatedBy");
+
+                    b.Property<DateTime?>("UpdatedDate");
+
+                    b.Property<string>("Zip")
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryID");
+
+                    b.HasIndex("OrganizationID");
+
+                    b.HasIndex("StateID");
+
+                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.MasterAdministrationSite", b =>
@@ -244,7 +339,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<string>("HL7");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -260,6 +357,41 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("DeletedBy");
 
                     b.ToTable("MasterAdministrationSite");
+                });
+
+            modelBuilder.Entity("HC.Patient.Entity.MasterAllergies", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("AllergyID");
+
+                    b.Property<string>("AllergyType");
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GetDate()");
+
+                    b.Property<int?>("DeletedBy");
+
+                    b.Property<DateTime?>("DeletedDate");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.ToTable("MasterAllergies");
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.MasterCountry", b =>
@@ -579,7 +711,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("CreatedBy");
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GetDate()");
 
                     b.Property<int?>("DeletedBy");
 
@@ -587,7 +721,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<bool?>("IsDeleted");
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<string>("LabName")
                         .HasMaxLength(100);
@@ -627,7 +763,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -652,7 +790,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("CreatedBy");
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GetDate()");
 
                     b.Property<int?>("DeletedBy");
 
@@ -662,7 +802,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<bool?>("IsDeleted");
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<string>("LonicCode");
 
@@ -1109,9 +1251,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("CreatedBy");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GetDate()");
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<int?>("DeletedBy");
 
@@ -1119,9 +1259,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<bool?>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool?>("IsDeleted");
 
                     b.Property<string>("StatusName");
 
@@ -1346,7 +1484,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1387,6 +1527,58 @@ namespace HC.Patient.Web.Migrations
                     b.ToTable("PatientAddress");
                 });
 
+            modelBuilder.Entity("HC.Patient.Entity.PatientAllergies", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("PatientAllergyId");
+
+                    b.Property<string>("Allergen")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("AllergyType");
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GetDate()");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<bool?>("IsVerified");
+
+                    b.Property<int>("PatientID");
+
+                    b.Property<string>("Reaction")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(100);
+
+                    b.Property<int?>("UpdatedBy");
+
+                    b.Property<DateTime?>("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AllergyType");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PatientID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PatientAllergies");
+                });
+
             modelBuilder.Entity("HC.Patient.Entity.PatientAppointment", b =>
                 {
                     b.Property<int>("Id")
@@ -1399,23 +1591,31 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("CreatedBy");
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GetDate()");
 
                     b.Property<int?>("DeletedBy");
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<string>("Description")
+                    b.Property<DateTime>("EndDateTime");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Notes")
                         .IsRequired()
                         .HasMaxLength(200);
 
-                    b.Property<DateTime>("EndDateTime");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<bool?>("IsDeleted");
-
                     b.Property<int>("PatientID");
+
+                    b.Property<string>("RecurrenceRule");
 
                     b.Property<DateTime>("StartDateTime");
 
@@ -1456,9 +1656,13 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
+                    b.Property<DateTime>("DiagnosisDate");
+
                     b.Property<int>("ICDID");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1507,7 +1711,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("Expiration");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1595,6 +1801,8 @@ namespace HC.Patient.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("PatientEncounterId");
 
+                    b.Property<int>("AppointmentID");
+
                     b.Property<string>("Assessment");
 
                     b.Property<int>("CPTID");
@@ -1611,7 +1819,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1631,9 +1841,13 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<DateTime>("VisitDateTime");
+                    b.Property<DateTime>("VisitEndDate");
+
+                    b.Property<DateTime>("VisitStartDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppointmentID");
 
                     b.HasIndex("CPTID");
 
@@ -1699,7 +1913,9 @@ namespace HC.Patient.Web.Migrations
                     b.Property<string>("GuardianZip")
                         .HasMaxLength(10);
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1756,7 +1972,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("Immunization");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1821,9 +2039,6 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("CardIssueDate");
 
-                    b.Property<string>("CarrierPayerID")
-                        .HasMaxLength(20);
-
                     b.Property<int>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate")
@@ -1865,7 +2080,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int?>("InsuranceTypeID");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1877,9 +2094,6 @@ namespace HC.Patient.Web.Migrations
                         .HasMaxLength(500);
 
                     b.Property<int>("PatientID");
-
-                    b.Property<string>("TPLCode")
-                        .HasMaxLength(20);
 
                     b.Property<int?>("UpdatedBy");
 
@@ -1917,7 +2131,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("CreatedBy");
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GetDate()");
 
                     b.Property<int?>("DeletedBy");
 
@@ -1930,9 +2146,13 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("FrequencyID");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
-                    b.Property<bool?>("IsDeleted");
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<int>("LabName");
 
@@ -2024,7 +2244,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("GenderID");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2084,7 +2306,9 @@ namespace HC.Patient.Web.Migrations
                     b.Property<string>("Illness")
                         .HasMaxLength(300);
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2131,7 +2355,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2182,7 +2408,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int?>("Citizenship");
 
-                    b.Property<int>("ClientStatus");
+                    b.Property<int>("ClientStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(2);
 
                     b.Property<int>("CreatedBy");
 
@@ -2218,7 +2446,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("Gender");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2228,6 +2458,8 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<string>("LastName")
                         .HasMaxLength(100);
+
+                    b.Property<int>("LocationID");
 
                     b.Property<string>("MRN")
                         .IsRequired()
@@ -2293,6 +2525,8 @@ namespace HC.Patient.Web.Migrations
 
                     b.HasIndex("Gender");
 
+                    b.HasIndex("LocationID");
+
                     b.HasIndex("MaritalStatus");
 
                     b.HasIndex("OrganizationID");
@@ -2334,7 +2568,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("DrugID");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2380,11 +2616,11 @@ namespace HC.Patient.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("PatientVitalId");
 
-                    b.Property<double>("BMI");
+                    b.Property<double?>("BMI");
 
-                    b.Property<int>("BPDiastolic");
+                    b.Property<int?>("BPDiastolic");
 
-                    b.Property<int>("BPSystolic");
+                    b.Property<int?>("BPSystolic");
 
                     b.Property<int>("CreatedBy");
 
@@ -2396,17 +2632,15 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<int>("EncounterID");
+                    b.Property<int?>("HeartRate");
 
-                    b.Property<bool>("FollowUp");
+                    b.Property<double?>("HeightFt");
 
-                    b.Property<int>("HeartRate");
+                    b.Property<double?>("HeightIn");
 
-                    b.Property<double>("HeightFt");
-
-                    b.Property<double>("HeightIn");
-
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2414,15 +2648,19 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("PatientID");
 
-                    b.Property<int>("Pulse");
+                    b.Property<int?>("Pulse");
 
-                    b.Property<int>("Respiration");
+                    b.Property<int?>("Respiration");
+
+                    b.Property<double?>("Temperature");
 
                     b.Property<int?>("UpdatedBy");
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<double>("WeightLbs");
+                    b.Property<DateTime>("VitalDate");
+
+                    b.Property<double?>("WeightLbs");
 
                     b.HasKey("Id");
 
@@ -2455,7 +2693,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2504,7 +2744,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2584,7 +2826,9 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2695,6 +2939,19 @@ namespace HC.Patient.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("HC.Patient.Entity.Encounter_CPT", b =>
+                {
+                    b.HasOne("HC.Patient.Entity.MasterCPT", "MasterCPT")
+                        .WithMany()
+                        .HasForeignKey("CPTID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.PatientEncounter", "PatientEncounter")
+                        .WithMany()
+                        .HasForeignKey("EncounterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("HC.Patient.Entity.InsuranceCompanies", b =>
                 {
                     b.HasOne("HC.Patient.Entity.User", "Users1")
@@ -2712,7 +2969,37 @@ namespace HC.Patient.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("HC.Patient.Entity.Location", b =>
+                {
+                    b.HasOne("HC.Patient.Entity.MasterCountry", "MasterCountry")
+                        .WithMany()
+                        .HasForeignKey("CountryID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.MasterState", "MasterState")
+                        .WithMany()
+                        .HasForeignKey("StateID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("HC.Patient.Entity.MasterAdministrationSite", b =>
+                {
+                    b.HasOne("HC.Patient.Entity.User", "Users1")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.User", "Users")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy");
+                });
+
+            modelBuilder.Entity("HC.Patient.Entity.MasterAllergies", b =>
                 {
                     b.HasOne("HC.Patient.Entity.User", "Users1")
                         .WithMany()
@@ -3109,6 +3396,28 @@ namespace HC.Patient.Web.Migrations
                         .HasForeignKey("UpdatedBy");
                 });
 
+            modelBuilder.Entity("HC.Patient.Entity.PatientAllergies", b =>
+                {
+                    b.HasOne("HC.Patient.Entity.MasterAllergies", "MasterAllergies")
+                        .WithMany()
+                        .HasForeignKey("AllergyType")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.User", "Users")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.Patients", "Patient")
+                        .WithMany("PatientAllergies")
+                        .HasForeignKey("PatientID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.User", "Users1")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+                });
+
             modelBuilder.Entity("HC.Patient.Entity.PatientAppointment", b =>
                 {
                     b.HasOne("HC.Patient.Entity.AppointmentType", "AppointmentType")
@@ -3131,7 +3440,7 @@ namespace HC.Patient.Web.Migrations
                         .HasForeignKey("DeletedBy");
 
                     b.HasOne("HC.Patient.Entity.Patients", "Patient")
-                        .WithMany()
+                        .WithMany("PatientAppointment")
                         .HasForeignKey("PatientID")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -3218,6 +3527,11 @@ namespace HC.Patient.Web.Migrations
 
             modelBuilder.Entity("HC.Patient.Entity.PatientEncounter", b =>
                 {
+                    b.HasOne("HC.Patient.Entity.PatientAppointment", "PatientAppointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HC.Patient.Entity.MasterCPT", "MasterCPT")
                         .WithMany()
                         .HasForeignKey("CPTID")
@@ -3551,6 +3865,11 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.MasterGender", "MasterGender")
                         .WithMany()
                         .HasForeignKey("Gender")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HC.Patient.Entity.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HC.Patient.Entity.MasterStatus", "MasterStatus")
