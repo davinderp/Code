@@ -396,9 +396,12 @@ namespace HC.Patient.Web.Controllers
 #if DEBUG
                     webRootPath = Directory.GetCurrentDirectory();
 #else
-            webRootPath = Directory.GetCurrentDirectory().Replace("HC_Patient", "HC_Photos");
-            webRootPath = Directory.GetCurrentDirectory().Replace("hcpatient_test", "HC_Photos");
+         
+                    webRootPath = Directory.GetCurrentDirectory().Replace("hcpatient_test", "HC_Photos");
+            
 #endif
+                    //webRootPath = Directory.GetCurrentDirectory().Replace("HC_Patient", "HC_Photos");
+                    //webRootPath = Directory.GetCurrentDirectory().Replace("hcpatient_test", "HC_Photos");
 
                     //getting data from base64 url
                     var base64Data = Regex.Match(entity.PhotoBase64, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;

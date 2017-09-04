@@ -113,6 +113,39 @@ namespace HC.Patient.Web.Controllers
             return await base.PostAsync(patientLabTest);
         }
 
+
+        //[HttpGet]
+        //public dynamic GetAsyncHL7(int id)
+        //{
+        //    NHapi.Base.Parser.PipeParser parser = new NHapi.Base.Parser.PipeParser();
+        //    NHapi.Model.V231.Message.QRY_R02 qry = new NHapi.Model.V231.Message.QRY_R02();
+        //    qry.MSH.MessageType.MessageType.Value = "QRY";
+        //    qry.MSH.MessageType.TriggerEvent.Value = "R02";
+        //    qry.MSH.MessageType.MessageStructure.Value = "QRY_R02";
+        //    qry.MSH.FieldSeparator.Value = "|";
+        //    qry.MSH.SendingApplication.NamespaceID.Value = "CohieCentral";
+        //    qry.MSH.SendingFacility.NamespaceID.Value = "COHIE";
+        //    qry.MSH.ReceivingApplication.NamespaceID.Value = "Clinical Data Provider";
+        //    qry.MSH.ReceivingFacility.NamespaceID.Value = "facility";
+        //    qry.MSH.EncodingCharacters.Value = @"^~\&";
+        //    qry.MSH.VersionID.VersionID.Value = "2.3.1";
+        //    qry.MSH.DateTimeOfMessage.TimeOfAnEvent.SetLongDate(DateTime.Now);
+        //    qry.MSH.MessageControlID.Value = "messageControlId";
+        //    qry.MSH.ProcessingID.ProcessingID.Value = "P";
+
+        //    NHapi.Model.V231.Datatype.XCN st = qry.QRD.GetWhoSubjectFilter(0);
+        //    st.AssigningAuthority.UniversalID.Value = "facility";
+        //    st.IDNumber.Value = "mrn";
+        //    qry.QRD.QueryDateTime.TimeOfAnEvent.SetLongDate(DateTime.Now);
+        //    qry.QRD.QueryFormatCode.Value = "R";
+        //    qry.QRD.QueryPriority.Value = "I";
+        //    NHapi.Model.V231.Datatype.CE what = qry.QRD.GetWhatSubjectFilter(0);
+        //    what.Identifier.Value = "RES";
+        //    //return parser.Encode(qry);
+        //    return parser.Encode(qry);
+
+        //}
+
         #endregion
 
         #region Helping Methods
