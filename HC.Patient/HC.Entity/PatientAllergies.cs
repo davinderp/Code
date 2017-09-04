@@ -25,9 +25,9 @@ namespace HC.Patient.Entity
         [Attr("PatientID")]
         [ForeignKey("Patient")]
         public int PatientID { get; set; }
-        [Attr("AllergyType")]
+        [Attr("AllergyTypeID")]
         [ForeignKey("MasterAllergies")]
-        public int AllergyType { get; set; }
+        public int AllergyTypeID { get; set; }
         [StringLength(100)]
         [Attr("Allergen")]
         public string Allergen { get; set; }
