@@ -47,7 +47,7 @@ namespace HC.Patient.Web.Controllers
                 if (jsonApiContext.QuerySet !=null && !jsonApiContext.QuerySet.Equals(null))
                 {
                     //jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsActive", "true", ""));
-                    //jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsDeleted", "false", ""));
+                    jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsDeleted", "false", ""));
                 }
                 else
                 {
@@ -55,7 +55,7 @@ namespace HC.Patient.Web.Controllers
                     jsonApiContext.QuerySet = new QuerySet(jsonApiContext, new QueryCollection());
                     jsonApiContext.QuerySet.Filters = new List<FilterQuery>();
                     //jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsActive", "true", ""));
-                    //jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsDeleted", "false", ""));
+                    jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsDeleted", "false", ""));
 
                 }
             }

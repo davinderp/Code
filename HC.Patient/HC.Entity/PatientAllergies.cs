@@ -49,8 +49,8 @@ namespace HC.Patient.Entity
         public DateTime? UpdatedDate { get; set; }
         [Attr("UpdatedBy")]
         [ForeignKey("Users1")]
-        public int? UpdatedBy { get; set; }
-        public bool? IsVerified { get; set; }
+        public int? UpdatedBy { get; set; }        
+        [Attr("IsDeleted")]
         public bool? IsDeleted { get; set; }
 
 
