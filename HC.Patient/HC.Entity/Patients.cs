@@ -247,7 +247,7 @@ namespace HC.Patient.Entity
             {
                 try
                 {
-                    return Clinician.FirstName +" "+ Clinician.LastName;
+                        return Clinician.FirstName +" "+ Clinician.LastName;
                 }
                 catch (Exception)
                 {
@@ -334,6 +334,8 @@ namespace HC.Patient.Entity
         public virtual List<PatientInsuranceDetails> PatientInsuranceDetails { get; set; }
         [HasMany("phonenumbers")]
         public virtual List<PhoneNumbers> PhoneNumbers { get; set; }
+        [HasMany("patientappointment")]
+        public virtual List<PatientAppointment> PatientAppointment { get; set; }
         [HasMany("patientpreference")]
         public virtual List<PatientPreference> PatientPreference { get; set; }
         public virtual MasterProgram MasterProgram { get; set; }

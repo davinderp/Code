@@ -38,7 +38,9 @@ namespace HC.Common
                         thumb.Save(thumbImageURL);
                     }
                     catch (Exception ex)
-                    { }
+                    {
+
+                    }
                 }
             }
 

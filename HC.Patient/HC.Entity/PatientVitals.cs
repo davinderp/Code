@@ -26,54 +26,48 @@ namespace HC.Patient.Entity
         [Attr("PatientID")]
         [ForeignKey("Patient")]
         public int PatientID { get; set; }        
-        [Required]
-        [RequiredNumber]
+        
         [Attr("BPDiastolic")]
-        public int BPDiastolic { get; set; }
-        [Required]
-        [RequiredNumber]
+        public int? BPDiastolic { get; set; }
+        
         [Attr("BPSystolic")]
-        public int BPSystolic { get; set; }
-        [Required]
-        [RequiredNumber]
+        public int? BPSystolic { get; set; }
+        
         [Attr("HeightFt")]
-        public double HeightFt { get; set; }
-        [Required]
-        [RequiredNumber]
+        public double? HeightFt { get; set; }
+        
         [Attr("HeightIn")]
-        public double HeightIn { get; set; }
+        public double? HeightIn { get; set; }
         //[Attr("Height_cm")]
         //public double Height_cm { get; set; }
-        [Required]
-        [RequiredNumber]
+        
         [Attr("WeightLbs")]
-        public double WeightLbs { get; set; }
+        public double? WeightLbs { get; set; }
         //[Attr("Weight_kg")]
         //public double Weight_kg { get; set; }
-        [Required]
-        [RequiredNumber]
+        
         [Attr("HeartRate")]
-        public int HeartRate { get; set; }
-        [Required]
-        [RequiredNumber]
+        public int? HeartRate { get; set; }
+        
         [Attr("Pulse")]
-        public int Pulse { get; set; }
-        [Required]
-        [RequiredNumber]
+        public int? Pulse { get; set; }
+        
         [Attr("Respiration")]
-        public int Respiration { get; set; }
-        [Required]
-        [RequiredNumber]
+        public int? Respiration { get; set; }
+        
         [Attr("BMI")]
-        public double BMI { get; set; }
+        public double? BMI { get; set; }
         //[Attr("BMI_Status")]
         //public string BMI_Status { get; set; }
-        [Required]        
+        
         [Attr("Temperature")]
-        public double Temperature { get; set; }
+        public double? Temperature { get; set; }
         [Attr("CreatedDate")]
         public DateTime CreatedDate { get; set; }
-        [Required]
+
+        [Attr("VitalDate")]
+        public DateTime VitalDate { get; set; }
+
         [Attr("CreatedBy")]
         [ForeignKey("Users")]
         public int CreatedBy { get; set; }
@@ -85,7 +79,7 @@ namespace HC.Patient.Entity
         [ForeignKey("Users2")]
         public int? DeletedBy { get; set; }  public DateTime? DeletedDate { get; set; }
         [Attr("IsActive")]
-        [Required]
+        
         public bool IsActive { get; set; }
         [Attr("IsDeleted")]
         public bool? IsDeleted { get; set; }       

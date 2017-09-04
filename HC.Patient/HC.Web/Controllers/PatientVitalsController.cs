@@ -143,8 +143,9 @@ namespace HC.Patient.Web.Controllers
             //    //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
             //    .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
             //await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
-
             AttrAttribute BMI = new AttrAttribute(AttrToUpdate.BMI.ToString(), AttrToUpdate.BMI.ToString());
+            _jsonApiContext.AttributesToUpdate.Remove(BMI);
+            
             patientVital = calculateBmi(patientVital);
             _jsonApiContext.AttributesToUpdate.Add(BMI, patientVital.BMI);
             //return await base.PatchAsync(id, patientVital);
@@ -210,18 +211,18 @@ namespace HC.Patient.Web.Controllers
         /// <returns></returns>
         private static Entity.PatientVitals calculateBmi(Entity.PatientVitals patientVitals)
         {
-            double weightKg = 0;
-            double heightCm = 0;
+            double? weightKg = 0;
+            double? heightCm = 0;            
             if (patientVitals.WeightLbs > 0)
             {
                 //convert lbs into pound (.45 is 1kg value in pounds)
-                weightKg = Math.Round(patientVitals.WeightLbs * .45, 2);
+                weightKg = Math.Round((double)(patientVitals.WeightLbs * .45), 2);
             }
 
             if (patientVitals.HeightFt > 0)
             {
                 //convert height of feet and inches into cm
-                heightCm = Math.Round(((patientVitals.HeightFt * 12) + patientVitals.HeightIn) * 2.54, 2);
+                heightCm = Math.Round((double)((patientVitals.HeightFt * 12) + patientVitals.HeightIn) * 2.54, 2);
             }
 
             //var height = patientVitals.Height_cm;
@@ -230,7 +231,7 @@ namespace HC.Patient.Web.Controllers
             if (heightCm > 0 && weightKg > 0)
             {
                 //calculate BMI
-                patientVitals.BMI = Math.Round(weightKg / (heightCm / 100 * heightCm / 100), 2);
+                patientVitals.BMI = Math.Round((double)(weightKg / (heightCm / 100 * heightCm / 100)), 2);
 
                 //if (patientVitals.BMI < 18.5)
                 //{

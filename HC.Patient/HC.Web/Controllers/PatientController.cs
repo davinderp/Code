@@ -257,7 +257,7 @@ namespace HC.Patient.Web.Controllers
                     patients = CustomSortingForStartWith(patients);
                     if (_jsonApiContext.QuerySet.PageQuery.PageSize != 0)
                     {
-                        patients = patients.Take(_jsonApiContext.QuerySet.PageQuery.PageSize).ToList();
+                        patients = patients.Take(_jsonApiContext.QuerySet.PageQuery.PageSize).OrderByDescending(a => a.CreatedDate).ToList();
                     }
                     var asyncPatients = await base.GetAsync();
 
@@ -393,12 +393,14 @@ namespace HC.Patient.Web.Controllers
                 if (!string.IsNullOrEmpty(entity.PhotoBase64))
                 {
                     string webRootPath = "";
+                    //todo: Need to fix static Directory path "webRootPath" in release mode
 #if DEBUG
                     webRootPath = Directory.GetCurrentDirectory();
 #else
-         
-                    webRootPath = Directory.GetCurrentDirectory().Replace("hcpatient_test", "HC_Photos");
-            
+            //webRootPath = Directory.GetCurrentDirectory().Replace("HC_Patient", "HC_Photos");
+            //webRootPath = Directory.GetCurrentDirectory().Replace("hcpatient_test", "HC_Photos");           
+            ////  Static Root
+            webRootPath = "C:\\inetpub\\wwwroot\\HC_Photos";
 #endif
                     //webRootPath = Directory.GetCurrentDirectory().Replace("HC_Patient", "HC_Photos");
                     //webRootPath = Directory.GetCurrentDirectory().Replace("hcpatient_test", "HC_Photos");

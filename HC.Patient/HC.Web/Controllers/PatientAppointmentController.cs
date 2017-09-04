@@ -97,7 +97,7 @@ namespace HC.Patient.Web.Controllers
                     }
                     else
                     {
-                        toDate = new CalDateTime(DateTime.MaxValue, "UTC");
+                        toDate = new CalDateTime(p.EndDateTime.AddYears(2), "UTC");
                     }
 
                     var evaluator = pattern.GetService(typeof(IEvaluator)) as IEvaluator;
@@ -149,7 +149,7 @@ namespace HC.Patient.Web.Controllers
             }
             else
             {
-                toDate = new CalDateTime(DateTime.MaxValue, "UTC");
+                toDate = new CalDateTime(patientAppointment.EndDateTime.AddYears(2), "UTC");
             }
 
             var evaluator = pattern.GetService(typeof(IEvaluator)) as IEvaluator;

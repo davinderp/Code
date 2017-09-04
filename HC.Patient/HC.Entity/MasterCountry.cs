@@ -22,8 +22,10 @@ namespace HC.Patient.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("CountryID")]
         public override int Id { get; set; }
+        [Attr("CountryName")]
         public string CountryName { get; set; }
         [Required]
+        [Attr("IsActive")]
         public bool IsActive { get; set; }
         public bool? IsDeleted { get; set; }
 

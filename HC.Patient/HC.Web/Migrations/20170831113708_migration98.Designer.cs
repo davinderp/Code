@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170831113708_migration98")]
+    partial class migration98
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -1450,7 +1451,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                        .HasDefaultValue(false);
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1572,9 +1573,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("ICDID");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1623,9 +1622,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("Expiration");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1731,9 +1728,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1825,9 +1820,7 @@ namespace HC.Patient.Web.Migrations
                     b.Property<string>("GuardianZip")
                         .HasMaxLength(10);
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1884,9 +1877,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("Immunization");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1992,9 +1983,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int?>("InsuranceTypeID");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2043,9 +2032,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("CreatedBy");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GetDate()");
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<int?>("DeletedBy");
 
@@ -2058,9 +2045,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("FrequencyID");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2156,9 +2141,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("GenderID");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2218,9 +2201,7 @@ namespace HC.Patient.Web.Migrations
                     b.Property<string>("Illness")
                         .HasMaxLength(300);
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2267,9 +2248,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2358,9 +2337,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("Gender");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2480,9 +2457,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("DrugID");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2550,9 +2525,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<double?>("HeightIn");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2569,8 +2542,6 @@ namespace HC.Patient.Web.Migrations
                     b.Property<int?>("UpdatedBy");
 
                     b.Property<DateTime?>("UpdatedDate");
-
-                    b.Property<DateTime>("VitalDate");
 
                     b.Property<double?>("WeightLbs");
 
@@ -2605,9 +2576,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2656,9 +2625,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -2738,9 +2705,7 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<DateTime?>("DeletedDate");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()

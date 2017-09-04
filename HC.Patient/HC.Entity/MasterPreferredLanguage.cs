@@ -17,6 +17,7 @@ namespace HC.Patient.Entity
         [Column("LanguageID")]
         public override int Id { get; set; }
         //public int LanguageID { get; set; }
+        [Attr("Language")]
         public string Language { get; set; }
         [NotMapped]
         public string value { get { return this.Language; } set { this.Language = value; } }
