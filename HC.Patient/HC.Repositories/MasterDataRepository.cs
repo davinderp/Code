@@ -181,6 +181,9 @@ namespace HC.Patient.Repositories
                         case MasterDataEnum.FREQUENCYDURATIONTYPE:
                             listMasterDataModel.MasterFrequencyDurationType = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).OrderBy(a => a.TypeName).ToList();
                             break;
+                        case MasterDataEnum.AUTHORIZEDPROCEDURE:
+                            listMasterDataModel.MasterAuthorizedProcedure = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).OrderBy(a => a.TypeName).ToList();
+                            break;
                     }
                 }
             });

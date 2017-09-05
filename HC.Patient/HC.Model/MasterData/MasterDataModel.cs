@@ -54,6 +54,7 @@ namespace HC.Patient.Model.MasterData
         public List<MasterType> MasterTimeType { get; set; }
         public List<MasterType> MasterFrequencyType { get; set; }
         public List<MasterType> MasterFrequencyDurationType { get; set; }
+        public List<MasterType> MasterAuthorizedProcedure { get; set; }
 
     }
 }
