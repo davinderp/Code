@@ -93,7 +93,7 @@ namespace HC.Patient.Web.Migrations
                         column: x => x.OrganizationID,
                         principalTable: "Organization",
                         principalColumn: "OrganizationID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PatientTags_Patients_PatientID",
                         column: x => x.PatientID,
@@ -105,7 +105,7 @@ namespace HC.Patient.Web.Migrations
                         column: x => x.TagID,
                         principalTable: "MasterTags",
                         principalColumn: "TagID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -159,7 +159,7 @@ namespace HC.Patient.Web.Migrations
                 column: "ICDID",
                 principalTable: "MasterICD",
                 principalColumn: "ICDID",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Patients_Clinicians_RenderingClinicianID",
