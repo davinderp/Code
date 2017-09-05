@@ -82,8 +82,10 @@ namespace HC.Patient.Data
         //Allergies
         public DbSet<MasterAllergies> MasterAllergies { get; set; }
         public DbSet<PatientAllergies> PatientAllergies { get; set; }
+        public DbSet<MasterReaction> MasterReaction { get; set; }
         //Favourite
         public DbSet<UserFavourites> UserFavourites { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -706,6 +708,19 @@ namespace HC.Patient.Data
             modelBuilder.Entity<UserFavourites>()
             .Property(b => b.IsDeleted)
             .HasDefaultValue(false);
+
+            //MasterAllergies
+            modelBuilder.Entity<MasterReaction>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterReaction>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterReaction>()
+           .Property(b => b.IsActive)
+           .HasDefaultValue(true);
 
             //User
             modelBuilder.Entity<User>()

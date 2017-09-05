@@ -55,6 +55,7 @@ namespace HC.Patient.Model.MasterData
         public List<MasterType> MasterFrequencyType { get; set; }
         public List<MasterType> MasterFrequencyDurationType { get; set; }
         public List<MasterAllergies> MasterAllergies { get; set; }
+        public List<MasterReaction> MasterReaction { get; set; }
 
 
     }

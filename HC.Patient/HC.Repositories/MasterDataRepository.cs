@@ -185,7 +185,9 @@ namespace HC.Patient.Repositories
                         case MasterDataEnum.MASTERALLERGIES:
                             listMasterDataModel.MasterAllergies = _context.MasterAllergies.Where(a => a.IsActive == true && a.IsDeleted == false).OrderBy(a => a.AllergyType).ToList();
                             break;
-
+                        case MasterDataEnum.MASTERREACTION:
+                            listMasterDataModel.MasterReaction = _context.MasterReaction.Where(a => a.IsActive == true && a.IsDeleted == false).OrderBy(a => a.Reaction).ToList();
+                            break;
                     }
                 }
             });

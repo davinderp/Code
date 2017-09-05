@@ -56,7 +56,6 @@ namespace HC.Patient.Web.Controllers
                     jsonApiContext.QuerySet.Filters = new List<FilterQuery>();
                     jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsActive", "true", ""));
                     jsonApiContext.QuerySet.Filters.Add(new FilterQuery("IsDeleted", "false", ""));
-
                 }
             }
             catch(Exception ex)

@@ -33,10 +33,10 @@ namespace HC.Patient.Entity
         public string Allergen { get; set; }
         [StringLength(100)]
         [Attr("Source")]
-        public string Source { get; set; }
-        [StringLength(100)]
-        [Attr("Reaction")]
-        public string Reaction { get; set; }        
+        public string Source { get; set; }        
+        [Attr("ReactionID")]
+        [ForeignKey("MasterReaction")]
+        public int ReactionID { get; set; }        
         [Required]
         [Attr("IsActive")]
         public bool IsActive { get; set; }
@@ -60,6 +60,8 @@ namespace HC.Patient.Entity
         public Patients Patient { get; set; }
         [HasOne("masterallergies")]
         public MasterAllergies MasterAllergies { get; set; }
+        [HasOne("masterreaction")]
+        public MasterReaction MasterReaction { get; set; }
         public virtual User Users { get; set; }
         public User Users1 { get; set; }
         public Dictionary<string, object> GetMeta(IJsonApiContext context)
