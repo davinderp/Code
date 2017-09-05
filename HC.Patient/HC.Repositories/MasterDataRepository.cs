@@ -86,7 +86,7 @@ namespace HC.Patient.Repositories
                         case MasterDataEnum.MARITALSTATUS:
                             listMasterDataModel.MasterMaritalStatus = _context.MasterStatus.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).OrderBy(a => a.StatusName).ToList();
                             break;
-                        case MasterDataEnum.RELATIONSHIP:
+                        case MasterDataEnum.MASTERRELATIONSHIP:
                             listMasterDataModel.MasterRelationship = _context.MasterRelationship.Where(a => a.IsActive == true && a.IsDeleted == false).OrderBy(a => a.RelationshipName).ToList();
                             break;
                         case MasterDataEnum.MASTERPROGRAM:

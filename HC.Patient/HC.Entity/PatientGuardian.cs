@@ -26,10 +26,13 @@ namespace HC.Patient.Entity
         [ForeignKey("Patient")]
         public int PatientID { get; set; }
         [StringLength(100)]
+        [Attr("GuardianFirstName")]
         public string GuardianFirstName { get; set; }
         [StringLength(100)]
+        [Attr("GuardianLastName")]
         public string GuardianLastName { get; set; }
         [StringLength(50)]
+        [Attr("GuardianMiddleName")]
         public string GuardianMiddleName { get; set; }
         [StringLength(500)]
         public string GuardianAddress1 { get; set; }
@@ -43,14 +46,22 @@ namespace HC.Patient.Entity
         [StringLength(10)]
         public string GuardianZip { get; set; }
         [StringLength(20)]
+        [Attr("GuardianWorkPhone")]
         public string GuardianWorkPhone { get; set; }
         [StringLength(20)]
+        [Attr("GuardianHomePhone")]
         public string GuardianHomePhone { get; set; }
         [StringLength(20)]
         public string GuardianMobile { get; set; }
         [StringLength(256)]
         public string GuardianEmail { get; set; }
+        [Attr("RelationshipID")]
+        [ForeignKey("MasterRelationship")]
         [Required]
+        [RequiredNumber]
+        public int RelationshipID { get; set; }
+        [Required]
+        [Attr("IsActive")]
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
         [Required]
@@ -61,14 +72,16 @@ namespace HC.Patient.Entity
         [Attr("UpdatedBy")]
         [ForeignKey("Users1")]
         public int? UpdatedBy { get; set; }
-        public bool? IsVerified { get; set; }
+        [Attr("IsDeleted")]
         public bool? IsDeleted { get; set; }
 
-
+        [HasOne("patient")]
         public Patients Patient { get; set; }
         public MasterState MasterState { get; set; }
         public virtual User Users { get; set; }
         public User Users1 { get; set; }
+        [HasOne("masterrelationship")]
+        public virtual MasterRelationship MasterRelationship { get; set; }
         public Dictionary<string, object> GetMeta(IJsonApiContext context)
         {
             return new Dictionary<string, object> {
