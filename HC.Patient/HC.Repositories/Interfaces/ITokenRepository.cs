@@ -11,5 +11,6 @@ namespace HC.Patient.Repositories.Interfaces
     public interface ITokenRepository//: IRepository<MasterDataModel>
     {
         User GetUserByUserName(string userName);
+        Clinicians GetDoctorByUserID(int UserID);
     }
 }

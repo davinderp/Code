@@ -10,5 +10,6 @@ namespace HC.Patient.Service.Token.Interfaces
     public interface ITokenService : IBaseService
     {
         User GetUserByUserName(string userName);
+        Clinicians GetDoctorByUserID(int UserID);
     }
 }

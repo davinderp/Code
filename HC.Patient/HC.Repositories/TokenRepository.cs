@@ -25,7 +25,19 @@ namespace HC.Patient.Repositories
             try
             {
                 return _context.User.Where(m => m.UserName == userName).FirstOrDefault();
-                //return _context.User.Where(m => m.UserName == userName).Select(p => new ApplicationUser() { UserName = p.UserName, Password = p.Password }).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+        }
+
+        public Clinicians GetDoctorByUserID(int UserID)
+        {
+            try
+            {
+                return _context.Clinicians.Where(m => m.UserID == UserID).FirstOrDefault();
             }
             catch (Exception)
             {

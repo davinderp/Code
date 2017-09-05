@@ -15,6 +15,7 @@ using HC.Patient.Service.Token.Interfaces;
 using HC.Common.Filters;
 using Audit.WebApi;
 using HC.Patient.Entity;
+using HC.Common;
 
 namespace HC.Patient.Web.Controllers
 {
@@ -23,11 +24,11 @@ namespace HC.Patient.Web.Controllers
     [Route("authentication")]
     [ValidateModel]
     public class AuthenticationController : Controller
-  {
-    private readonly JwtIssuerOptions _jwtOptions;
-    private readonly ILogger _logger;
-    private readonly JsonSerializerSettings _serializerSettings;
-    private readonly ITokenService _tokenService;
+    {
+        private readonly JwtIssuerOptions _jwtOptions;
+        private readonly ILogger _logger;
+        private readonly JsonSerializerSettings _serializerSettings;
+        private readonly ITokenService _tokenService;
 
         public AuthenticationController(ITokenService tokenService, IOptions<JwtIssuerOptions> jwtOptions, ILoggerFactory loggerFactory)
         {
@@ -44,7 +45,7 @@ namespace HC.Patient.Web.Controllers
             _tokenService = tokenService;
         }
 
-       
+
         [HttpPost("login")]
         public async Task<IActionResult> Get([FromBody]ApplicationUser applicationUser)
         {
@@ -69,7 +70,7 @@ namespace HC.Patient.Web.Controllers
         new Claim("UserID", dbUser.Id.ToString()),
         new Claim("RoleID", dbUser.RoleID.ToString()),
         new Claim("UserName", dbUser.UserName.ToString()),
-        new Claim("UserName", dbUser.OrganizationID.ToString()),        
+        new Claim("OrganizationID", dbUser.OrganizationID.ToString()),
         new Claim(JwtRegisteredClaimNames.Sub, applicationUser.UserName),
         new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
         new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
@@ -91,36 +92,38 @@ namespace HC.Patient.Web.Controllers
             var response = new
             {
                 access_token = encodedJwt,
-                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
+                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds,
+                data = _tokenService.GetDoctorByUserID(dbUser.Id),
+
             };
 
             var json = JsonConvert.SerializeObject(response, _serializerSettings);
             return new OkObjectResult(json);
         }
 
-    private static void ThrowIfInvalidOptions(JwtIssuerOptions options)
-    {
-      if (options == null) throw new ArgumentNullException(nameof(options));
+        private static void ThrowIfInvalidOptions(JwtIssuerOptions options)
+        {
+            if (options == null) throw new ArgumentNullException(nameof(options));
 
-      if (options.ValidFor <= TimeSpan.Zero)
-      {
-        throw new ArgumentException("Must be a non-zero TimeSpan.", nameof(JwtIssuerOptions.ValidFor));
-      }
+            if (options.ValidFor <= TimeSpan.Zero)
+            {
+                throw new ArgumentException("Must be a non-zero TimeSpan.", nameof(JwtIssuerOptions.ValidFor));
+            }
 
-      if (options.SigningCredentials == null)
-      {
-        throw new ArgumentNullException(nameof(JwtIssuerOptions.SigningCredentials));
-      }
+            if (options.SigningCredentials == null)
+            {
+                throw new ArgumentNullException(nameof(JwtIssuerOptions.SigningCredentials));
+            }
 
-      if (options.JtiGenerator == null)
-      {
-        throw new ArgumentNullException(nameof(JwtIssuerOptions.JtiGenerator));
-      }
-    }
+            if (options.JtiGenerator == null)
+            {
+                throw new ArgumentNullException(nameof(JwtIssuerOptions.JtiGenerator));
+            }
+        }
 
-    /// <returns>Date converted to seconds since Unix epoch (Jan 1, 1970, midnight UTC).</returns>
-    private static long ToUnixEpochDate(DateTime date)
-      => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
+        /// <returns>Date converted to seconds since Unix epoch (Jan 1, 1970, midnight UTC).</returns>
+        private static long ToUnixEpochDate(DateTime date)
+          => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
 
         /// <summary>
         /// IMAGINE BIG RED WARNING SIGNS HERE!
@@ -129,7 +132,8 @@ namespace HC.Patient.Web.Controllers
         /// </summary>
         private static Task<ClaimsIdentity> GetClaimsIdentity(ApplicationUser user, User dbUser)
         {
-            if (dbUser != null && (user.UserName == dbUser.UserName && user.Password == dbUser.Password))
+            CommonMethods commonMethods = new CommonMethods();
+            if (dbUser != null && (user.UserName == dbUser.UserName && user.Password == commonMethods.Decrypt(dbUser.Password)))
             {
                 return Task.FromResult(new ClaimsIdentity(new GenericIdentity(user.UserName, "Token"),
                   new[]
@@ -145,5 +149,5 @@ namespace HC.Patient.Web.Controllers
             // Credentials are invalid, or account doesn't exist
             return Task.FromResult<ClaimsIdentity>(null);
         }
-  }
+    }
 }

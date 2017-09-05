@@ -50,6 +50,11 @@ namespace HC.Patient.Entity
         [Attr("Email")]
         [StringLength(256)]
         public string Email { get; set; }
+
+        [Attr("UserID")]
+        [ForeignKey("Users2")]
+        public int UserID { get; set; }
+
         [Attr("IsActive")]
         public bool IsActive { get; set; }
         [Attr("IsDeleted")]
@@ -76,6 +81,7 @@ namespace HC.Patient.Entity
 
         public virtual User Users { get; set; }
         public virtual User Users1 { get; set; }
+        public virtual User Users2 { get; set; }
         [HasMany("phonenumbers")]
         public virtual List<PhoneNumbers> PhoneNumbers { get; set; }
         public virtual Provider Provider { get; set; }

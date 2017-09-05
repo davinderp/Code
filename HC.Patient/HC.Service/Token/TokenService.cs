@@ -17,6 +17,12 @@ namespace HC.Patient.Service.Token
         {
             this._tokenRepository = tokenRepository;
         }
+
+        public Clinicians GetDoctorByUserID(int UserID)
+        {
+            return _tokenRepository.GetDoctorByUserID(UserID);
+        }
+
         public User GetUserByUserName(string userName)
         {
             return _tokenRepository.GetUserByUserName(userName);
