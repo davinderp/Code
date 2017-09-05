@@ -19,6 +19,7 @@ namespace HC.Patient.Entity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("GuardianId")]
+        [Attr("GuardianId")]
         public override int Id { get; set; }
         [Required]
         [RequiredNumber]

@@ -338,6 +338,8 @@ namespace HC.Patient.Entity
         public virtual List<PatientAppointment> PatientAppointment { get; set; }
         [HasMany("patientpreference")]
         public virtual List<PatientPreference> PatientPreference { get; set; }
+        [HasMany("patientguardian")]
+        public virtual List<PatientGuardian> PatientGuardian { get; set; }
         public virtual MasterProgram MasterProgram { get; set; }
 
         public virtual Location Location { get; set; }
