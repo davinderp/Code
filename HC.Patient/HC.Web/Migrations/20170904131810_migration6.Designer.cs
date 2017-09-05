@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170904131810_migration6")]
+    partial class migration6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -1954,9 +1955,9 @@ namespace HC.Patient.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 
-                    b.Property<int>("PatientID");
+                    b.Property<bool?>("IsVerified");
 
-                    b.Property<int>("RelationshipID");
+                    b.Property<int>("PatientID");
 
                     b.Property<int?>("UpdatedBy");
 
@@ -1969,8 +1970,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("GuardianState");
 
                     b.HasIndex("PatientID");
-
-                    b.HasIndex("RelationshipID");
 
                     b.HasIndex("UpdatedBy");
 
@@ -3679,11 +3678,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.Patients", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HC.Patient.Entity.MasterRelationship", "MasterRelationship")
-                        .WithMany()
-                        .HasForeignKey("RelationshipID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HC.Patient.Entity.User", "Users1")

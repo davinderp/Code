@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170904130621_migration5")]
+    partial class migration5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -1588,7 +1589,8 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("PatientID");
 
-                    b.Property<int>("ReactionID");
+                    b.Property<string>("Reaction")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Source")
                         .HasMaxLength(100);
@@ -1604,8 +1606,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("PatientID");
-
-                    b.HasIndex("ReactionID");
 
                     b.HasIndex("UpdatedBy");
 
@@ -1954,9 +1954,9 @@ namespace HC.Patient.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 
-                    b.Property<int>("PatientID");
+                    b.Property<bool?>("IsVerified");
 
-                    b.Property<int>("RelationshipID");
+                    b.Property<int>("PatientID");
 
                     b.Property<int?>("UpdatedBy");
 
@@ -1969,8 +1969,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("GuardianState");
 
                     b.HasIndex("PatientID");
-
-                    b.HasIndex("RelationshipID");
 
                     b.HasIndex("UpdatedBy");
 
@@ -3507,11 +3505,6 @@ namespace HC.Patient.Web.Migrations
                         .HasForeignKey("PatientID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HC.Patient.Entity.MasterReaction", "MasterReaction")
-                        .WithMany()
-                        .HasForeignKey("ReactionID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("HC.Patient.Entity.User", "Users1")
                         .WithMany()
                         .HasForeignKey("UpdatedBy");
@@ -3679,11 +3672,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.Patients", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HC.Patient.Entity.MasterRelationship", "MasterRelationship")
-                        .WithMany()
-                        .HasForeignKey("RelationshipID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HC.Patient.Entity.User", "Users1")

@@ -78,8 +78,16 @@ namespace HC.Patient.Data
         public DbSet<AuditLogs> AuditLogs { get; set; }
         public DbSet<Encounter_CPT> Encounter_CPT { get; set; }
         public DbSet<Location> Location { get; set; }
+        //Allergies
+        public DbSet<MasterAllergies> MasterAllergies { get; set; }
+        public DbSet<PatientAllergies> PatientAllergies { get; set; }
+        public DbSet<MasterReaction> MasterReaction { get; set; }
+        //Favourite
+        public DbSet<UserFavourites> UserFavourites { get; set; }
         public DbSet<Authorization> Authorization { get; set; }
         public DbSet<AuthorizationProcedures> AuthorizationProcedures { get; set; }
+
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -658,6 +666,63 @@ namespace HC.Patient.Data
             modelBuilder.Entity<Provider>()
             .Property(b => b.OrganizationID)
             .HasDefaultValue(1);
+
+            //MasterAllergies
+            modelBuilder.Entity<MasterAllergies>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterAllergies>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterAllergies>()
+           .Property(b => b.IsActive)
+           .HasDefaultValue(true);
+
+            //PatientAllergies
+            modelBuilder.Entity<PatientAllergies>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<PatientAllergies>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<PatientAllergies>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            //
+            //UserFavourites
+            modelBuilder.Entity<UserFavourites>()
+            .Property(b => b.OrganizationID)
+            .HasDefaultValue(1);
+
+            modelBuilder.Entity<UserFavourites>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            modelBuilder.Entity<UserFavourites>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<UserFavourites>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            //MasterAllergies
+            modelBuilder.Entity<MasterReaction>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterReaction>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterReaction>()
+           .Property(b => b.IsActive)
+           .HasDefaultValue(true);
 
             //User
             modelBuilder.Entity<User>()

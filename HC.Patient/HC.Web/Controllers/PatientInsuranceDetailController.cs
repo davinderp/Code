@@ -136,8 +136,14 @@ namespace HC.Patient.Web.Controllers
             //For Fornt Image
             if (!string.IsNullOrEmpty(patientInsuranceDetail.InsurancePhotoPathFront) && !string.IsNullOrEmpty(patientInsuranceDetail.InsurancePhotoPathThumbFront))
             {
+                
+
                 AttrAttribute InsurancePhotoPathFront = new AttrAttribute(AttrToUpdate.InsurancePhotoPathFront.ToString(), AttrToUpdate.InsurancePhotoPathFront.ToString());
                 AttrAttribute InsurancePhotoPathThumbFront = new AttrAttribute(AttrToUpdate.InsurancePhotoPathThumbFront.ToString(), AttrToUpdate.InsurancePhotoPathThumbFront.ToString());
+
+                _jsonApiContext.AttributesToUpdate.Remove(InsurancePhotoPathFront);
+                _jsonApiContext.AttributesToUpdate.Remove(InsurancePhotoPathThumbFront);
+
                 _jsonApiContext.AttributesToUpdate.Add(InsurancePhotoPathFront, patientInsuranceDetail.InsurancePhotoPathFront);
                 _jsonApiContext.AttributesToUpdate.Add(InsurancePhotoPathThumbFront, patientInsuranceDetail.InsurancePhotoPathThumbFront);
             }
@@ -146,6 +152,10 @@ namespace HC.Patient.Web.Controllers
             {
                 AttrAttribute InsurancePhotoPathBack = new AttrAttribute(AttrToUpdate.InsurancePhotoPathBack.ToString(), AttrToUpdate.InsurancePhotoPathBack.ToString());
                 AttrAttribute InsurancePhotoPathThumbBack = new AttrAttribute(AttrToUpdate.InsurancePhotoPathThumbBack.ToString(), AttrToUpdate.InsurancePhotoPathThumbBack.ToString());
+
+                _jsonApiContext.AttributesToUpdate.Remove(InsurancePhotoPathBack);
+                _jsonApiContext.AttributesToUpdate.Remove(InsurancePhotoPathThumbBack);
+
                 _jsonApiContext.AttributesToUpdate.Add(InsurancePhotoPathBack, patientInsuranceDetail.InsurancePhotoPathBack);
                 _jsonApiContext.AttributesToUpdate.Add(InsurancePhotoPathThumbBack, patientInsuranceDetail.InsurancePhotoPathThumbBack);
             }

@@ -86,7 +86,7 @@ namespace HC.Patient.Repositories
                         case MasterDataEnum.MARITALSTATUS:
                             listMasterDataModel.MasterMaritalStatus = _context.MasterStatus.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).OrderBy(a => a.StatusName).ToList();
                             break;
-                        case MasterDataEnum.RELATIONSHIP:
+                        case MasterDataEnum.MASTERRELATIONSHIP:
                             listMasterDataModel.MasterRelationship = _context.MasterRelationship.Where(a => a.IsActive == true && a.IsDeleted == false).OrderBy(a => a.RelationshipName).ToList();
                             break;
                         case MasterDataEnum.MASTERPROGRAM:
@@ -180,6 +180,13 @@ namespace HC.Patient.Repositories
                             break;
                         case MasterDataEnum.FREQUENCYDURATIONTYPE:
                             listMasterDataModel.MasterFrequencyDurationType = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).OrderBy(a => a.TypeName).ToList();
+                            break;
+                        //Master Allergy
+                        case MasterDataEnum.MASTERALLERGIES:
+                            listMasterDataModel.MasterAllergies = _context.MasterAllergies.Where(a => a.IsActive == true && a.IsDeleted == false).OrderBy(a => a.AllergyType).ToList();
+                            break;
+                        case MasterDataEnum.MASTERREACTION:
+                            listMasterDataModel.MasterReaction = _context.MasterReaction.Where(a => a.IsActive == true && a.IsDeleted == false).OrderBy(a => a.Reaction).ToList();
                             break;
                         case MasterDataEnum.AUTHORIZEDPROCEDURE:
                             listMasterDataModel.MasterAuthorizedProcedure = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).OrderBy(a => a.TypeName).ToList();

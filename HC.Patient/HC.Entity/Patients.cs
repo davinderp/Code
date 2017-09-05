@@ -341,6 +341,8 @@ namespace HC.Patient.Entity
         public virtual MasterProgram MasterProgram { get; set; }
 
         public virtual Location Location { get; set; }
+        [HasMany("patientallergies")]
+        public virtual List<PatientAllergies> PatientAllergies { get; set; }
 
         [Attr("Address")]
         [NotMapped]
