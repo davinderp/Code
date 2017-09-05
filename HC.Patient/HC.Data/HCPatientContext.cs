@@ -746,6 +746,32 @@ namespace HC.Patient.Data
             .Property(b => b.OrganizationID)
             .HasDefaultValue(1);
             //------------------//
+
+            //Authorization
+            modelBuilder.Entity<Authorization>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<Authorization>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<Authorization>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            //AuthorizationProcedures
+            modelBuilder.Entity<AuthorizationProcedures>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<AuthorizationProcedures>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<AuthorizationProcedures>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
         }
     }
 }

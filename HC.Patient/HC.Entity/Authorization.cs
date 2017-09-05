@@ -42,10 +42,6 @@ namespace HC.Patient.Entity
         [ForeignKey("InsuranceCompanies")]
         public int InsuranceCompanyID { get; set; }
 
-        [Attr("AuthorizationProcedureID")]
-        [ForeignKey("AuthorizationProcedures")]
-        public int AuthorizationProcedureID { get; set; }
-
         [Required]
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -58,10 +54,11 @@ namespace HC.Patient.Entity
         [ForeignKey("Users1")]
         public int? UpdatedBy { get; set; }
         public bool? IsVerified { get; set; }
+        [Attr("IsDeleted")]
         public bool? IsDeleted { get; set; }
 
-        [HasOne("authorizationprocedures")]
-        public virtual AuthorizationProcedures AuthorizationProcedures { get; set; }
+        [HasMany("authorizationprocedures")]
+        public virtual List<AuthorizationProcedures> AuthorizationProcedures { get; set; }
         [HasOne("patient")]
         public virtual Patients Patient { get; set; }
         [HasOne("insurancecompanies")]

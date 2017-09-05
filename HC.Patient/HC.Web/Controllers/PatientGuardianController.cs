@@ -83,23 +83,7 @@ namespace HC.Patient.Web.Controllers
         [HttpPatch("{id}")]
         public override async Task<IActionResult> PatchAsync(int id, [FromBody]PatientGuardian patientGuardian)
         {
-            //var attrToUpdate = _jsonApiContext.AttributesToUpdate;
-            //var patientPastIllnessOld = _dbContextResolver.GetDbSet<PatientPastIllness>().Where(m => m.Id == id).FirstOrDefault();
 
-            //CommonMethods commonMethods = new CommonMethods();
-            ////List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientPastIllnessOld, patientGuardian, "PatientPastIllness", attrToUpdate)
-            ////    //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
-            ////    .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName }).ToList();
-            ////await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
-            ////return await base.PatchAsync(id, patientGuardian);
-
-            ////var patientPastIllnessInfo = await base.PatchAsync(id, patientGuardian);
-
-            //int eventID = _dbContextResolver.GetDbSet<Event>().LastOrDefault().Id + 1;
-            //List<AuditLogs> auditLogs = commonMethods.GetAuditLogValues(patientPastIllnessOld, patientGuardian, "PatientPastIllness", attrToUpdate)
-            //    //.Where(i => attrToUpdate.Keys.Any(a1 => a1.InternalAttributeName == i.PropertyName))
-            //    .Select(q => new AuditLogs() { NewValue = q.NewValue, OldValue = q.OldValue, PrimaryKeyID = q.PrimaryKeyID, TableName = q.TableName, PropertyName = q.PropertyName, EventID = eventID }).ToList();
-            //await _dbContextResolver.GetDbSet<AuditLogs>().AddRangeAsync(auditLogs);
             return await base.PatchAsync(id, patientGuardian);
         }
 

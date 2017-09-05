@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170905064923_migration8")]
+    partial class migration8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -111,6 +112,8 @@ namespace HC.Patient.Web.Migrations
 
                     b.Property<int>("AuthorizationNumber");
 
+                    b.Property<int>("AuthorizationProcedureID");
+
                     b.Property<int>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDate")
@@ -142,6 +145,8 @@ namespace HC.Patient.Web.Migrations
                     b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorizationProcedureID");
 
                     b.HasIndex("CreatedBy");
 
@@ -190,7 +195,8 @@ namespace HC.Patient.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorizationId");
+                    b.HasIndex("AuthorizationId")
+                        .IsUnique();
 
                     b.HasIndex("CPTCodeID");
 
@@ -3100,6 +3106,11 @@ namespace HC.Patient.Web.Migrations
 
             modelBuilder.Entity("HC.Patient.Entity.Authorization", b =>
                 {
+                    b.HasOne("HC.Patient.Entity.AuthorizationProcedures", "AuthorizationProcedures")
+                        .WithMany()
+                        .HasForeignKey("AuthorizationProcedureID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HC.Patient.Entity.User", "Users")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
@@ -3123,8 +3134,8 @@ namespace HC.Patient.Web.Migrations
             modelBuilder.Entity("HC.Patient.Entity.AuthorizationProcedures", b =>
                 {
                     b.HasOne("HC.Patient.Entity.Authorization", "Authorization")
-                        .WithMany("AuthorizationProcedures")
-                        .HasForeignKey("AuthorizationId")
+                        .WithOne()
+                        .HasForeignKey("HC.Patient.Entity.AuthorizationProcedures", "AuthorizationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HC.Patient.Entity.MasterCPT", "MasterCPT")

@@ -49,6 +49,7 @@ namespace HC.Patient.Entity
         [ForeignKey("Users1")]
         public int? UpdatedBy { get; set; }
         public bool? IsVerified { get; set; }
+        [Attr("IsDeleted")]
         public bool? IsDeleted { get; set; }
 
         [HasOne("authorization")]
