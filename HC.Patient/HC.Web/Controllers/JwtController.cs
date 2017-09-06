@@ -23,6 +23,7 @@ namespace HC.Patient.Web.Controllers
     [Produces("application/json")]
     [Route("authentication")]
     [ValidateModel]
+    [AllowAnonymous]
     public class AuthenticationController : Controller
     {
         private readonly JwtIssuerOptions _jwtOptions;

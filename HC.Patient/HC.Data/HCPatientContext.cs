@@ -86,9 +86,8 @@ namespace HC.Patient.Data
         public DbSet<UserFavourites> UserFavourites { get; set; }
         public DbSet<Authorization> Authorization { get; set; }
         public DbSet<AuthorizationProcedures> AuthorizationProcedures { get; set; }
-
-
-
+        public DbSet<MasterCustomLabels> MasterCustomLabels { get; set; }
+        public DbSet<PatientCustomLabels> PatientCustomLabels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -770,6 +769,19 @@ namespace HC.Patient.Data
             .HasDefaultValue(false);
 
             modelBuilder.Entity<AuthorizationProcedures>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            //PatientCustomLabels
+            modelBuilder.Entity<PatientCustomLabels>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<PatientCustomLabels>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<PatientCustomLabels>()
             .Property(b => b.IsActive)
             .HasDefaultValue(true);
         }

@@ -29,6 +29,8 @@ using System.IO;
 using System.Linq;
 using HC.Patient.Entity;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HC.Patient.Web
 {
@@ -65,10 +67,6 @@ namespace HC.Patient.Web
                 options.AddPolicy("AuthorizedUser",
                                   policy => policy.RequireClaim("HealthCare", "IAmAuthorized"));
 
-                //options.AddPolicy("DoctorUser",
-                //                  policy => policy.RequireClaim("HealthCare", "IAmAuthorized"));
-
-
             });
 
             // Get options from app settings
@@ -83,9 +81,12 @@ namespace HC.Patient.Web
             });
         
 
-        services.AddScoped<LogFilter>();
+            services.AddScoped<LogFilter>();
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                //options.Filters.Add(new AuthorizeFilter("AuthorizedUser"));
+            });
             services.AddDbContext<HCPatientContext>(option => { option.UseSqlServer(Configuration.GetConnectionString("HCPatient"), b => b.MigrationsAssembly("HC.Patient.Web")); });// ServiceLifetime.Transient);
             //services.AddDbContext<HCPatientContext>(option => { option.UseSqlServer(@"Server=108.168.203.227,7007;Database=HC_Patient;Trusted_Connection=True;MultipleActiveResultSets=true;Integrated Security=false;User ID=HC_Patient;Password=HC_Patient;"); });
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

@@ -191,6 +191,14 @@ namespace HC.Patient.Repositories
                         case MasterDataEnum.AUTHORIZEDPROCEDURE:
                             listMasterDataModel.MasterAuthorizedProcedure = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).OrderBy(a => a.TypeName).ToList();
                             break;
+                        case MasterDataEnum.MASTERCUSTOMLABELSCUSTOM:
+                            listMasterDataModel.MasterCustomLabelType = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).OrderBy(a => a.TypeName).ToList();
+                            break;
+                        case MasterDataEnum.MASTERCUSTOMLABELS:
+                            listMasterDataModel.MasterCustomLabels = _context.MasterCustomLabels.Where(a => a.IsActive == true && a.IsDeleted == false).OrderBy(a => a.Id).ToList();
+                            break;
+
+                            
                     }
                 }
             });

@@ -59,5 +59,9 @@ namespace HC.Patient.Model.MasterData
 
         public List<MasterType> MasterAuthorizedProcedure { get; set; }
 
+        public List<MasterType> MasterCustomLabelType { get; set; }
+
+        public List<MasterCustomLabels> MasterCustomLabels { get; set; }
+
     }
 }

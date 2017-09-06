@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170905125114_migration11")]
+    partial class migration11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -1814,49 +1815,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("UpdatedBy");
 
                     b.ToTable("PatientAppointment");
-                });
-
-            modelBuilder.Entity("HC.Patient.Entity.PatientCustomLabels", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("PatientCustomLabelID");
-
-                    b.Property<int>("CreatedBy");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GetDate()");
-
-                    b.Property<string>("CustomLabelDataType")
-                        .IsRequired();
-
-                    b.Property<int>("CustomLabelID");
-
-                    b.Property<string>("CustomLabelValue")
-                        .IsRequired();
-
-                    b.Property<int?>("DeletedBy");
-
-                    b.Property<DateTime?>("DeletedDate");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
-
-                    b.Property<bool?>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
-
-                    b.Property<int?>("UpdatedBy");
-
-                    b.Property<DateTime?>("UpdatedDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomLabelID");
-
-                    b.ToTable("PatientCustomLabels");
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.PatientDiagnosis", b =>
@@ -3799,14 +3757,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.User", "Users1")
                         .WithMany()
                         .HasForeignKey("UpdatedBy");
-                });
-
-            modelBuilder.Entity("HC.Patient.Entity.PatientCustomLabels", b =>
-                {
-                    b.HasOne("HC.Patient.Entity.MasterCustomLabels", "MasterCustomLabels")
-                        .WithMany()
-                        .HasForeignKey("CustomLabelID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.PatientDiagnosis", b =>
