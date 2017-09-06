@@ -41,9 +41,11 @@ namespace HC.Patient.Entity
         [Required]
         [Attr("IsActive")]
         public bool IsActive { get; set; }
+        [Attr("IsDeleted")]
         public bool? IsDeleted { get; set; }
         [ForeignKey("Users1")]
         public int? DeletedBy { get; set; }
+        [Attr("DeletedDate")]
         public DateTime? DeletedDate { get; set; }
 
         [Required]

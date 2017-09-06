@@ -359,6 +359,8 @@ namespace HC.Patient.Entity
         public virtual Location Location { get; set; }
         [HasMany("patientallergies")]
         public virtual List<PatientAllergies> PatientAllergies { get; set; }
+        [HasMany("authorization")]
+        public virtual List<Authorization> Authorization { get; set; }
 
         [Attr("Address")]
         [NotMapped]
