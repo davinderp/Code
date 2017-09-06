@@ -86,6 +86,9 @@ namespace HC.Patient.Data
         public DbSet<UserFavourites> UserFavourites { get; set; }
         public DbSet<Authorization> Authorization { get; set; }
         public DbSet<AuthorizationProcedures> AuthorizationProcedures { get; set; }
+        //
+        public DbSet<PatientTags> PatientTags { get; set; }
+        public DbSet<MasterTags> MasterTags { get; set; }
         public DbSet<MasterCustomLabels> MasterCustomLabels { get; set; }
         public DbSet<PatientCustomLabels> PatientCustomLabels { get; set; }
 
@@ -722,6 +725,36 @@ namespace HC.Patient.Data
             modelBuilder.Entity<MasterReaction>()
            .Property(b => b.IsActive)
            .HasDefaultValue(true);
+
+            //MasterTags
+            modelBuilder.Entity<MasterTags>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<MasterTags>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
+
+            modelBuilder.Entity<MasterTags>()
+           .Property(b => b.IsActive)
+           .HasDefaultValue(true);
+
+            //PatientTags
+            modelBuilder.Entity<PatientTags>()
+            .Property(b => b.OrganizationID)
+            .HasDefaultValue(1);
+
+            modelBuilder.Entity<PatientTags>()
+            .Property(b => b.IsActive)
+            .HasDefaultValue(true);
+
+            modelBuilder.Entity<PatientTags>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValueSql("GetDate()");
+
+            modelBuilder.Entity<PatientTags>()
+            .Property(b => b.IsDeleted)
+            .HasDefaultValue(false);
 
             //User
             modelBuilder.Entity<User>()

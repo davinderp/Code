@@ -8,9 +8,10 @@ using HC.Patient.Data;
 namespace HC.Patient.Web.Migrations
 {
     [DbContext(typeof(HCPatientContext))]
-    partial class HCPatientContextModelSnapshot : ModelSnapshot
+    [Migration("20170905123816_migration11")]
+    partial class migration11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -563,45 +564,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("DeletedBy");
 
                     b.ToTable("MasterCPT");
-                });
-
-            modelBuilder.Entity("HC.Patient.Entity.MasterCustomLabels", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("CustomLabelID");
-
-                    b.Property<int>("CreatedBy");
-
-                    b.Property<DateTime>("CreatedDate");
-
-                    b.Property<string>("CustomLabelName")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<int>("CustomLabelTypeID");
-
-                    b.Property<int?>("DeletedBy");
-
-                    b.Property<DateTime?>("DeletedDate");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<bool?>("IsDeleted");
-
-                    b.Property<int>("OrganizationID");
-
-                    b.Property<int?>("UpdatedBy");
-
-                    b.Property<DateTime?>("UpdatedDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomLabelTypeID");
-
-                    b.HasIndex("OrganizationID");
-
-                    b.ToTable("MasterCustomLabels");
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.MasterEthnicity", b =>
@@ -1850,49 +1812,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasIndex("UpdatedBy");
 
                     b.ToTable("PatientAppointment");
-                });
-
-            modelBuilder.Entity("HC.Patient.Entity.PatientCustomLabels", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("PatientCustomLabelID");
-
-                    b.Property<int>("CreatedBy");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GetDate()");
-
-                    b.Property<string>("CustomLabelDataType")
-                        .IsRequired();
-
-                    b.Property<int>("CustomLabelID");
-
-                    b.Property<string>("CustomLabelValue")
-                        .IsRequired();
-
-                    b.Property<int?>("DeletedBy");
-
-                    b.Property<DateTime?>("DeletedDate");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
-
-                    b.Property<bool?>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
-
-                    b.Property<int?>("UpdatedBy");
-
-                    b.Property<DateTime?>("UpdatedDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomLabelID");
-
-                    b.ToTable("PatientCustomLabels");
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.PatientDiagnosis", b =>
@@ -3451,19 +3370,6 @@ namespace HC.Patient.Web.Migrations
                         .HasForeignKey("DeletedBy");
                 });
 
-            modelBuilder.Entity("HC.Patient.Entity.MasterCustomLabels", b =>
-                {
-                    b.HasOne("HC.Patient.Entity.MasterType", "MasterType")
-                        .WithMany()
-                        .HasForeignKey("CustomLabelTypeID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HC.Patient.Entity.Organization", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("HC.Patient.Entity.MasterEthnicity", b =>
                 {
                     b.HasOne("HC.Patient.Entity.User", "Users1")
@@ -3905,14 +3811,6 @@ namespace HC.Patient.Web.Migrations
                     b.HasOne("HC.Patient.Entity.User", "Users1")
                         .WithMany()
                         .HasForeignKey("UpdatedBy");
-                });
-
-            modelBuilder.Entity("HC.Patient.Entity.PatientCustomLabels", b =>
-                {
-                    b.HasOne("HC.Patient.Entity.MasterCustomLabels", "MasterCustomLabels")
-                        .WithMany()
-                        .HasForeignKey("CustomLabelID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HC.Patient.Entity.PatientDiagnosis", b =>

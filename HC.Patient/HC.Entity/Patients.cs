@@ -27,6 +27,9 @@ namespace HC.Patient.Entity
         [Attr("MRN")]
         [StringLength(50)]
         public string MRN { get; set; }
+        [Attr("ClientID")]
+        [StringLength(100)]
+        public string ClientID { get; set; }
         [Attr("Title")]
         [StringLength(10)]
         public string Title { get; set; }        
@@ -100,8 +103,14 @@ namespace HC.Patient.Entity
         [Attr("PrimaryClinician")]
         [ForeignKey("Clinician")]
         public int? PrimaryClinician { get; set; }
-
-        
+        [Attr("RenderingClinicianID")]
+        [ForeignKey("RenderingClinician")]
+        public int? RenderingClinicianID { get; set; }
+        [Required]
+        [RequiredNumber]
+        [Attr("ICDID")]
+        [ForeignKey("MasterICD")]
+        public int ICDID { get; set; }
         [Attr("EmergencyContactFirstName")]
         [StringLength(100)]
         public string EmergencyContactFirstName { get; set; }
@@ -315,8 +324,13 @@ namespace HC.Patient.Entity
         public virtual MasterRace SecondaryRace1 { get; set; }
         public virtual MasterEthnicity MasterEthnicity { get; set; }
         public virtual MasterStatus MasterStatus1 { get; set; }
-        [HasOne("Clinician")]
+        [HasOne("clinician")]
         public virtual Clinicians Clinician { get; set; }
+        [HasOne("renderingclinician")]
+        public virtual Clinicians RenderingClinician { get; set; }
+        [HasOne("mastericd")]
+        public MasterICD MasterICD { get; set; }
+
         public virtual MasterType MasterType1 { get; set; }
         public virtual MasterCountry MasterCountry { get; set; }
         [HasOne("users")]
