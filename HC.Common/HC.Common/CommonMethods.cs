@@ -178,6 +178,7 @@ namespace HC.Common
 
         public dynamic GetDataFromToken(string token)
         {
+            token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI1IiwiUm9sZUlEIjoiMSIsIlVzZXJOYW1lIjoiYWRtaW4iLCJPcmdhbml6YXRpb25JRCI6IjEiLCJzdWIiOiJhZG1pbiIsImp0aSI6IjIyMzZiNTA5LTZlOTAtNDgyMy1hYzA2LTY1MTNiNjUxMWI5MCIsImlhdCI6MTUwNDY5NDQ3NiwiSGVhbHRoQ2FyZSI6IklBbUF1dGhvcml6ZWQiLCJuYmYiOjE1MDQ2OTQ0NzUsImV4cCI6MTUwNDY5ODA3NSwiaXNzIjoiU3VwZXJBd2Vzb21lVG9rZW5TZXJ2ZXIiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUxMjY5LyJ9.vESJZHfIQsARrgpDrGC-B1B8P8PlLvedu-1Pvtx2WmM";
             var handler = new JwtSecurityTokenHandler();
             return handler.ReadToken(token) as JwtSecurityToken;
         }

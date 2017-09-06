@@ -85,6 +85,9 @@ namespace HC.Patient.Web.Controllers
         [HttpGet]
         public override async Task<IActionResult> GetAsync()
         {
+            var Token = HttpContext.Request.Headers.Skip(7).FirstOrDefault().Value;
+            //CommonMethods c = new CommonMethods();
+           // var test = c.GetDataFromToken(Token);
             return await CustomFilters();
 
         }
