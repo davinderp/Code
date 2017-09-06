@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Dynamic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -174,6 +175,12 @@ namespace HC.Common
             return auditLog;
         }
 
+
+        public dynamic GetDataFromToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            return handler.ReadToken(token) as JwtSecurityToken;
+        }
 
     }
 }

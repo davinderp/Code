@@ -21,6 +21,11 @@ namespace HC.Patient.Entity
         public override int Id { get; set; }
 
         [RequiredNumber]
+        [Attr("PatientID")]
+        [ForeignKey("Patients")]
+        public int? PatientID { get; set; }
+
+        [RequiredNumber]
         [Attr("CustomLabelID")]
         [ForeignKey("MasterCustomLabels")]
         public int CustomLabelID { get; set; }
@@ -49,6 +54,8 @@ namespace HC.Patient.Entity
         public int? UpdatedBy { get; set; }
         [HasOne("MasterCustomLabels")]
         public virtual MasterCustomLabels MasterCustomLabels { get; set; }
+        [HasOne("patient")]
+        public virtual Patients Patients { get; set; }
         public Dictionary<string, object> GetMeta(IJsonApiContext context)
         {
             return new Dictionary<string, object> {
