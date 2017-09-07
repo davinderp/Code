@@ -28,6 +28,7 @@ using HC.Model;
 using System.Net.Http;
 using System.Net;
 using Audit.WebApi;
+using Newtonsoft.Json.Linq;
 
 namespace HC.Patient.Web.Controllers
 {
@@ -128,6 +129,58 @@ namespace HC.Patient.Web.Controllers
         {
 
             return await base.PatchAsync(id, patientCustomLabels);
+        }
+
+
+
+        /// <summary>
+        /// this method is used to save phone numcber
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost("postMultiple")]
+        public async Task<IActionResult> PostAsync([FromBody]JObject entity)
+        {
+            try
+            {
+                PatientLabels patientLabels = entity.ToObject<PatientLabels>();
+                int patientID = patientLabels.PatientID;
+                var dbContext = _dbContextResolver.GetDbSet<PatientCustomLabels>();
+                if (patientLabels.PatientCustomLabels != null && patientLabels.PatientCustomLabels.Count > 0)
+                {
+
+                    var patientLabel = dbContext.Where(m => m.PatientID == patientID).ToList();
+
+                    dbContext.RemoveRange(patientLabel);
+                    CommonMethods commonMethods = new CommonMethods();
+                    foreach (PatientCustomLabels patientCustomLabel in patientLabels.PatientCustomLabels) { patientCustomLabel.CustomLabelDataType = commonMethods.ParseString(patientCustomLabel.CustomLabelValue).ToString(); await base.PostAsync(patientCustomLabel); }
+                    Response.StatusCode = 200;//(Status Ok)
+                    return Json(new
+                    {
+                        data = patientLabels,
+                        Message = "Success",
+                        StatusCode = 200
+                    });
+                }
+                else
+                {
+                    var patientLabel = dbContext.Where(m => m.PatientID == patientID).ToList();
+                    dbContext.RemoveRange(patientLabel);
+                    await _dbContextResolver.GetContext().SaveChangesAsync();
+                    Response.StatusCode = 200;//(Status Ok)
+                    return Json(new
+                    {
+                        data = new object(),
+                        Message = "Success",
+                        StatusCode = 200
+                    });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         #endregion
 

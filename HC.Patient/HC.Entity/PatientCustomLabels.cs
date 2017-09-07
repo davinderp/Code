@@ -13,6 +13,8 @@ namespace HC.Patient.Entity
     {
         public PatientCustomLabels()
         {
+            this.CreatedDate = DateTime.Now;
+            this.CreatedBy = 1;
         }
         [Attr("PatientCustomLabelID")]
         [Key]

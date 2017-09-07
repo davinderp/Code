@@ -61,7 +61,7 @@ namespace HC.Patient.Model.MasterData
 
         public List<MasterType> MasterCustomLabelType { get; set; }
 
-        public List<MasterCustomLabelData> MasterCustomLabelData { get; set; }
+        public List<MasterCustomLabels> MasterCustomLabels { get; set; }
     }
     public class MasterCustomLabelData
     {

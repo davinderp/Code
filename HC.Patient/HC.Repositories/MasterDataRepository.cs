@@ -195,7 +195,8 @@ namespace HC.Patient.Repositories
                             listMasterDataModel.MasterCustomLabelType = _context.MasterType.Where(a => a.IsActive == true && a.IsDeleted == false && a.Type.ToUpper() == p.ToUpper()).OrderBy(a => a.TypeName).ToList();
                             break;
                         case MasterDataEnum.MASTERCUSTOMLABELS:
-                            listMasterDataModel.MasterCustomLabelData = _context.MasterCustomLabels.Where(a => a.IsActive == true && a.IsDeleted == false).OrderBy(a => a.Id).Select(t => new MasterCustomLabelData { MasterCustomLabels = t, MasterCustomLabelType = t.MasterType }).ToList();
+                            listMasterDataModel.MasterCustomLabels = _context.MasterCustomLabels.Where(a => a.IsActive == true && a.IsDeleted == false).OrderBy(a => a.Id).Select(t => new MasterCustomLabels { CustomLabelName = t.CustomLabelName, Id = t.Id, MasterType = t.MasterType }).ToList();
+                            //listMasterDataModel.MasterCustomLabelData = _context.MasterCustomLabels
                             break;
 
                             
